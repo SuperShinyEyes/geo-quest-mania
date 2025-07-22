@@ -1,57 +1,225 @@
-// Real country SVG paths for accurate geographical representation
+import { feature } from 'topojson-client';
+import countriesData from './countries-110m.json';
 
-export const COUNTRY_PATHS: Record<string, string> = {
-  // United States - realistic mainland shape
-  US: "M 158 164 C 158 164 140 160 125 165 C 110 170 95 180 85 190 C 75 200 70 210 75 220 C 80 230 90 235 105 240 C 120 245 135 250 150 248 C 165 246 180 244 195 240 C 210 236 220 230 225 220 C 230 210 228 200 220 190 C 212 180 200 172 185 168 C 170 164 158 164 158 164 Z",
+// Convert TopoJSON to GeoJSON and extract country paths
+const geoData = feature(countriesData as any, countriesData.objects.countries as any);
+
+// Create country ID to name mapping from the TopoJSON data
+export const COUNTRY_ID_MAP: Record<string, string> = {};
+
+// Convert coordinates to SVG path
+function coordinatesToPath(coordinates: number[][][]): string {
+  return coordinates.map(ring => {
+    return ring.map((coord, index) => {
+      const [x, y] = coord;
+      // Scale and transform coordinates to fit our viewBox (0 0 900 500)
+      const scaledX = (x + 180) * (900 / 360);
+      const scaledY = (90 - y) * (500 / 180);
+      return index === 0 ? `M ${scaledX} ${scaledY}` : `L ${scaledX} ${scaledY}`;
+    }).join(' ') + ' Z';
+  }).join(' ');
+}
+
+// Extract country paths from the TopoJSON data
+export const COUNTRY_PATHS: Record<string, string> = {};
+
+geoData.features.forEach((feature: any) => {
+  const countryId = feature.properties.name;
+  const countryCode = getCountryCode(countryId);
   
-  // Canada - large northern territory
-  CA: "M 100 100 C 100 100 80 95 65 100 C 50 105 35 115 25 130 C 15 145 20 160 30 170 C 40 180 55 185 75 185 C 95 185 115 180 135 175 C 155 170 175 165 195 160 C 215 155 235 150 250 145 C 250 140 245 135 235 130 C 225 125 210 120 190 118 C 170 116 150 115 130 112 C 110 109 100 100 100 100 Z",
+  if (feature.geometry.type === 'Polygon') {
+    COUNTRY_PATHS[countryCode] = coordinatesToPath([feature.geometry.coordinates[0]]);
+  } else if (feature.geometry.type === 'MultiPolygon') {
+    // For multipolygon countries, combine all polygons
+    const paths = feature.geometry.coordinates.map((polygon: number[][][]) => 
+      coordinatesToPath([polygon[0]])
+    );
+    COUNTRY_PATHS[countryCode] = paths.join(' ');
+  }
   
-  // Mexico - distinctive shape
-  MX: "M 120 220 C 120 220 135 218 150 222 C 165 226 175 235 180 245 C 185 255 182 265 175 270 C 168 275 158 278 145 280 C 132 282 118 280 108 275 C 98 270 92 260 95 250 C 98 240 105 232 115 228 C 120 225 120 220 120 220 Z",
+  COUNTRY_ID_MAP[countryCode] = countryId;
+});
+
+// Helper function to convert country names to ISO codes
+function getCountryCode(countryName: string): string {
+  const countryCodeMap: Record<string, string> = {
+    'United States of America': 'US',
+    'Canada': 'CA',
+    'Mexico': 'MX',
+    'Brazil': 'BR',
+    'Argentina': 'AR',
+    'United Kingdom': 'GB',
+    'France': 'FR',
+    'Germany': 'DE',
+    'Italy': 'IT',
+    'Spain': 'ES',
+    'Russia': 'RU',
+    'China': 'CN',
+    'India': 'IN',
+    'Japan': 'JP',
+    'Australia': 'AU',
+    'Egypt': 'EG',
+    'South Africa': 'ZA',
+    'Nigeria': 'NG',
+    'Turkey': 'TR',
+    'Iran': 'IR',
+    'Saudi Arabia': 'SA',
+    'Poland': 'PL',
+    'Ukraine': 'UA',
+    'Kazakhstan': 'KZ',
+    'Algeria': 'DZ',
+    'Sudan': 'SD',
+    'Libya': 'LY',
+    'Chad': 'TD',
+    'Niger': 'NE',
+    'Angola': 'AO',
+    'Mali': 'ML',
+    'South Sudan': 'SS',
+    'Colombia': 'CO',
+    'Ethiopia': 'ET',
+    'Bolivia': 'BO',
+    'Mauritania': 'MR',
+    'Tanzania': 'TZ',
+    'Venezuela': 'VE',
+    'Chile': 'CL',
+    'Zambia': 'ZM',
+    'Afghanistan': 'AF',
+    'Somalia': 'SO',
+    'Central African Rep.': 'CF',
+    'Madagascar': 'MG',
+    'Botswana': 'BW',
+    'Kenya': 'KE',
+    'Yemen': 'YE',
+    'Thailand': 'TH',
+    'Turkmenistan': 'TM',
+    'Cameroon': 'CM',
+    'Papua New Guinea': 'PG',
+    'Sweden': 'SE',
+    'Uzbekistan': 'UZ',
+    'Iraq': 'IQ',
+    'Paraguay': 'PY',
+    'Zimbabwe': 'ZW',
+    'Norway': 'NO',
+    'Republic of the Congo': 'CG',
+    'Finland': 'FI',
+    'Vietnam': 'VN',
+    'Malaysia': 'MY',
+    'Côte d\'Ivoire': 'CI',
+    'Oman': 'OM',
+    'Philippines': 'PH',
+    'Ecuador': 'EC',
+    'Burkina Faso': 'BF',
+    'New Zealand': 'NZ',
+    'Gabon': 'GA',
+    'Guinea': 'GN',
+    'Ghana': 'GH',
+    'Romania': 'RO',
+    'Laos': 'LA',
+    'Uruguay': 'UY',
+    'Bangladesh': 'BD',
+    'Nepal': 'NP',
+    'Tajikistan': 'TJ',
+    'Greece': 'GR',
+    'Nicaragua': 'NI',
+    'North Korea': 'KP',
+    'Malawi': 'MW',
+    'Eritrea': 'ER',
+    'Benin': 'BJ',
+    'Honduras': 'HN',
+    'Liberia': 'LR',
+    'Bulgaria': 'BG',
+    'Cuba': 'CU',
+    'Guatemala': 'GT',
+    'Iceland': 'IS',
+    'South Korea': 'KR',
+    'Hungary': 'HU',
+    'Jordan': 'JO',
+    'Portugal': 'PT',
+    'Serbia': 'RS',
+    'Azerbaijan': 'AZ',
+    'Austria': 'AT',
+    'United Arab Emirates': 'AE',
+    'Czech Republic': 'CZ',
+    'Czechia': 'CZ',
+    'Panama': 'PA',
+    'Sierra Leone': 'SL',
+    'Ireland': 'IE',
+    'Georgia': 'GE',
+    'Sri Lanka': 'LK',
+    'Lithuania': 'LT',
+    'Latvia': 'LV',
+    'Togo': 'TG',
+    'Croatia': 'HR',
+    'Bosnia and Herzegovina': 'BA',
+    'Bosnia and Herz.': 'BA',
+    'Costa Rica': 'CR',
+    'Slovakia': 'SK',
+    'Dominican Republic': 'DO',
+    'Dominican Rep.': 'DO',
+    'Estonia': 'EE',
+    'Denmark': 'DK',
+    'Netherlands': 'NL',
+    'Switzerland': 'CH',
+    'Guinea-Bissau': 'GW',
+    'Taiwan': 'TW',
+    'Moldova': 'MD',
+    'Belgium': 'BE',
+    'Lesotho': 'LS',
+    'Armenia': 'AM',
+    'Albania': 'AL',
+    'Solomon Islands': 'SB',
+    'Solomon Is.': 'SB',
+    'Equatorial Guinea': 'GQ',
+    'Eq. Guinea': 'GQ',
+    'Burundi': 'BI',
+    'Rwanda': 'RW',
+    'Haiti': 'HT',
+    'Belize': 'BZ',
+    'Israel': 'IL',
+    'Palestine': 'PS',
+    'El Salvador': 'SV',
+    'Djibouti': 'DJ',
+    'Slovenia': 'SI',
+    'Fiji': 'FJ',
+    'Kuwait': 'KW',
+    'East Timor': 'TL',
+    'Timor-Leste': 'TL',
+    'Bahamas': 'BS',
+    'Montenegro': 'ME',
+    'Vanuatu': 'VU',
+    'Qatar': 'QA',
+    'Gambia': 'GM',
+    'Jamaica': 'JM',
+    'Lebanon': 'LB',
+    'Cyprus': 'CY',
+    'Brunei': 'BN',
+    'Trinidad and Tobago': 'TT',
+    'Cape Verde': 'CV',
+    'Samoa': 'WS',
+    'Luxembourg': 'LU',
+    'Comoros': 'KM',
+    'Mauritius': 'MU',
+    'eSwatini': 'SZ',
+    'Swaziland': 'SZ',
+    'Antigua and Barbuda': 'AG',
+    'Seychelles': 'SC',
+    'Palau': 'PW',
+    'Andorra': 'AD',
+    'Grenada': 'GD',
+    'Malta': 'MT',
+    'Maldives': 'MV',
+    'Saint Kitts and Nevis': 'KN',
+    'Marshall Islands': 'MH',
+    'Liechtenstein': 'LI',
+    'Saint Vincent and the Grenadines': 'VC',
+    'Barbados': 'BB',
+    'Tuvalu': 'TV',
+    'Saint Lucia': 'LC',
+    'Nauru': 'NR',
+    'Monaco': 'MC',
+    'San Marino': 'SM',
+    'Vatican City': 'VA'
+  };
   
-  // Brazil - distinctive shape
-  BR: "M 280 280 C 280 280 295 275 310 280 C 325 285 335 295 345 310 C 355 325 360 340 358 355 C 356 370 350 380 340 385 C 330 390 315 388 300 385 C 285 382 272 375 265 365 C 258 355 258 340 262 325 C 266 310 275 295 280 280 Z",
-  
-  // Argentina - long shape
-  AR: "M 260 400 C 260 400 268 395 275 410 C 282 425 285 445 288 465 C 291 485 290 500 285 515 C 280 530 270 540 258 545 C 246 550 235 548 228 540 C 221 532 220 520 222 505 C 224 490 228 475 235 460 C 242 445 252 430 260 400 Z",
-  
-  // United Kingdom - island shape
-  GB: "M 480 160 C 480 160 485 158 490 162 C 495 166 498 172 500 178 C 502 184 500 190 495 192 C 490 194 485 193 482 190 C 479 187 478 182 479 177 C 480 172 480 167 480 160 Z",
-  
-  // France - hexagonal shape
-  FR: "M 500 180 C 500 180 510 178 520 185 C 530 192 535 205 538 218 C 541 231 540 240 535 245 C 530 250 520 248 510 245 C 500 242 495 235 495 225 C 495 215 498 200 500 180 Z",
-  
-  // Germany - central European shape
-  DE: "M 520 160 C 520 160 530 158 540 165 C 550 172 555 185 558 198 C 561 211 558 220 550 225 C 542 230 530 228 522 225 C 514 222 510 215 510 205 C 510 195 515 180 520 160 Z",
-  
-  // Italy - boot shape
-  IT: "M 540 220 C 540 220 545 225 548 235 C 551 245 552 255 550 265 C 548 275 544 282 538 285 C 532 288 525 288 520 285 C 515 282 513 275 515 265 C 517 255 521 245 527 235 C 533 225 540 220 540 220 Z",
-  
-  // Spain - Iberian peninsula
-  ES: "M 460 220 C 460 220 470 218 480 225 C 490 232 495 245 498 258 C 501 271 498 280 490 285 C 482 290 470 288 462 285 C 454 282 450 275 450 265 C 450 255 455 240 460 220 Z",
-  
-  // Russia - massive shape
-  RU: "M 560 100 C 560 100 590 95 620 100 C 650 105 680 115 700 125 C 720 135 730 150 735 165 C 740 180 735 195 725 205 C 715 215 700 220 680 218 C 660 216 640 210 620 205 C 600 200 580 195 565 185 C 550 175 545 160 550 145 C 555 130 560 115 560 100 Z",
-  
-  // China - distinctive shape
-  CN: "M 680 200 C 680 200 700 195 720 202 C 740 209 755 225 760 245 C 765 265 760 280 750 288 C 740 296 725 298 710 295 C 695 292 685 285 682 275 C 679 265 680 250 685 235 C 690 220 680 200 680 200 Z",
-  
-  // India - triangular subcontinent
-  IN: "M 640 280 C 640 280 655 278 670 285 C 685 292 695 305 700 320 C 705 335 700 345 690 350 C 680 355 665 353 655 350 C 645 347 640 340 640 330 C 640 320 642 305 642 290 C 642 285 640 280 640 280 Z",
-  
-  // Japan - island chain
-  JP: "M 780 200 C 780 200 785 198 790 205 C 795 212 798 222 800 232 C 802 242 800 248 795 250 C 790 252 785 250 782 245 C 779 240 778 232 779 225 C 780 218 780 210 780 200 Z",
-  
-  // Australia - continent shape
-  AU: "M 720 400 C 720 400 740 395 760 405 C 780 415 795 435 800 455 C 805 475 795 485 780 488 C 765 491 745 488 730 485 C 715 482 705 475 702 465 C 699 455 705 440 715 425 C 720 415 720 400 720 400 Z",
-  
-  // Egypt - Nile delta shape
-  EG: "M 520 280 C 520 280 530 278 540 285 C 550 292 555 305 560 318 C 565 331 560 340 550 345 C 540 350 525 348 518 345 C 511 342 508 335 510 325 C 512 315 517 300 520 280 Z",
-  
-  // South Africa - southern tip
-  ZA: "M 520 400 C 520 400 530 398 540 405 C 550 412 555 425 560 438 C 565 451 560 460 550 465 C 540 470 525 468 518 465 C 511 462 508 455 510 445 C 512 435 517 420 520 400 Z",
-  
-  // Nigeria - West African shape
-  NG: "M 480 320 C 480 320 490 318 500 325 C 510 332 515 345 520 358 C 525 371 520 380 510 385 C 500 390 485 388 478 385 C 471 382 468 375 470 365 C 472 355 477 340 480 320 Z"
-};
+  return countryCodeMap[countryName] || countryName.substring(0, 2).toUpperCase();
+}
