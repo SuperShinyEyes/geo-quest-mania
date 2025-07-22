@@ -1,33 +1,12 @@
 import { useState, useRef } from 'react';
 import { Country } from './MapQuiz';
+import { COUNTRY_PATHS } from '../lib/worldMapData';
 
 interface WorldMapProps {
   onCountryClick: (countryId: string) => void;
   countryStates: Record<string, 'correct' | 'wrong' | 'default'>;
   currentCountry: Country | null;
 }
-
-// Simplified world map SVG paths - in a real app, you'd use a proper world map dataset
-const COUNTRY_PATHS = {
-  US: "M 158 206 L 158 164 L 220 164 L 220 206 Z",
-  CA: "M 100 100 L 100 150 L 250 150 L 250 100 Z",
-  MX: "M 120 220 L 120 250 L 200 250 L 200 220 Z",
-  BR: "M 280 280 L 280 380 L 360 380 L 360 280 Z",
-  AR: "M 260 400 L 260 480 L 320 480 L 320 400 Z",
-  GB: "M 480 160 L 480 180 L 500 180 L 500 160 Z",
-  FR: "M 500 180 L 500 220 L 540 220 L 540 180 Z",
-  DE: "M 520 160 L 520 200 L 560 200 L 560 160 Z",
-  IT: "M 540 220 L 540 270 L 570 270 L 570 220 Z",
-  ES: "M 460 220 L 460 260 L 510 260 L 510 220 Z",
-  RU: "M 560 100 L 560 200 L 720 200 L 720 100 Z",
-  CN: "M 680 200 L 680 280 L 760 280 L 760 200 Z",
-  IN: "M 640 280 L 640 340 L 700 340 L 700 280 Z",
-  JP: "M 780 200 L 780 240 L 800 240 L 800 200 Z",
-  AU: "M 720 400 L 720 460 L 800 460 L 800 400 Z",
-  EG: "M 520 280 L 520 320 L 560 320 L 560 280 Z",
-  ZA: "M 520 400 L 520 440 L 570 440 L 570 400 Z",
-  NG: "M 480 320 L 480 360 L 520 360 L 520 320 Z",
-};
 
 const COUNTRY_COLORS = ['country-1', 'country-2', 'country-3', 'country-4', 'country-5', 'country-6'];
 
