@@ -8,17 +8,44 @@ const geoData = feature(countriesData as any, countriesData.objects.countries as
 export const COUNTRY_ID_MAP: Record<string, string> = {};
 
 // Convert coordinates to SVG path
-function coordinatesToPath(coordinates: number[][][]): string {
-  return coordinates.map(ring => {
-    return ring.map((coord, index) => {
-      const [x, y] = coord;
-      // Scale and transform coordinates to fit our viewBox (0 0 900 500)
-      const scaledX = (x + 180) * (900 / 360);
-      const scaledY = (90 - y) * (500 / 180);
-      return index === 0 ? `M ${scaledX} ${scaledY}` : `L ${scaledX} ${scaledY}`;
-    }).join(' ') + ' Z';
-  }).join(' ');
+function coordinatesToPath(
+  coordinates: number[][][], 
+  width = 900, 
+  height = 500
+): string {
+  const halfWidth = width / 2;
+  const paths: string[] = [];
+
+  // loop each ring in the polygon/multipolygon
+  for (const ring of coordinates) {
+    let d = '';
+    let prevX: number | null = null;
+
+    ring.forEach(([lon, lat], i) => {
+      // equirectangular scale:
+      const scaledX = (lon + 180) * (width / 360);
+      const scaledY = (90 - lat) * (height / 180);
+
+      // if it’s the first point, or the jump is huge (> half width),
+      // start a new subpath rather than draw a line across the map
+      if (i === 0 || (prevX !== null && Math.abs(scaledX - prevX) > halfWidth)) {
+        if (i !== 0) d += ' Z';        // close the previous subpath
+        d += ` M ${scaledX} ${scaledY}`; // move to the new start
+      } else {
+        d += ` L ${scaledX} ${scaledY}`;
+      }
+
+      prevX = scaledX;
+    });
+
+    d += ' Z';           // close this ring
+    paths.push(d.trim());
+  }
+
+  // join all rings/subpaths into one big path string
+  return paths.join(' ');
 }
+
 
 // Extract country paths from the TopoJSON data
 export const COUNTRY_PATHS: Record<string, string> = {};
@@ -221,5 +248,5 @@ function getCountryCode(countryName: string): string {
     'Vatican City': 'VA'
   };
   
-  return countryCodeMap[countryName] || countryName.substring(0, 2).toUpperCase();
+  return countryCodeMap[countryName]; // || countryName.substring(0, 2).toUpperCase();
 }
