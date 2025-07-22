@@ -55,16 +55,16 @@ export const WorldMap = ({ onCountryClick, countryStates, currentCountry }: Worl
   };
 
   const getCountryStroke = (countryId: string) => {
-    if (currentCountry && currentCountry.id === countryId && countryStates[countryId] !== 'correct') {
-      return '#3b82f6'; // Highlight the target country
-    }
+    // if (currentCountry && currentCountry.id === countryId && countryStates[countryId] !== 'correct') {
+    //   return '#3b82f6'; // Highlight the target country
+    // }
     return '#ffffff';
   };
 
   const getCountryStrokeWidth = (countryId: string) => {
-    if (currentCountry && currentCountry.id === countryId && countryStates[countryId] !== 'correct') {
-      return '3';
-    }
+    // if (currentCountry && currentCountry.id === countryId && countryStates[countryId] !== 'correct') {
+    //   return '3';
+    // }
     return '1';
   };
 
