@@ -61,6 +61,20 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				map: {
+					ocean: 'hsl(var(--map-ocean))',
+					country: {
+						1: 'hsl(var(--map-country-1))',
+						2: 'hsl(var(--map-country-2))',
+						3: 'hsl(var(--map-country-3))',
+						4: 'hsl(var(--map-country-4))',
+						5: 'hsl(var(--map-country-5))',
+						6: 'hsl(var(--map-country-6))'
+					},
+					hover: 'hsl(var(--map-hover))',
+					correct: 'hsl(var(--map-correct))',
+					wrong: 'hsl(var(--map-wrong))'
 				}
 			},
 			borderRadius: {
