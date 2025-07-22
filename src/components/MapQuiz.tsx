@@ -110,7 +110,7 @@ export const MapQuiz = () => {
       setTimeout(() => {
         setIsWaitingForNext(false);
         selectRandomCountry();
-      }, 5000);
+      }, 800);  {/* Wait for 800ms before the next round */}
     } else {
       // Wrong guess
       setScore(prev => Math.max(0, prev - 1));
