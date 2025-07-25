@@ -4,33 +4,7 @@ import { QuizHeader } from './QuizHeader';
 import { ScoreBoard } from './ScoreBoard';
 import confetti from 'canvas-confetti';
 import { toast } from 'sonner';
-
-// Sample countries data - in a real app, this would be much more comprehensive
-const COUNTRIES = [
-  { id: 'US', name: 'United States' },
-  { id: 'CA', name: 'Canada' },
-  { id: 'MX', name: 'Mexico' },
-  { id: 'BR', name: 'Brazil' },
-  { id: 'AR', name: 'Argentina' },
-  { id: 'GB', name: 'United Kingdom' },
-  { id: 'FR', name: 'France' },
-  { id: 'DE', name: 'Germany' },
-  { id: 'IT', name: 'Italy' },
-  { id: 'ES', name: 'Spain' },
-  { id: 'RU', name: 'Russia' },
-  { id: 'CN', name: 'China' },
-  { id: 'IN', name: 'India' },
-  { id: 'JP', name: 'Japan' },
-  { id: 'AU', name: 'Australia' },
-  { id: 'EG', name: 'Egypt' },
-  { id: 'ZA', name: 'South Africa' },
-  { id: 'NG', name: 'Nigeria' },
-];
-
-export interface Country {
-  id: string;
-  name: string;
-}
+import { COUNTRIES, Country } from '@/lib/countryData';
 
 export const MapQuiz = () => {
   const [score, setScore] = useState(0);
