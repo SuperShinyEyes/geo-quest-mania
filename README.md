@@ -54,11 +54,17 @@ npm run dev
 
 This project is built with:
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+| Layer                   | Tool / Library                       |
+| ----------------------- | ------------------------------------ |
+| **Framework**           | React                                |
+| **Build Tool**          | Vite                                 |
+| **Routing**             | React Router DOM                     |
+| **Styling**             | Tailwind CSS                         |
+| **UI Component System** | shadcn/ui + Radix UI                 |
+| **State & Forms**       | React Hook Form, TanStack Query, Zod |
+| **Charts / Visuals**    | Recharts, canvas-confetti            |
+| **Language**            | TypeScript                           |
+
 
 ## How can I deploy this project?
 
