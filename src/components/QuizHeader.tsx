@@ -1,4 +1,4 @@
-import { Country } from './MapQuiz';
+import { Country } from '@/lib/countryData';
 
 interface QuizHeaderProps {
   currentCountry: Country | null;
