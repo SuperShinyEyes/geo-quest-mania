@@ -32,7 +32,7 @@ export const WorldMap = ({
   const handleWheel = (e: React.WheelEvent) => {
     e.preventDefault();
     const delta = e.deltaY > 0 ? 0.9 : 1.1;
-    setZoom((prev) => Math.max(0.5, Math.min(3, prev * delta)));
+    setZoom((prev) => Math.max(1.0, Math.min(6, prev * delta)));
   };
 
   const handleMouseDown = (e: React.MouseEvent) => {
