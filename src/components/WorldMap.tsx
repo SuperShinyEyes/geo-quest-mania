@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { Country } from './MapQuiz';
+import { Country } from '@/lib/countryData';
 import { COUNTRY_PATHS } from '../lib/worldMapData';
 
 interface WorldMapProps {
@@ -45,13 +45,12 @@ export const WorldMap = ({ onCountryClick, countryStates, currentCountry }: Worl
   const getCountryFill = (countryId: string) => {
     const state = countryStates[countryId] || 'default';
     
-    if (state === 'correct') return '#22c55e'; // green-500
-    if (state === 'wrong') return '#ef4444'; // red-500
-    if (hoveredCountry === countryId) return 'hsl(var(--map-hover))';
+    if (state === 'correct') return '#22c55e'; // green for correct guesses
+    if (state === 'wrong') return '#ef4444'; // red for wrong guesses
+    if (hoveredCountry === countryId) return '#fbbf24'; // yellow for hover
     
-    // Use different colors for variety
-    const colorIndex = countryId.charCodeAt(0) % COUNTRY_COLORS.length;
-    return `hsl(var(--map-${COUNTRY_COLORS[colorIndex]}))`;
+    // Default grey color for all countries
+    return '#9ca3af'; // grey-400
   };
 
   const getCountryStroke = (countryId: string) => {
