@@ -1,26 +1,37 @@
-import { useState, useEffect, useCallback } from 'react';
-import { WorldMap } from './WorldMap';
-import { QuizHeader } from './QuizHeader';
-import { ScoreBoard } from './ScoreBoard';
-import confetti from 'canvas-confetti';
-import { toast } from 'sonner';
-import { COUNTRIES, Country } from '@/lib/countryData';
+import { useState, useEffect, useCallback } from "react";
+import { WorldMap } from "./WorldMap";
+import { QuizHeader } from "./QuizHeader";
+import { ScoreBoard } from "./ScoreBoard";
+import confetti from "canvas-confetti";
+import { toast } from "sonner";
+import { COUNTRIES, Country } from "@/lib/countryData";
 
 export const MapQuiz = () => {
   const [score, setScore] = useState(0);
   const [currentCountry, setCurrentCountry] = useState<Country | null>(null);
-  const [guessedCountries, setGuessedCountries] = useState<Set<string>>(new Set());
+  const [guessedCountries, setGuessedCountries] = useState<Set<string>>(
+    new Set()
+  );
   const [isWaitingForNext, setIsWaitingForNext] = useState(false);
-  const [countryStates, setCountryStates] = useState<Record<string, 'correct' | 'wrong' | 'default'>>({});
+  const [countryStates, setCountryStates] = useState<
+    Record<string, "correct" | "wrong" | "default">
+  >({});
 
   const selectRandomCountry = useCallback(() => {
-    const availableCountries = COUNTRIES.filter(country => !guessedCountries.has(country.id));
+    const availableCountries = COUNTRIES.filter(
+      (country) => !guessedCountries.has(country.id)
+    );
     if (availableCountries.length === 0) {
       // Reset if all countries have been guessed
       setGuessedCountries(new Set());
-      setCurrentCountry(COUNTRIES[Math.floor(Math.random() * COUNTRIES.length)]);
+      setCurrentCountry(
+        COUNTRIES[Math.floor(Math.random() * COUNTRIES.length)]
+      );
     } else {
-      const randomCountry = availableCountries[Math.floor(Math.random() * availableCountries.length)];
+      const randomCountry =
+        availableCountries[
+          Math.floor(Math.random() * availableCountries.length)
+        ];
       setCurrentCountry(randomCountry);
     }
     setCountryStates({});
@@ -29,7 +40,7 @@ export const MapQuiz = () => {
   const triggerConfetti = () => {
     const count = 200;
     const defaults = {
-      origin: { y: 0.7 }
+      origin: { y: 0.7 },
     };
 
     function fire(particleRatio: number, opts: any) {
@@ -52,14 +63,14 @@ export const MapQuiz = () => {
     fire(0.35, {
       spread: 100,
       decay: 0.91,
-      scalar: 0.8
+      scalar: 0.8,
     });
 
     fire(0.1, {
       spread: 120,
       startVelocity: 25,
       decay: 0.92,
-      scalar: 1.2
+      scalar: 1.2,
     });
 
     fire(0.1, {
@@ -73,27 +84,30 @@ export const MapQuiz = () => {
 
     if (countryId === currentCountry.id) {
       // Correct guess
-      setScore(prev => prev + 1);
-      setCountryStates(prev => ({ ...prev, [countryId]: 'correct' }));
-      setGuessedCountries(prev => new Set([...prev, countryId]));
-      
+      setScore((prev) => prev + 1);
+      setCountryStates((prev) => ({ ...prev, [countryId]: "correct" }));
+      setGuessedCountries((prev) => new Set([...prev, countryId]));
+
       triggerConfetti();
       toast.success(`Correct! That's ${currentCountry.name}!`);
-      
+
       setIsWaitingForNext(true);
       setTimeout(() => {
         setIsWaitingForNext(false);
         selectRandomCountry();
-      }, 800);  {/* Wait for 800ms before the next round */}
+      }, 800);
+      {
+        /* Wait for 800ms before the next round */
+      }
     } else {
       // Wrong guess
-      setScore(prev => Math.max(0, prev - 1));
-      setCountryStates(prev => ({ ...prev, [countryId]: 'wrong' }));
+      setScore((prev) => Math.max(0, prev - 1));
+      setCountryStates((prev) => ({ ...prev, [countryId]: "wrong" }));
       toast.error("Wrong country! Try again.");
-      
+
       // Reset wrong state after a short time
       setTimeout(() => {
-        setCountryStates(prev => ({ ...prev, [countryId]: 'default' }));
+        setCountryStates((prev) => ({ ...prev, [countryId]: "default" }));
       }, 1000);
     }
   };
@@ -107,15 +121,15 @@ export const MapQuiz = () => {
       <div className="flex-1 max-w-7xl mx-auto w-full flex flex-col">
         <div className="flex justify-between items-start mb-4">
           <ScoreBoard score={score} />
-          <QuizHeader 
-            currentCountry={currentCountry} 
+          <QuizHeader
+            currentCountry={currentCountry}
             isWaitingForNext={isWaitingForNext}
           />
           <div className="w-32" /> {/* Spacer for centering */}
         </div>
-        
+
         <div className="flex-1 flex items-center justify-center">
-          <WorldMap 
+          <WorldMap
             onCountryClick={handleCountryClick}
             countryStates={countryStates}
             currentCountry={currentCountry}

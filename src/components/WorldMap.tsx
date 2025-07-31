@@ -1,16 +1,27 @@
-import { useState, useRef } from 'react';
-import { Country } from '@/lib/countryData';
-import { COUNTRY_PATHS } from '../lib/worldMapData';
+import { useState, useRef } from "react";
+import { Country } from "@/lib/countryData";
+import { COUNTRY_PATHS } from "../lib/worldMapData";
 
 interface WorldMapProps {
   onCountryClick: (countryId: string) => void;
-  countryStates: Record<string, 'correct' | 'wrong' | 'default'>;
+  countryStates: Record<string, "correct" | "wrong" | "default">;
   currentCountry: Country | null;
 }
 
-const COUNTRY_COLORS = ['country-1', 'country-2', 'country-3', 'country-4', 'country-5', 'country-6'];
+const COUNTRY_COLORS = [
+  "country-1",
+  "country-2",
+  "country-3",
+  "country-4",
+  "country-5",
+  "country-6",
+];
 
-export const WorldMap = ({ onCountryClick, countryStates, currentCountry }: WorldMapProps) => {
+export const WorldMap = ({
+  onCountryClick,
+  countryStates,
+  currentCountry,
+}: WorldMapProps) => {
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
@@ -21,7 +32,7 @@ export const WorldMap = ({ onCountryClick, countryStates, currentCountry }: Worl
   const handleWheel = (e: React.WheelEvent) => {
     e.preventDefault();
     const delta = e.deltaY > 0 ? 0.9 : 1.1;
-    setZoom(prev => Math.max(0.5, Math.min(3, prev * delta)));
+    setZoom((prev) => Math.max(0.5, Math.min(3, prev * delta)));
   };
 
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -33,7 +44,7 @@ export const WorldMap = ({ onCountryClick, countryStates, currentCountry }: Worl
     if (isDragging) {
       setPan({
         x: e.clientX - dragStart.x,
-        y: e.clientY - dragStart.y
+        y: e.clientY - dragStart.y,
       });
     }
   };
@@ -43,28 +54,28 @@ export const WorldMap = ({ onCountryClick, countryStates, currentCountry }: Worl
   };
 
   const getCountryFill = (countryId: string) => {
-    const state = countryStates[countryId] || 'default';
-    
-    if (state === 'correct') return '#22c55e'; // green for correct guesses
-    if (state === 'wrong') return '#ef4444'; // red for wrong guesses
-    if (hoveredCountry === countryId) return '#fbbf24'; // yellow for hover
-    
+    const state = countryStates[countryId] || "default";
+
+    if (state === "correct") return "#22c55e"; // green for correct guesses
+    if (state === "wrong") return "#ef4444"; // red for wrong guesses
+    if (hoveredCountry === countryId) return "#fbbf24"; // yellow for hover
+
     // Default grey color for all countries
-    return '#9ca3af'; // grey-400
+    return "#9ca3af"; // grey-400
   };
 
   const getCountryStroke = (countryId: string) => {
     // if (currentCountry && currentCountry.id === countryId && countryStates[countryId] !== 'correct') {
     //   return '#3b82f6'; // Highlight the target country
     // }
-    return '#ffffff';
+    return "#ffffff";
   };
 
   const getCountryStrokeWidth = (countryId: string) => {
     // if (currentCountry && currentCountry.id === countryId && countryStates[countryId] !== 'correct') {
     //   return '3';
     // }
-    return '1';
+    return "1";
   };
 
   return (
@@ -72,7 +83,7 @@ export const WorldMap = ({ onCountryClick, countryStates, currentCountry }: Worl
       <div className="absolute top-4 left-4 z-10 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium">
         Zoom: {(zoom * 100).toFixed(0)}%
       </div>
-      
+
       <div className="absolute top-4 right-4 z-10 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-lg text-xs">
         <div>🖱️ Click countries</div>
         <div>🎯 Scroll to zoom</div>
@@ -89,12 +100,14 @@ export const WorldMap = ({ onCountryClick, countryStates, currentCountry }: Worl
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
         style={{
-          transform: `scale(${zoom}) translate(${pan.x / zoom}px, ${pan.y / zoom}px)`,
+          transform: `scale(${zoom}) translate(${pan.x / zoom}px, ${
+            pan.y / zoom
+          }px)`,
         }}
       >
         {/* Ocean background */}
         <rect width="900" height="500" fill="hsl(var(--map-ocean))" />
-        
+
         {/* Countries */}
         {Object.entries(COUNTRY_PATHS).map(([countryId, path]) => (
           <g key={countryId}>
@@ -113,12 +126,12 @@ export const WorldMap = ({ onCountryClick, countryStates, currentCountry }: Worl
                 }
               }}
             />
-            
+
             {/* Country label */}
-            {countryStates[countryId] === 'correct' && currentCountry && (
+            {countryStates[countryId] === "correct" && currentCountry && (
               <text
-                x={path.split(' ')[1]}
-                y={path.split(' ')[2]}
+                x={path.split(" ")[1]}
+                y={path.split(" ")[2]}
                 fill="white"
                 fontSize="12"
                 fontWeight="bold"

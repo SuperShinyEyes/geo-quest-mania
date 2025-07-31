@@ -1,11 +1,14 @@
-import { Country } from '@/lib/countryData';
+import { Country } from "@/lib/countryData";
 
 interface QuizHeaderProps {
   currentCountry: Country | null;
   isWaitingForNext: boolean;
 }
 
-export const QuizHeader = ({ currentCountry, isWaitingForNext }: QuizHeaderProps) => {
+export const QuizHeader = ({
+  currentCountry,
+  isWaitingForNext,
+}: QuizHeaderProps) => {
   if (!currentCountry) {
     return (
       <div className="text-center bg-white/90 backdrop-blur-sm px-6 py-4 rounded-xl shadow-lg">
@@ -25,9 +28,15 @@ export const QuizHeader = ({ currentCountry, isWaitingForNext }: QuizHeaderProps
 
   return (
     <div className="text-center bg-white/90 backdrop-blur-sm px-6 py-4 rounded-xl shadow-lg">
-      <div className="text-sm font-medium text-gray-600 mb-1">Find this country:</div>
-      <div className="text-3xl font-bold text-primary">{currentCountry.name}</div>
-      <div className="text-sm text-gray-500 mt-1">Click on the map to guess!</div>
+      <div className="text-sm font-medium text-gray-600 mb-1">
+        Find this country:
+      </div>
+      <div className="text-3xl font-bold text-primary">
+        {currentCountry.name}
+      </div>
+      <div className="text-sm text-gray-500 mt-1">
+        Click on the map to guess!
+      </div>
     </div>
   );
 };
