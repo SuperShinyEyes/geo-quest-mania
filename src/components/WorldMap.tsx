@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Country } from "@/lib/countryData";
 import { COUNTRY_PATHS } from "../lib/worldMapData";
 
@@ -29,24 +29,64 @@ export const WorldMap = ({
   const [hoveredCountry, setHoveredCountry] = useState<string | null>(null);
   const svgRef = useRef<SVGSVGElement>(null);
 
-  const handleWheel = (e: React.WheelEvent) => {
-    e.preventDefault();
-    const delta = e.deltaY > 0 ? 0.9 : 1.1;
-    setZoom((prev) => Math.max(1.0, Math.min(6, prev * delta)));
-  };
+  // Clamp pan to keep map within frame
+  useEffect(() => {
+    if (!svgRef.current) return;
+    const { width: cw, height: ch } = svgRef.current.getBoundingClientRect();
+    const contentWidth = cw * zoom;
+    const contentHeight = ch * zoom;
+    const minX = cw - contentWidth;
+    const minY = ch - contentHeight;
 
+    setPan((prev) => ({
+      x: Math.min(0, Math.max(minX, prev.x)),
+      y: Math.min(0, Math.max(minY, prev.y)),
+    }));
+  }, [zoom]);
+
+  // Zoom in and out on map with a scroll wheel
+  // Only run once, so we don’t re-attach over and over:
+  useEffect(() => {
+    if (!svgRef.current) return;
+
+    const handleRawWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      const delta = e.deltaY > 0 ? 0.9 : 1.1;
+      setZoom((prev) => Math.max(1.0, Math.min(6, prev * delta)));
+    };
+
+    svgRef.current.addEventListener("wheel", handleRawWheel, {
+      passive: false,
+    });
+    return () => {
+      svgRef.current!.removeEventListener("wheel", handleRawWheel);
+    };
+  }, []); // Empty deps -> run on mount / cleanup on unmount
+
+  // Begin a drag
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
     setDragStart({ x: e.clientX - pan.x, y: e.clientY - pan.y });
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (isDragging) {
-      setPan({
-        x: e.clientX - dragStart.x,
-        y: e.clientY - dragStart.y,
-      });
-    }
+    if (!isDragging || !svgRef.current) return;
+
+    console.log("Mouse pos: " + e.clientX + ", " + e.clientY);
+    const { width: cw, height: ch } = svgRef.current.getBoundingClientRect();
+    const contentWidth = cw * zoom;
+    const contentHeight = ch * zoom;
+    const minX = cw - contentWidth;
+    const minY = ch - contentHeight;
+
+    const rawX = e.clientX - dragStart.x;
+    const rawY = e.clientY - dragStart.y;
+    const clampedX = Math.min(0, Math.max(minX, rawX));
+    const clampedY = Math.min(0, Math.max(minY, rawY));
+    setPan({
+      x: clampedX,
+      y: clampedY,
+    });
   };
 
   const handleMouseUp = () => {
@@ -94,7 +134,6 @@ export const WorldMap = ({
         ref={svgRef}
         viewBox="0 0 900 500"
         className="w-full h-[600px] cursor-grab active:cursor-grabbing"
-        onWheel={handleWheel}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
