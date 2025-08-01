@@ -51,7 +51,8 @@ export const WorldMap = ({
 
     const handleRawWheel = (e: WheelEvent) => {
       e.preventDefault();
-      const delta = e.deltaY > 0 ? 0.9 : 1.1;
+      const zoomSpeed = 0.01;
+      const delta = e.deltaY > 0 ? 1 - zoomSpeed : 1 + zoomSpeed;
       setZoom((prev) => Math.max(1.0, Math.min(6, prev * delta)));
     };
 
