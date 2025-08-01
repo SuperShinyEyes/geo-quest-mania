@@ -142,6 +142,8 @@ export const WorldMap = ({
           transform: `scale(${zoom}) translate(${pan.x / zoom}px, ${
             pan.y / zoom
           }px)`,
+          transformOrigin: "0 0",
+          transformBox: "fill-box",
         }}
       >
         {/* Ocean background */}
