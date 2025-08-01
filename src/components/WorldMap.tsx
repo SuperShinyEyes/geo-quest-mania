@@ -29,21 +29,6 @@ export const WorldMap = ({
   const [hoveredCountry, setHoveredCountry] = useState<string | null>(null);
   const svgRef = useRef<SVGSVGElement>(null);
 
-  // Clamp pan to keep map within frame
-  useEffect(() => {
-    if (!svgRef.current) return;
-    const { width: cw, height: ch } = svgRef.current.getBoundingClientRect();
-    const contentWidth = cw * zoom;
-    const contentHeight = ch * zoom;
-    const minX = cw - contentWidth;
-    const minY = ch - contentHeight;
-
-    setPan((prev) => ({
-      x: Math.min(0, Math.max(minX, prev.x)),
-      y: Math.min(0, Math.max(minY, prev.y)),
-    }));
-  }, [zoom]);
-
   // Zoom in and out on map with a scroll wheel
   // Only run once, so we don’t re-attach over and over:
   useEffect(() => {
@@ -73,20 +58,9 @@ export const WorldMap = ({
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!isDragging || !svgRef.current) return;
 
-    console.log("Mouse pos: " + e.clientX + ", " + e.clientY);
-    const { width: cw, height: ch } = svgRef.current.getBoundingClientRect();
-    const contentWidth = cw * zoom;
-    const contentHeight = ch * zoom;
-    const minX = cw - contentWidth;
-    const minY = ch - contentHeight;
-
-    const rawX = e.clientX - dragStart.x;
-    const rawY = e.clientY - dragStart.y;
-    const clampedX = Math.min(0, Math.max(minX, rawX));
-    const clampedY = Math.min(0, Math.max(minY, rawY));
     setPan({
-      x: clampedX,
-      y: clampedY,
+      x: e.clientX - dragStart.x,
+      y: e.clientY - dragStart.y,
     });
   };
 
