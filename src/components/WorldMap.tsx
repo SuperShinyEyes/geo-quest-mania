@@ -16,8 +16,6 @@ const COUNTRY_COLORS = [
   "country-5",
   "country-6",
 ];
-const SVG_VIEWPORT_HEIGHT = 600;
-const SVG_VIEWPORT_WIDTH = SVG_VIEWPORT_HEIGHT * 1.8;
 
 export const WorldMap = ({
   onCountryClick,
@@ -36,8 +34,8 @@ export const WorldMap = ({
     const delta = e.deltaY > 0 ? 1 - zoomSpeed : 1 + zoomSpeed;
     setZoom((prev) => Math.max(1.0, Math.min(6, prev * delta)));
 
-    const rangeXAbs = (SVG_VIEWPORT_WIDTH / 2) * (1 - 1 / zoom);
-    const rangeYAbs = (SVG_VIEWPORT_HEIGHT / 2) * (1 - 1 / zoom);
+    const rangeXAbs = (window.innerWidth / 2) * (1 - 1 / zoom);
+    const rangeYAbs = (window.innerHeight / 2) * (1 - 1 / zoom);
     const clampX = Math.min(rangeXAbs, Math.max(-rangeXAbs, pan.x));
     const clampY = Math.min(rangeYAbs, Math.max(-rangeYAbs, pan.y));
     setPan({
@@ -54,8 +52,8 @@ export const WorldMap = ({
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!isDragging || !svgRef.current) return;
 
-    const rangeXAbs = (SVG_VIEWPORT_WIDTH / 2) * (1 - 1 / zoom);
-    const rangeYAbs = (SVG_VIEWPORT_HEIGHT / 2) * (1 - 1 / zoom);
+    const rangeXAbs = (window.innerWidth / 2) * (1 - 1 / zoom);
+    const rangeYAbs = (window.innerHeight / 2) * (1 - 1 / zoom);
     const clampX = Math.min(
       rangeXAbs,
       Math.max(-rangeXAbs, (e.clientX - dragStart.x) / zoom)
