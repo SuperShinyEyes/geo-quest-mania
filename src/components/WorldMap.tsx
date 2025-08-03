@@ -31,26 +31,20 @@ export const WorldMap = ({
   const [hoveredCountry, setHoveredCountry] = useState<string | null>(null);
   const svgRef = useRef<SVGSVGElement>(null);
 
-  // Zoom in and out on map with a scroll wheel
-  // Only run once, so we don’t re-attach over and over:
-  useEffect(() => {
-    if (!svgRef.current) return;
+  const handleWheel = (e: React.WheelEvent) => {
+    const zoomSpeed = 0.09;
+    const delta = e.deltaY > 0 ? 1 - zoomSpeed : 1 + zoomSpeed;
+    setZoom((prev) => Math.max(1.0, Math.min(6, prev * delta)));
 
-    const handleRawWheel = (e: WheelEvent) => {
-      e.preventDefault();
-      const zoomSpeed = 0.09;
-      const delta = e.deltaY > 0 ? 1 - zoomSpeed : 1 + zoomSpeed;
-      setZoom((prev) => Math.max(1.0, Math.min(6, prev * delta)));
-    };
-
-    svgRef.current.addEventListener("wheel", handleRawWheel, {
-      passive: false,
+    const rangeXAbs = (SVG_VIEWPORT_WIDTH / 2) * (1 - 1 / zoom);
+    const rangeYAbs = (SVG_VIEWPORT_HEIGHT / 2) * (1 - 1 / zoom);
+    const clampX = Math.min(rangeXAbs, Math.max(-rangeXAbs, pan.x));
+    const clampY = Math.min(rangeYAbs, Math.max(-rangeYAbs, pan.y));
+    setPan({
+      x: clampX,
+      y: clampY,
     });
-    return () => {
-      svgRef.current!.removeEventListener("wheel", handleRawWheel);
-    };
-  }, []); // Empty deps -> run on mount / cleanup on unmount
-
+  };
   // Begin a drag
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
@@ -70,7 +64,6 @@ export const WorldMap = ({
       rangeYAbs,
       Math.max(-rangeYAbs, (e.clientY - dragStart.y) / zoom)
     );
-    console.log(zoom, clampX, clampY);
     setPan({
       x: clampX,
       y: clampY,
@@ -126,6 +119,7 @@ export const WorldMap = ({
           SVG_VIEWPORT_HEIGHT +
           "px] cursor-grab active:cursor-grabbing"
         }
+        onWheel={handleWheel}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
