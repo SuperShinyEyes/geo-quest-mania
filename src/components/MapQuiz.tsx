@@ -117,25 +117,25 @@ export const MapQuiz = () => {
   }, [selectRandomCountry]);
 
   return (
-    <div className="min-h-screen bg-map-ocean p-4 flex flex-col">
-      <div className="flex-1 max-w-7xl mx-auto w-full flex flex-col">
-        <div className="flex justify-between items-start mb-4">
-          <ScoreBoard score={score} />
-          <QuizHeader
-            currentCountry={currentCountry}
-            isWaitingForNext={isWaitingForNext}
-          />
-          <div className="w-32" /> {/* Spacer for centering */}
-        </div>
-
-        <div className="flex-1 flex items-center justify-center">
-          <WorldMap
-            onCountryClick={handleCountryClick}
-            countryStates={countryStates}
-            currentCountry={currentCountry}
-          />
-        </div>
+    <div className="fixed inset-0 bg-map-ocean">
+      {/* UI Elements positioned over the map */}
+      <div className="absolute top-4 left-4 z-20">
+        <ScoreBoard score={score} />
       </div>
+      
+      <div className="absolute top-4 right-4 z-20">
+        <QuizHeader
+          currentCountry={currentCountry}
+          isWaitingForNext={isWaitingForNext}
+        />
+      </div>
+
+      {/* Fullscreen map */}
+      <WorldMap
+        onCountryClick={handleCountryClick}
+        countryStates={countryStates}
+        currentCountry={currentCountry}
+      />
     </div>
   );
 };

@@ -100,12 +100,12 @@ export const WorldMap = ({
   };
 
   return (
-    <div className="relative bg-map-ocean rounded-lg shadow-2xl overflow-hidden border-4 border-white">
-      <div className="absolute top-4 left-4 z-10 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium">
+    <div className="fixed inset-0 bg-map-ocean">
+      <div className="absolute bottom-4 left-4 z-10 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium">
         Zoom: {(zoom * 100).toFixed(0)}%
       </div>
 
-      <div className="absolute top-4 right-4 z-10 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-lg text-xs">
+      <div className="absolute bottom-4 right-4 z-10 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-lg text-xs">
         <div>🖱️ Click countries</div>
         <div>🎯 Scroll to zoom</div>
         <div>👆 Drag to pan</div>
@@ -114,11 +114,7 @@ export const WorldMap = ({
       <svg
         ref={svgRef}
         viewBox="0 0 900 500"
-        className={
-          "w-full h-[" +
-          SVG_VIEWPORT_HEIGHT +
-          "px] cursor-grab active:cursor-grabbing"
-        }
+        className="w-full h-full cursor-grab active:cursor-grabbing"
         onWheel={handleWheel}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
