@@ -36,7 +36,7 @@ export const WorldMap = ({
 
     const handleRawWheel = (e: WheelEvent) => {
       e.preventDefault();
-      const zoomSpeed = 0.01;
+      const zoomSpeed = 0.09;
       const delta = e.deltaY > 0 ? 1 - zoomSpeed : 1 + zoomSpeed;
       setZoom((prev) => Math.max(1.0, Math.min(6, prev * delta)));
     };
@@ -52,15 +52,25 @@ export const WorldMap = ({
   // Begin a drag
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
-    setDragStart({ x: e.clientX - pan.x, y: e.clientY - pan.y });
+    setDragStart({ x: e.clientX - pan.x * zoom, y: e.clientY - pan.y * zoom });
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!isDragging || !svgRef.current) return;
-
+    const rangeXAbs = (1080 / 2) * (1 - 1 / zoom);
+    const rangeYAbs = (600 / 2) * (1 - 1 / zoom);
+    const clampX = Math.min(
+      rangeXAbs,
+      Math.max(-rangeXAbs, (e.clientX - dragStart.x) / zoom)
+    );
+    const clampY = Math.min(
+      rangeYAbs,
+      Math.max(-rangeYAbs, (e.clientY - dragStart.y) / zoom)
+    );
+    console.log(zoom, clampX, clampY);
     setPan({
-      x: e.clientX - dragStart.x,
-      y: e.clientY - dragStart.y,
+      x: clampX,
+      y: clampY,
     });
   };
 
@@ -114,11 +124,7 @@ export const WorldMap = ({
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
         style={{
-          transform: `scale(${zoom}) translate(${pan.x / zoom}px, ${
-            pan.y / zoom
-          }px)`,
-          transformOrigin: "0 0",
-          transformBox: "fill-box",
+          transform: `scale(${zoom}) translate(${pan.x}px, ${pan.y}px)`,
         }}
       >
         {/* Ocean background */}
