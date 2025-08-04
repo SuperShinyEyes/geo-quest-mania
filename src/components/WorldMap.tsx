@@ -100,6 +100,13 @@ export const WorldMap = ({
     return "1";
   };
 
+  const isCountryClickable = (countryId: string) => {
+    // A country is clickabble if
+    //   1. you're panning the map, or
+    //   2. you've guessed the country correctly.
+    return !isMouseDragging && countryStates[countryId] !== "correct";
+  };
+
   return (
     <div className="fixed inset-0 bg-map-ocean">
       <div className="absolute bottom-4 left-4 z-10 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium">
@@ -140,29 +147,11 @@ export const WorldMap = ({
               onMouseEnter={() => !isMouseDown && setHoveredCountry(countryId)}
               onMouseLeave={() => setHoveredCountry(null)}
               onMouseUp={(e: React.MouseEvent) => {
-                if (
-                  !isMouseDragging &&
-                  countryStates[countryId] !== "correct"
-                ) {
+                if (isCountryClickable(countryId)) {
                   onCountryClick(countryId);
                 }
               }}
             />
-
-            {/* Country label */}
-            {countryStates[countryId] === "correct" && currentCountry && (
-              <text
-                x={path.split(" ")[1]}
-                y={path.split(" ")[2]}
-                fill="white"
-                fontSize="12"
-                fontWeight="bold"
-                textAnchor="middle"
-                className="pointer-events-none drop-shadow-sm"
-              >
-                {currentCountry.name}
-              </text>
-            )}
           </g>
         ))}
       </svg>
