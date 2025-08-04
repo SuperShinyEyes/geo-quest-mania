@@ -101,7 +101,6 @@ export const MapQuiz = () => {
       }
     } else {
       // Wrong guess
-      setScore((prev) => Math.max(0, prev - 1));
       setCountryStates((prev) => ({ ...prev, [countryId]: "wrong" }));
       toast.error("Wrong country! Try again.");
 
