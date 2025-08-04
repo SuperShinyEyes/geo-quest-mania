@@ -9,7 +9,7 @@ import { COUNTRIES, Country } from "@/lib/countryData";
 export const MapQuiz = () => {
   const [score, setScore] = useState(0);
   const [currentCountry, setCurrentCountry] = useState<Country | null>(null);
-  const [guessedCountries, setGuessedCountries] = useState<Set<string>>(
+  const [solvedCountries, setSolvedCountries] = useState<Set<string>>(
     new Set()
   );
   const [isWaitingForNext, setIsWaitingForNext] = useState(false);
@@ -19,11 +19,11 @@ export const MapQuiz = () => {
 
   const selectRandomCountry = useCallback(() => {
     const availableCountries = COUNTRIES.filter(
-      (country) => !guessedCountries.has(country.id)
+      (country) => !solvedCountries.has(country.id)
     );
     if (availableCountries.length === 0) {
       // Reset if all countries have been guessed
-      setGuessedCountries(new Set());
+      setSolvedCountries(new Set());
       setCurrentCountry(
         COUNTRIES[Math.floor(Math.random() * COUNTRIES.length)]
       );
@@ -35,7 +35,7 @@ export const MapQuiz = () => {
       setCurrentCountry(randomCountry);
     }
     setCountryStates({});
-  }, [guessedCountries]);
+  }, [solvedCountries]);
 
   const triggerConfetti = () => {
     const count = 200;
@@ -86,7 +86,7 @@ export const MapQuiz = () => {
       // Correct guess
       setScore((prev) => prev + 1);
       setCountryStates((prev) => ({ ...prev, [countryId]: "correct" }));
-      setGuessedCountries((prev) => new Set([...prev, countryId]));
+      setSolvedCountries((prev) => new Set([...prev, countryId]));
 
       triggerConfetti();
       toast.success(`Correct! That's ${currentCountry.name}!`);
@@ -122,7 +122,7 @@ export const MapQuiz = () => {
       <div className="absolute top-4 left-4 z-20">
         <ScoreBoard score={score} />
       </div>
-      
+
       <div className="absolute top-4 right-4 z-20">
         <QuizHeader
           currentCountry={currentCountry}
