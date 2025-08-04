@@ -208,6 +208,7 @@ export const MapQuiz = () => {
         <ScoreBoard score={score} />
       </div>
 
+      {/* QuizHeader. It used to be in QuizHeader.tsx but Lovable decided to ignore that */}
       <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-20">
         <div className="bg-white/90 backdrop-blur-sm px-6 py-4 rounded-xl shadow-lg">
           <div className="text-center">
