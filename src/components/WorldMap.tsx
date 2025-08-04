@@ -24,7 +24,8 @@ export const WorldMap = ({
 }: WorldMapProps) => {
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
-  const [isDragging, setIsDragging] = useState(false);
+  const [isMouseDown, setIsMouseDown] = useState(false);
+  const [isMouseDragging, setIsMouseDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [hoveredCountry, setHoveredCountry] = useState<string | null>(null);
   const svgRef = useRef<SVGSVGElement>(null);
@@ -45,12 +46,13 @@ export const WorldMap = ({
   };
   // Begin a drag
   const handleMouseDown = (e: React.MouseEvent) => {
-    setIsDragging(true);
+    setIsMouseDown(true);
     setDragStart({ x: e.clientX - pan.x * zoom, y: e.clientY - pan.y * zoom });
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging || !svgRef.current) return;
+    if (!isMouseDown || !svgRef.current) return;
+    setIsMouseDragging(true);
 
     const rangeXAbs = (window.innerWidth / 2) * (1 - 1 / zoom);
     const rangeYAbs = (window.innerHeight / 2) * (1 - 1 / zoom);
@@ -69,7 +71,8 @@ export const WorldMap = ({
   };
 
   const handleMouseUp = () => {
-    setIsDragging(false);
+    setIsMouseDown(false);
+    setIsMouseDragging(false);
   };
 
   const getCountryFill = (countryId: string) => {
@@ -134,11 +137,10 @@ export const WorldMap = ({
               stroke={getCountryStroke(countryId)}
               strokeWidth={getCountryStrokeWidth(countryId)}
               className="transition-all duration-200 cursor-pointer"
-              onMouseEnter={() => !isDragging && setHoveredCountry(countryId)}
+              onMouseEnter={() => !isMouseDown && setHoveredCountry(countryId)}
               onMouseLeave={() => setHoveredCountry(null)}
-              onClick={(e) => {
-                e.stopPropagation();
-                if (!isDragging) {
+              onMouseUp={(e: React.MouseEvent) => {
+                if (!isMouseDragging) {
                   onCountryClick(countryId);
                 }
               }}
