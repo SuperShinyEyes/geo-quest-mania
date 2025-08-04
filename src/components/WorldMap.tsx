@@ -33,7 +33,7 @@ export const WorldMap = ({
   const handleWheel = (e: React.WheelEvent) => {
     const zoomSpeed = 0.09;
     const delta = e.deltaY > 0 ? 1 - zoomSpeed : 1 + zoomSpeed;
-    setZoom((prev) => Math.max(1.0, Math.min(6, prev * delta)));
+    setZoom((prev) => Math.max(1.0, Math.min(20, prev * delta)));
 
     const rangeXAbs = (window.innerWidth / 2) * (1 - 1 / zoom);
     const rangeYAbs = (window.innerHeight / 2) * (1 - 1 / zoom);
