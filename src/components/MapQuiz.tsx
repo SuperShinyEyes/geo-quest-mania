@@ -22,12 +22,18 @@ interface LeaderboardEntry {
 export const MapQuiz = () => {
   const [score, setScore] = useState(0);
   const [currentCountry, setCurrentCountry] = useState<Country | null>(null);
-  const [solvedCountries, setSolvedCountries] = useState<Set<string>>(new Set());
+  const [solvedCountries, setSolvedCountries] = useState<Set<string>>(
+    new Set()
+  );
   const [isWaitingForNext, setIsWaitingForNext] = useState(false);
-  const [countryStates, setCountryStates] = useState<Record<string, "correct" | "wrong" | "default">>({});
+  const [countryStates, setCountryStates] = useState<
+    Record<string, "correct" | "wrong" | "default">
+  >({});
   const [timeLeft, setTimeLeft] = useState(100);
   const [gameState, setGameState] = useState<GameState>("playing");
-  const [leaderboardData, setLeaderboardData] = useState<LeaderboardEntry[]>([]);
+  const [leaderboardData, setLeaderboardData] = useState<LeaderboardEntry[]>(
+    []
+  );
   const [currentPlayerRank, setCurrentPlayerRank] = useState<number>();
 
   const selectRandomCountry = useCallback(() => {
@@ -105,39 +111,40 @@ export const MapQuiz = () => {
   const submitScore = async (playerName: string) => {
     try {
       const { error } = await supabase
-        .from('scores')
+        .from("scores")
         .insert([{ player_name: playerName, score }]);
 
       if (error) {
-        console.error('Error submitting score:', error);
-        toast.error('Failed to submit score');
+        console.error("Error submitting score:", error);
+        toast.error("Failed to submit score");
         return;
       }
 
       // Fetch updated leaderboard
       const { data: allScores, error: fetchError } = await supabase
-        .from('scores')
-        .select('*')
-        .order('score', { ascending: false })
-        .order('created_at', { ascending: true });
+        .from("scores")
+        .select("*")
+        .order("score", { ascending: false })
+        .order("created_at", { ascending: true });
 
       if (fetchError) {
-        console.error('Error fetching leaderboard:', fetchError);
+        console.error("Error fetching leaderboard:", fetchError);
         return;
       }
 
       setLeaderboardData(allScores || []);
-      
+
       // Find current player's rank
-      const playerRank = (allScores || []).findIndex(
-        entry => entry.player_name === playerName && entry.score === score
-      ) + 1;
-      
+      const playerRank =
+        (allScores || []).findIndex(
+          (entry) => entry.player_name === playerName && entry.score === score
+        ) + 1;
+
       setCurrentPlayerRank(playerRank);
       setGameState("leaderboard");
     } catch (error) {
-      console.error('Error:', error);
-      toast.error('Failed to submit score');
+      console.error("Error:", error);
+      toast.error("Failed to submit score");
     }
   };
 
@@ -205,10 +212,10 @@ export const MapQuiz = () => {
         <div className="bg-white/90 backdrop-blur-sm px-6 py-4 rounded-xl shadow-lg">
           <div className="text-center">
             <div className="text-sm font-medium text-gray-600 mb-1">
-              Find this country:
+              Where is
             </div>
             <div className="text-3xl font-bold text-primary">
-              {currentCountry?.name || "Loading..."}
+              {currentCountry?.name || "Loading..."}?
             </div>
           </div>
         </div>
@@ -234,9 +241,12 @@ export const MapQuiz = () => {
         <Leaderboard
           scores={leaderboardData}
           currentPlayerRank={currentPlayerRank}
-          currentPlayerName={leaderboardData.find(entry => 
-            leaderboardData.indexOf(entry) === (currentPlayerRank || 1) - 1
-          )?.player_name}
+          currentPlayerName={
+            leaderboardData.find(
+              (entry) =>
+                leaderboardData.indexOf(entry) === (currentPlayerRank || 1) - 1
+            )?.player_name
+          }
           currentPlayerScore={score}
           onPlayAgain={resetGame}
         />
