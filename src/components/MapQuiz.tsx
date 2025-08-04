@@ -34,7 +34,7 @@ export const MapQuiz = () => {
         ];
       setCurrentCountry(randomCountry);
     }
-    setCountryStates({});
+    // setCountryStates({});
   }, [solvedCountries]);
 
   const triggerConfetti = () => {

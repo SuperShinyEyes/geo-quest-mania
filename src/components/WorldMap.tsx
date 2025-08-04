@@ -140,7 +140,10 @@ export const WorldMap = ({
               onMouseEnter={() => !isMouseDown && setHoveredCountry(countryId)}
               onMouseLeave={() => setHoveredCountry(null)}
               onMouseUp={(e: React.MouseEvent) => {
-                if (!isMouseDragging) {
+                if (
+                  !isMouseDragging &&
+                  countryStates[countryId] !== "correct"
+                ) {
                   onCountryClick(countryId);
                 }
               }}
