@@ -3,6 +3,11 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  overflow-y: hidden;
+  overscroll-behavior-x: none;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .logo {
