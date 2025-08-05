@@ -35,12 +35,47 @@ export type Database = {
         }
         Relationships: []
       }
+      visitor_stats: {
+        Row: {
+          created_at: string
+          id: string
+          updated_at: string
+          visit_date: string
+          visitor_count: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          updated_at?: string
+          visit_date?: string
+          visitor_count?: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          updated_at?: string
+          visit_date?: string
+          visitor_count?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_visitor_stats: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          now_count: number
+          today_count: number
+          all_time_count: number
+        }[]
+      }
+      increment_visitor_count: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never

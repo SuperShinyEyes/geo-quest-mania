@@ -1,7 +1,13 @@
 import { MapQuiz } from "@/components/MapQuiz";
+import { VisitorStats } from "@/components/VisitorStats";
 
 const Index = () => {
-  return <MapQuiz />;
+  return (
+    <>
+      <MapQuiz />
+      <VisitorStats />
+    </>
+  );
 };
 
 export default Index;
