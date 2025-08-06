@@ -185,21 +185,30 @@ export const MapQuiz = () => {
 
   // Timer effect
   useEffect(() => {
+    // Early exit if we’re not playing or time’s already up
     if (gameState !== "playing" || timeLeft <= 0) return;
 
+    // Kick off a 1-second interval
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev <= 1) {
+          // If we tick down to zero (or below), switch to the name‐entry screen…
           setGameState("nameInput");
           return 0;
         }
+        // Otherwise just subtract one second
         return prev - 1;
       });
     }, 1000);
-
+    // Cleanup: clear that interval whenever deps change or component unmounts
+    // React calls this cleanup right before it re-runs this effect
+    // (because either gameState or timeLeft changed)
     return () => clearInterval(timer);
   }, [gameState, timeLeft]);
 
+  // Select a random country on start
+  // Because of the absence of a dependency,
+  // this effect is run only once during the mount
   useEffect(() => {
     selectRandomCountry();
   }, []);
