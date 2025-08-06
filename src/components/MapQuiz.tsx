@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from "react";
-import { WorldMap } from "./WorldMap";
 import { QuizHeader } from "./QuizHeader";
 import { ScoreBoard } from "./ScoreBoard";
 import { GameTimer } from "./GameTimer";
@@ -9,6 +8,9 @@ import confetti from "canvas-confetti";
 import { toast } from "sonner";
 import { COUNTRIES, Country } from "@/lib/countryData";
 import { supabase } from "@/integrations/supabase/client";
+import { isMobile } from "@/lib/utils";
+import { WorldMapMobile } from "./WorldMapMobile";
+import { WorldMapPC } from "./WorldMapPC";
 
 type GameState = "playing" | "nameInput" | "leaderboard";
 
@@ -20,6 +22,7 @@ interface LeaderboardEntry {
 }
 
 export const MapQuiz = () => {
+  const WorldMap = isMobile() ? WorldMapMobile : WorldMapPC;
   const [score, setScore] = useState(0);
   const [currentCountry, setCurrentCountry] = useState<Country | null>(null);
   const [solvedCountries, setSolvedCountries] = useState<Set<string>>(

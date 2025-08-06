@@ -1,23 +1,8 @@
 import { useState, useRef, useEffect } from "react";
-import { Country } from "@/lib/countryData";
+import { WorldMapProps } from "./WorldMapCommon";
 import { COUNTRY_PATHS } from "../lib/worldMapData";
 
-interface WorldMapProps {
-  onCountryClick: (countryId: string) => void;
-  countryStates: Record<string, "correct" | "wrong" | "default">;
-  currentCountry: Country | null;
-}
-
-const COUNTRY_COLORS = [
-  "country-1",
-  "country-2",
-  "country-3",
-  "country-4",
-  "country-5",
-  "country-6",
-];
-
-export const WorldMap = ({
+export const WorldMapMobile = ({
   onCountryClick,
   countryStates,
   currentCountry,
