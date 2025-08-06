@@ -1,13 +1,18 @@
+html, body {
+  touch-action: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  overscroll-behavior: none;
+  overflow: hidden;
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
-  overflow-y: hidden;
-  overscroll-behavior-x: none;
-  touch-action: none;
-  -webkit-user-select: none;
-  user-select: none;
 }
 
 .logo {
