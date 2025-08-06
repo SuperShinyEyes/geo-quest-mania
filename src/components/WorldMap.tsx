@@ -26,6 +26,7 @@ export const WorldMap = ({
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const [isMouseDown, setIsMouseDown] = useState(false);
   const [isMouseDragging, setIsMouseDragging] = useState(false);
+  const [isPointerPinching, setIsPointerPinching] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [hoveredCountry, setHoveredCountry] = useState<string | null>(null);
   const svgRef = useRef<SVGSVGElement>(null);
@@ -65,6 +66,7 @@ export const WorldMap = ({
       );
 
       if (newCache.length === 2) {
+        setIsPointerPinching(true);
         const [p1, p2] = newCache;
         const curDiff = Math.hypot(
           p2.clientX - p1.clientX,
@@ -102,18 +104,11 @@ export const WorldMap = ({
       setPrevDiff(-1);
     }
 
-    if (evCache.length === 0) handleMouseUp();
-  };
-
-  function remove_event(ev: React.PointerEvent) {
-    // Remove this event from the target's cache
-    for (let i = 0; i < evCache.length; i++) {
-      if (evCache[i].pointerId == ev.pointerId) {
-        evCache.splice(i, 1);
-        break;
-      }
+    if (evCache.length === 0) {
+      setIsPointerPinching(false);
+      handleMouseUp();
     }
-  }
+  };
 
   const handleWheel = (e: React.WheelEvent) => {
     handleZoom(e.deltaY);
@@ -185,7 +180,7 @@ export const WorldMap = ({
     console.log(evCache.length);
     return (
       !isMouseDragging &&
-      evCache.length < 2 &&
+      !isPointerPinching &&
       countryStates[countryId] !== "correct"
     );
   };
