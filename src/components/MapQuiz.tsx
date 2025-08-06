@@ -202,7 +202,7 @@ export const MapQuiz = () => {
 
   useEffect(() => {
     selectRandomCountry();
-  }, [selectRandomCountry]);
+  }, []);
 
   return (
     <div className="fixed inset-0 bg-map-ocean">
