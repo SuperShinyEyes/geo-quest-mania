@@ -34,8 +34,6 @@ export const WorldMap = ({
   // Global vars to cache event state
   const [evCache, setEvCache] = useState<React.PointerEvent[]>([]);
   const [prevDiff, setPrevDiff] = useState<number>(-1);
-  const [prevPanByTouchTimestamp, setPrevPanByTouchTimestamp] =
-    useState<number>(Date.now());
 
   const handleZoom = (zoomDirection: number) => {
     const zoomSpeed = 0.09;
@@ -55,7 +53,6 @@ export const WorldMap = ({
   const handlePointerDown = (ev: React.PointerEvent) => {
     setEvCache((cache) => [...cache, ev]);
     handleMouseDown(ev);
-    console.log("down: " + ev.pointerId);
   };
 
   const handlePointerMove = (ev: React.PointerEvent) => {
@@ -82,7 +79,7 @@ export const WorldMap = ({
         }
 
         setPrevDiff(curDiff);
-      } else if (newCache.length === 1) {
+      } else if (newCache.length === 1 && !isPointerPinching) {
         handleMouseMove(ev);
       }
 
@@ -93,21 +90,22 @@ export const WorldMap = ({
   const handlePointerUp = (ev: React.PointerEvent) => {
     // Remove this pointer from the cache and reset the target's
     // background and border
-    console.log("Up");
-    setEvCache((cache) =>
-      cache.filter((old) => old.pointerId !== ev.pointerId)
-    );
-    // remove_event(ev);
-    // If the number of pointers down is less than two then reset diff tracker
-    if (evCache.length < 2) {
-      setPrevPanByTouchTimestamp(Date.now());
-      setPrevDiff(-1);
-    }
 
-    if (evCache.length === 0) {
-      setIsPointerPinching(false);
-      handleMouseUp();
-    }
+    setEvCache((prev) => {
+      const evCacheFiltered = prev.filter(
+        (ev_prev) => ev_prev.pointerId !== ev.pointerId
+      );
+
+      if (evCacheFiltered.length < 2) {
+        setPrevDiff(-1);
+      }
+      if (evCacheFiltered.length === 0) {
+        setIsPointerPinching(false);
+        handleMouseUp();
+      }
+
+      return evCacheFiltered;
+    });
   };
 
   const handleWheel = (e: React.WheelEvent) => {
@@ -177,7 +175,6 @@ export const WorldMap = ({
   };
 
   const isCountryTouchable = (countryId: string) => {
-    console.log(evCache.length);
     return (
       !isMouseDragging &&
       !isPointerPinching &&
