@@ -167,7 +167,7 @@ export const MapQuiz = () => {
       setTimeout(() => {
         setIsWaitingForNext(false);
         selectRandomCountry();
-      }, 800);
+      }, 400);
       {
         /* Wait for 800ms before the next round */
       }
