@@ -13,7 +13,6 @@ const App = () => {
     "wheel",
     function (e) {
       e.preventDefault();
-      console.log("Wheel");
     },
     { passive: false }
   );

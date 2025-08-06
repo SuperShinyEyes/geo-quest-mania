@@ -30,9 +30,15 @@ export const WorldMap = ({
   const [hoveredCountry, setHoveredCountry] = useState<string | null>(null);
   const svgRef = useRef<SVGSVGElement>(null);
 
-  const handleWheel = (e: React.WheelEvent) => {
+  // Global vars to cache event state
+  const [evCache, setEvCache] = useState<React.PointerEvent[]>([]);
+  const [prevDiff, setPrevDiff] = useState<number>(-1);
+  const [prevPanByTouchTimestamp, setPrevPanByTouchTimestamp] =
+    useState<number>(Date.now());
+
+  const handleZoom = (zoomDirection: number) => {
     const zoomSpeed = 0.09;
-    const delta = e.deltaY > 0 ? 1 - zoomSpeed : 1 + zoomSpeed;
+    const delta = zoomDirection > 0 ? 1 - zoomSpeed : 1 + zoomSpeed;
     setZoom((prev) => Math.max(1.0, Math.min(20, prev * delta)));
 
     const rangeXAbs = (window.innerWidth / 2) * (1 - 1 / zoom);
@@ -43,6 +49,74 @@ export const WorldMap = ({
       x: clampX,
       y: clampY,
     });
+  };
+
+  const handlePointerDown = (ev: React.PointerEvent) => {
+    setEvCache((cache) => [...cache, ev]);
+    handleMouseDown(ev);
+    console.log("down: " + ev.pointerId);
+  };
+
+  const handlePointerMove = (ev: React.PointerEvent) => {
+    // Find this event in the cache and update its record with this event
+    setEvCache((cache) => {
+      const newCache = cache.map((old) =>
+        old.pointerId === ev.pointerId ? ev : old
+      );
+
+      if (newCache.length === 2) {
+        const [p1, p2] = newCache;
+        const curDiff = Math.hypot(
+          p2.clientX - p1.clientX,
+          p2.clientY - p1.clientY
+        );
+
+        if (prevDiff > 0) {
+          if (curDiff > prevDiff) {
+            handleZoom(-1);
+          } else if (curDiff < prevDiff) {
+            handleZoom(1);
+          }
+        }
+
+        setPrevDiff(curDiff);
+      } else if (newCache.length === 1) {
+        handleMouseMove(ev);
+      }
+
+      return newCache;
+    });
+  };
+
+  const handlePointerUp = (ev: React.PointerEvent) => {
+    // Remove this pointer from the cache and reset the target's
+    // background and border
+    console.log("Up");
+    setEvCache((cache) =>
+      cache.filter((old) => old.pointerId !== ev.pointerId)
+    );
+    // remove_event(ev);
+    // If the number of pointers down is less than two then reset diff tracker
+    if (evCache.length < 2) {
+      setPrevPanByTouchTimestamp(Date.now());
+      setPrevDiff(-1);
+    }
+
+    if (evCache.length === 0) handleMouseUp();
+  };
+
+  function remove_event(ev: React.PointerEvent) {
+    // Remove this event from the target's cache
+    for (let i = 0; i < evCache.length; i++) {
+      if (evCache[i].pointerId == ev.pointerId) {
+        evCache.splice(i, 1);
+        break;
+      }
+    }
+  }
+
+  const handleWheel = (e: React.WheelEvent) => {
+    handleZoom(e.deltaY);
   };
   // Begin a drag
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -107,6 +181,15 @@ export const WorldMap = ({
     return !isMouseDragging && countryStates[countryId] !== "correct";
   };
 
+  const isCountryTouchable = (countryId: string) => {
+    console.log(evCache.length);
+    return (
+      !isMouseDragging &&
+      evCache.length < 2 &&
+      countryStates[countryId] !== "correct"
+    );
+  };
+
   return (
     <div className="fixed inset-0 bg-map-ocean">
       <div className="absolute bottom-4 left-4 z-10 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium">
@@ -122,12 +205,15 @@ export const WorldMap = ({
       <svg
         ref={svgRef}
         viewBox="0 0 900 500"
-        className="w-full h-full cursor-grab active:cursor-grabbing"
+        className="touch-auto w-full h-full cursor-grab active:cursor-grabbing"
         onWheel={handleWheel}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
+        onPointerDown={handlePointerDown}
+        onPointerUp={handlePointerUp}
+        onPointerMove={handlePointerMove}
         style={{
           transform: `scale(${zoom}) translate(${pan.x}px, ${pan.y}px)`,
         }}
@@ -148,6 +234,11 @@ export const WorldMap = ({
               onMouseLeave={() => setHoveredCountry(null)}
               onMouseUp={(e: React.MouseEvent) => {
                 if (isCountryClickable(countryId)) {
+                  onCountryClick(countryId);
+                }
+              }}
+              onPointerUp={(e: React.PointerEvent) => {
+                if (isCountryTouchable(countryId)) {
                   onCountryClick(countryId);
                 }
               }}

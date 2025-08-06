@@ -1,0 +1,12 @@
+/* html,
+body {
+  overflow-y: hidden;
+  overscroll-behavior-x: none;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+} */
