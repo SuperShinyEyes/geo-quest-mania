@@ -57,8 +57,9 @@ function coordinatesToPath(
 export const COUNTRY_PATHS: Record<string, string> = {};
 
 geoData.features.forEach((feature: any) => {
-  const countryId = feature.properties.name;
-  const countryCode = getCountryCode(countryId);
+  // Example, name: Korea, country code: KO
+  const countryName = feature.properties.name;
+  const countryCode = getCountryCode(countryName);
 
   if (feature.geometry.type === "Polygon") {
     COUNTRY_PATHS[countryCode] = coordinatesToPath([
@@ -72,7 +73,7 @@ geoData.features.forEach((feature: any) => {
     COUNTRY_PATHS[countryCode] = paths.join(" ");
   }
 
-  COUNTRY_ID_MAP[countryCode] = countryId;
+  COUNTRY_ID_MAP[countryCode] = countryName;
 });
 
 // Helper function to convert country names to ISO codes
