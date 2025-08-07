@@ -1,5 +1,40 @@
 # Welcome to your Lovable project
 
+## World map data
+
+- Source: https://github.com/topojson/world-atlas
+- [TOpoJSON format specification](https://github.com/topojson/topojson-specification/blob/master/README.md#21-topology-objects)
+- Countries with multi polygons in topojson:
+  - Fiji
+  - Canada
+  - United States of America
+  - Papua New Guinea
+  - Indonesia
+  - Argentina
+  - Chile
+  - Russia
+  - Bahamas
+  - Norway
+  - France
+  - Angola
+  - Oman
+  - Vanuatu
+  - North Korea
+  - Greece
+  - Turkey
+  - Solomon Is.
+  - New Zealand
+  - Australia
+  - China
+  - Italy
+  - Denmark
+  - United Kingdom
+  - Azerbaijan
+  - Philippines
+  - Malaysia
+  - Japan
+  - Antarctica
+
 ## Project info
 
 **URL**: https://lovable.dev/projects/6e8d0869-8e57-49fc-b002-271e99d57f32
@@ -64,7 +99,6 @@ This project is built with:
 | **State & Forms**       | React Hook Form, TanStack Query, Zod |
 | **Charts / Visuals**    | Recharts, canvas-confetti            |
 | **Language**            | TypeScript                           |
-
 
 ## How can I deploy this project?
 
