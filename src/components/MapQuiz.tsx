@@ -6,7 +6,7 @@ import { NameInput } from "./NameInput";
 import { Leaderboard } from "./Leaderboard";
 import confetti from "canvas-confetti";
 import { toast } from "sonner";
-import { COUNTRIES, Country } from "@/lib/countryData";
+import { COUNTRIES, Country, getFlagByCountryCode } from "@/lib/countryData";
 import { supabase } from "@/integrations/supabase/client";
 import { isMobile } from "@/lib/utils";
 import { WorldMapMobile } from "./WorldMapMobile";
@@ -226,6 +226,7 @@ export const MapQuiz = () => {
               Where is
             </div>
             <div className="text-3xl font-bold text-primary">
+              {getFlagByCountryCode(currentCountry?.id)}{" "}
               {currentCountry?.name || "Loading..."}?
             </div>
           </div>

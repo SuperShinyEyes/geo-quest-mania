@@ -1,4 +1,31 @@
 // Country name and code date
+import geoData from "./countries-110m-with-country-code.json";
+
+// Grab the array of country geometries
+const countryGeoms = geoData.objects.countries.geometries;
+
+/**
+ * Build a map from country code → flag emoji.
+ * Each geometry’s properties include `{ code: "US", flag: "🇺🇸" }` :contentReference[oaicite:0]{index=0}
+ */
+const codeToFlag = countryGeoms.reduce((map, geom) => {
+  const { code, flag } = geom.properties;
+  if (code && flag) map[code] = flag;
+  return map;
+}, Object.create(null));
+
+/**
+ * Get the flag emoji for a given country alpha-2 code.
+ * @param {string} code - e.g. "FR", "JP"
+ * @returns {string|null} The flag emoji or null if not found.
+ */
+export function getFlagByCountryCode(code) {
+  if (code) {
+    console.log(code);
+    return codeToFlag[code.toUpperCase()] || null;
+  }
+}
+
 export const COUNTRIES = [
   { id: "AF", name: "Afghanistan" },
   { id: "AL", name: "Albania" },
