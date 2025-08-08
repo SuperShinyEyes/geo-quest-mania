@@ -44,11 +44,8 @@ export const MapQuiz = () => {
       (country) => !solvedCountries.has(country.id)
     );
     if (availableCountries.length === 0) {
-      // Reset if all countries have been guessed
-      setSolvedCountries(new Set());
-      setCurrentCountry(
-        COUNTRIES[Math.floor(Math.random() * COUNTRIES.length)]
-      );
+      // You beat the game!
+      setGameState("nameInput");
     } else {
       const randomCountry =
         availableCountries[
