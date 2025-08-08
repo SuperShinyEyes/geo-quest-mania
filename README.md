@@ -35,6 +35,10 @@
   - Japan
   - Antarctica
 
+## Drawing world map
+
+[Drawing a 2D map has one technical annoyance: you need to split the map ±180° longitude (antimeridian) to avoid diagonal path artifact across the Pacific](https://observablehq.com/@d3/antimeridian-cutting). This is because the globe is spherical while the display is planar. Use D3’s antimeridian cutting: Project with d3.geoEquirectangular() and render via d3.geoPath(), which automatically breaks geometries at the dateline for you
+
 ## Project info
 
 **URL**: https://lovable.dev/projects/6e8d0869-8e57-49fc-b002-271e99d57f32
