@@ -22,7 +22,8 @@ interface LeaderboardEntry {
 }
 
 export const MapQuiz = () => {
-  const WorldMap = isMobile() ? WorldMapMobile : WorldMapPC;
+  // const WorldMap = isMobile() ? WorldMapMobile : WorldMapPC;
+  const WorldMap = WorldMapPC;
   const [score, setScore] = useState(0);
   const [currentCountry, setCurrentCountry] = useState<Country | null>(null);
   const [solvedCountries, setSolvedCountries] = useState<Set<string>>(
