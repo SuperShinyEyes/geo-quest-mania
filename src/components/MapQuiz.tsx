@@ -11,6 +11,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { isMobile } from "@/lib/utils";
 import { WorldMapMobile } from "./WorldMapMobile";
 import { WorldMapPC } from "./WorldMapPC";
+import { VisitorStats } from "./VisitorStats";
 
 type GameState = "playing" | "nameInput" | "leaderboard";
 
@@ -33,7 +34,7 @@ export const MapQuiz = () => {
   const [countryStates, setCountryStates] = useState<
     Record<string, "correct" | "wrong" | "default">
   >({});
-  const [timeLeft, setTimeLeft] = useState(100);
+  const [timeLeft, setTimeLeft] = useState(3);
   const [gameState, setGameState] = useState<GameState>("playing");
   const [leaderboardData, setLeaderboardData] = useState<LeaderboardEntry[]>(
     []
@@ -243,6 +244,8 @@ export const MapQuiz = () => {
         countryStates={countryStates}
         currentCountry={currentCountry}
       />
+
+      <VisitorStats />
 
       {/* Game state overlays */}
       {gameState === "nameInput" && (
