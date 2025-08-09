@@ -1,5 +1,12 @@
 import { Button } from "./ui/button";
 import { useCallback } from "react";
+import {
+  Share2,
+  Facebook,
+  Twitter,
+  Linkedin,
+  MessageCircle,
+} from "lucide-react"; // Install if needed
 
 interface LeaderboardEntry {
   id: string;
@@ -85,7 +92,6 @@ export const Leaderboard = ({
           ))}
         </div>
 
-        {/* Show current player if not in top 10 */}
         {!isCurrentPlayerInTopTen &&
           currentPlayerRank &&
           currentPlayerName &&
@@ -110,14 +116,16 @@ export const Leaderboard = ({
           Play Again
         </Button>
 
-        {/* Share Buttons */}
-        <div className="flex flex-wrap gap-3 justify-center">
+        {/* Share buttons with icons */}
+        <div className="flex justify-center gap-3">
           {navigator.share && (
             <Button
               onClick={handleNativeShare}
-              className="bg-primary text-white"
+              variant="outline"
+              size="icon"
+              title="Share"
             >
-              📱 Share
+              <Share2 className="w-5 h-5" />
             </Button>
           )}
           <a
@@ -126,9 +134,10 @@ export const Leaderboard = ({
             )}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+            className="p-2 rounded-lg bg-green-500 hover:bg-green-600"
+            title="WhatsApp"
           >
-            WhatsApp
+            <MessageCircle className="w-5 h-5 text-white" />
           </a>
           <a
             href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
@@ -136,9 +145,10 @@ export const Leaderboard = ({
             )}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            className="p-2 rounded-lg bg-blue-600 hover:bg-blue-700"
+            title="Facebook"
           >
-            Facebook
+            <Facebook className="w-5 h-5 text-white" />
           </a>
           <a
             href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
@@ -146,9 +156,10 @@ export const Leaderboard = ({
             )}&url=${encodeURIComponent(shareUrl)}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-4 py-2 bg-sky-500 text-white rounded-lg hover:bg-sky-600"
+            className="p-2 rounded-lg bg-sky-500 hover:bg-sky-600"
+            title="X / Twitter"
           >
-            X / Twitter
+            <Twitter className="w-5 h-5 text-white" />
           </a>
           <a
             href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
@@ -156,9 +167,10 @@ export const Leaderboard = ({
             )}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-4 py-2 bg-blue-700 text-white rounded-lg hover:bg-blue-800"
+            className="p-2 rounded-lg bg-blue-700 hover:bg-blue-800"
+            title="LinkedIn"
           >
-            LinkedIn
+            <Linkedin className="w-5 h-5 text-white" />
           </a>
         </div>
       </div>
