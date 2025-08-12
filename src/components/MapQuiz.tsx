@@ -9,8 +9,7 @@ import { toast } from "sonner";
 import { COUNTRIES, Country, getFlagByCountryCode } from "@/lib/countryData";
 import { supabase } from "@/integrations/supabase/client";
 import { isMobile } from "@/lib/utils";
-import { WorldMapMobile } from "./WorldMapMobile";
-import { WorldMapPC } from "./WorldMapPC";
+import { WorldMap } from "./WorldMap";
 import { VisitorStats } from "./VisitorStats";
 
 type GameState = "playing" | "nameInput" | "leaderboard";
@@ -24,7 +23,6 @@ interface LeaderboardEntry {
 
 export const MapQuiz = () => {
   // const WorldMap = isMobile() ? WorldMapMobile : WorldMapPC;
-  const WorldMap = WorldMapPC;
   const [score, setScore] = useState(0);
   const [currentCountry, setCurrentCountry] = useState<Country | null>(null);
   const [solvedCountries, setSolvedCountries] = useState<Set<string>>(
@@ -34,7 +32,7 @@ export const MapQuiz = () => {
   const [countryStates, setCountryStates] = useState<
     Record<string, "correct" | "wrong" | "default">
   >({});
-  const [timeLeft, setTimeLeft] = useState(3);
+  const [timeLeft, setTimeLeft] = useState(100);
   const [gameState, setGameState] = useState<GameState>("playing");
   const [leaderboardData, setLeaderboardData] = useState<LeaderboardEntry[]>(
     []

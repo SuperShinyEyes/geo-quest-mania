@@ -5,7 +5,7 @@ import * as d3 from "d3";
 import { COUNTRY_PATHS } from "../lib/worldMapData";
 import geoData from "../lib/countries-110m-with-country-code.json";
 
-export const WorldMapPC = ({
+export const WorldMap = ({
   onCountryClick,
   countryStates,
   currentCountry,
