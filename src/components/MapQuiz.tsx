@@ -6,6 +6,7 @@ import { COUNTRIES, Country } from "@/lib/countryData";
 import { supabase } from "@/integrations/supabase/client";
 import { GameState, GameLevel, LeaderboardEntry } from "@/lib/utils";
 import { SinglePlayerView } from "./SinglePlayerView";
+import { MultiplayerView } from "./MultiplayerView";
 
 export const MapQuiz = () => {
   // const WorldMap = isMobile() ? WorldMapMobile : WorldMapPC;
@@ -206,6 +207,21 @@ export const MapQuiz = () => {
   } else if (gameLevel === "singleplayer") {
     return (
       <SinglePlayerView
+        score={score}
+        currentCountry={currentCountry}
+        timeLeft={timeLeft}
+        onCountryClick={handleCountryClick}
+        countryStates={countryStates}
+        gameState={gameState}
+        submitScore={submitScore}
+        leaderboardData={leaderboardData}
+        currentPlayerRank={currentPlayerRank}
+        resetGame={resetGame}
+      />
+    );
+  } else if (gameLevel === "multiplayer") {
+    return (
+      <MultiplayerView
         score={score}
         currentCountry={currentCountry}
         timeLeft={timeLeft}

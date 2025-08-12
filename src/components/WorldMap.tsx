@@ -4,11 +4,13 @@ import { WorldMapProps } from "./WorldMapCommon";
 import * as d3 from "d3";
 import { COUNTRY_PATHS } from "../lib/worldMapData";
 import geoData from "../lib/countries-110m-with-country-code.json";
+import type { FeatureCollection } from "geojson";
 
 export const WorldMap = ({
   onCountryClick,
   countryStates,
   currentCountry,
+  oceanColor = "#b3ecff",
 }: WorldMapProps) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const countriesGroup = useRef<d3.Selection<
@@ -69,7 +71,7 @@ export const WorldMap = ({
       .attr("width", "100%")
       .attr("height", "100%")
       .attr("viewBox", `0 0 ${w} ${h}`)
-      .style("background-color", "#b3ecff")
+      .style("background-color", oceanColor)
       .call(zoomBehavior);
 
     // container for countries
@@ -82,7 +84,7 @@ export const WorldMap = ({
       const geo = feature(
         geoData,
         geoData.objects.countries
-      ) as GeoJSON.FeatureCollection<any>;
+      ) as FeatureCollection<any>;
 
       // now draw exactly as before, but using geo.features
       countriesGroup
