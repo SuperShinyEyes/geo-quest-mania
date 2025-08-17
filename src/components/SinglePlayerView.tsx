@@ -10,7 +10,7 @@ import { GameState, LeaderboardEntry } from "@/lib/utils";
 export interface SinglePlayerViewProps {
   score: number;
   currentCountry: Country | null;
-  timeLeft: number;
+  playTimeLeft: number;
   onCountryClick: (countryId: string) => void;
   countryStates: Record<string, "correct" | "wrong" | "default">;
   gameState: GameState;
@@ -23,7 +23,7 @@ export interface SinglePlayerViewProps {
 export const SinglePlayerView = ({
   score,
   currentCountry,
-  timeLeft,
+  playTimeLeft,
   onCountryClick,
   countryStates,
   gameState,
@@ -55,7 +55,7 @@ export const SinglePlayerView = ({
       </div>
 
       <div className="absolute top-4 right-4 z-20">
-        <GameTimer timeLeft={timeLeft} />
+        <GameTimer timeLeft={playTimeLeft} />
       </div>
 
       {/* Fullscreen map */}
@@ -63,6 +63,7 @@ export const SinglePlayerView = ({
         onCountryClick={onCountryClick}
         countryStates={countryStates}
         currentCountry={currentCountry}
+        gameState={gameState}
       />
 
       <VisitorStats />

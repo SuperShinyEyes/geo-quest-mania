@@ -10,6 +10,8 @@ import { MultiplayerView } from "./MultiplayerView";
 
 const TIME_REWARD = 10;
 const TIME_PENALTY = 5;
+const PLAY_DURATION = 2;
+const END_DURATION = 4;
 
 export const MapQuiz = () => {
   // const WorldMap = isMobile() ? WorldMapMobile : WorldMapPC;
@@ -22,7 +24,8 @@ export const MapQuiz = () => {
   const [countryStates, setCountryStates] = useState<
     Record<string, "correct" | "wrong" | "default">
   >({});
-  const [timeLeft, setTimeLeft] = useState(100);
+  const [playTimeLeft, setPlayTimeLeft] = useState(PLAY_DURATION);
+  const [endTimeLeft, setEndTimeLeft] = useState(END_DURATION);
   const [gameState, setGameState] = useState<GameState>("playing");
   const [gameLevel, setGameLevel] = useState<GameLevel>("singleplayer");
   const [leaderboardData, setLeaderboardData] = useState<LeaderboardEntry[]>(
@@ -93,7 +96,8 @@ export const MapQuiz = () => {
     setScore(0);
     setSolvedCountries(new Set());
     setCountryStates({});
-    setTimeLeft(100);
+    setPlayTimeLeft(PLAY_DURATION);
+    setEndTimeLeft(END_DURATION);
     setGameState("playing");
     setIsWaitingForNext(false);
     selectRandomCountry();
@@ -145,7 +149,7 @@ export const MapQuiz = () => {
     if (countryId === currentCountry.id) {
       // Correct guess
       setScore((prev) => prev + 1);
-      setTimeLeft((prev) => (prev += TIME_REWARD)); // Reward 10 seconds
+      setPlayTimeLeft((prev) => (prev += TIME_REWARD)); // Reward 10 seconds
       setCountryStates((prev) => ({ ...prev, [countryId]: "correct" }));
       setSolvedCountries((prev) => new Set([...prev, countryId]));
 
@@ -162,7 +166,7 @@ export const MapQuiz = () => {
       }
     } else {
       // Wrong guess
-      setTimeLeft((prev) => (prev -= TIME_PENALTY));
+      setPlayTimeLeft((prev) => (prev -= TIME_PENALTY));
       setCountryStates((prev) => ({ ...prev, [countryId]: "wrong" }));
       toast.error(`Wrong country! You lost ${TIME_PENALTY} seconds!`);
 
@@ -179,26 +183,40 @@ export const MapQuiz = () => {
 
   // Timer effect
   useEffect(() => {
-    // Early exit if we’re not playing or time’s already up
-    if (gameState !== "playing" || timeLeft <= 0) return;
+    if (gameState === "playing" && playTimeLeft > 0) {
+      // Kick off a 1-second interval for game play
+      const playTimer = setInterval(() => {
+        setPlayTimeLeft((prev) => {
+          if (prev <= 1) {
+            // If we tick down to zero (or below), switch to the ending screen…
+            setGameState("ending");
+            return 0;
+          }
+          // Otherwise just subtract one second
+          return prev - 1;
+        });
+      }, 1000);
 
-    // Kick off a 1-second interval
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev <= 1) {
-          // If we tick down to zero (or below), switch to the name‐entry screen…
-          setGameState("nameInput");
-          return 0;
-        }
-        // Otherwise just subtract one second
-        return prev - 1;
-      });
-    }, 1000);
-    // Cleanup: clear that interval whenever deps change or component unmounts
-    // React calls this cleanup right before it re-runs this effect
-    // (because either gameState or timeLeft changed)
-    return () => clearInterval(timer);
-  }, [gameState, timeLeft]);
+      // Cleanup: clear that interval whenever deps change or component unmounts
+      // React calls this cleanup right before it re-runs this effect
+      // (because either gameState or timeLeft changed)
+      return () => clearInterval(playTimer);
+    } else if (gameState === "ending") {
+      const endTimer = setInterval(() => {
+        setEndTimeLeft((prev) => {
+          if (prev <= 1) {
+            // If we tick down to zero (or below), switch to the name‐entry screen…
+            setGameState("nameInput");
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+      // Cleanup: clear that interval whenever deps change or component unmounts
+      return () => clearInterval(endTimer);
+    }
+    // Kick off a 1-second interval for showing last country on the map
+  }, [gameState, playTimeLeft, endTimeLeft]);
 
   // Select a random country on start
   // Because of the absence of a dependency,
@@ -214,7 +232,7 @@ export const MapQuiz = () => {
       <SinglePlayerView
         score={score}
         currentCountry={currentCountry}
-        timeLeft={timeLeft}
+        playTimeLeft={playTimeLeft}
         onCountryClick={handleCountryClick}
         countryStates={countryStates}
         gameState={gameState}
@@ -229,7 +247,7 @@ export const MapQuiz = () => {
       <MultiplayerView
         score={score}
         currentCountry={currentCountry}
-        timeLeft={timeLeft}
+        timeLeft={playTimeLeft}
         onCountryClick={handleCountryClick}
         countryStates={countryStates}
         gameState={gameState}

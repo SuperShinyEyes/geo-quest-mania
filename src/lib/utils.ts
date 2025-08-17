@@ -1,7 +1,13 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
-export type GameState = "welcome" | "playing" | "nameInput" | "leaderboard";
+export type GameState =
+  | "welcome"
+  | "learning"
+  | "playing"
+  | "ending"
+  | "nameInput"
+  | "leaderboard";
 export type GameLevel = "welcome" | "singleplayer" | "multiplayer";
 
 export interface LeaderboardEntry {
