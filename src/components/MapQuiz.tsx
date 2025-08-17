@@ -10,7 +10,7 @@ import { MultiplayerView } from "./MultiplayerView";
 
 const TIME_REWARD = 10;
 const TIME_PENALTY = 5;
-const PLAY_DURATION = 100;
+const PLAY_DURATION = 19;
 const END_DURATION = 4;
 
 export const MapQuiz = () => {
@@ -183,7 +183,7 @@ export const MapQuiz = () => {
 
   // Timer effect
   useEffect(() => {
-    if (gameState === "playing" && playTimeLeft > 0) {
+    if (gameState === "playing") {
       // Kick off a 1-second interval for game play
       const playTimer = setInterval(() => {
         setPlayTimeLeft((prev) => {
@@ -216,7 +216,7 @@ export const MapQuiz = () => {
       return () => clearInterval(endTimer);
     }
     // Kick off a 1-second interval for showing last country on the map
-  }, [gameState, playTimeLeft, endTimeLeft]);
+  }, [gameState]);
 
   // Select a random country on start
   // Because of the absence of a dependency,
