@@ -21,7 +21,6 @@ const codeToFlag = countryGeoms.reduce((map, geom) => {
  */
 export function getFlagByCountryCode(code) {
   if (code) {
-    console.log(code);
     return codeToFlag[code.toUpperCase()] || null;
   }
 }
