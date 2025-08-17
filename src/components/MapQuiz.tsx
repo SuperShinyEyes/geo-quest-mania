@@ -10,7 +10,7 @@ import { MultiplayerView } from "./MultiplayerView";
 
 const TIME_REWARD = 10;
 const TIME_PENALTY = 5;
-const PLAY_DURATION = 2;
+const PLAY_DURATION = 100;
 const END_DURATION = 4;
 
 export const MapQuiz = () => {
