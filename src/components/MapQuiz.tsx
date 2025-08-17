@@ -23,8 +23,8 @@ export const MapQuiz = () => {
     Record<string, "correct" | "wrong" | "default">
   >({});
   const [timeLeft, setTimeLeft] = useState(100);
-  const [gameState, setGameState] = useState<GameState>("welcome");
-  const [gameLevel, setGameLevel] = useState<GameLevel>("welcome");
+  const [gameState, setGameState] = useState<GameState>("playing");
+  const [gameLevel, setGameLevel] = useState<GameLevel>("singleplayer");
   const [leaderboardData, setLeaderboardData] = useState<LeaderboardEntry[]>(
     []
   );
