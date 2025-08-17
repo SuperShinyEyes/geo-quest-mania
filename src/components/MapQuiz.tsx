@@ -142,11 +142,12 @@ export const MapQuiz = () => {
     if (countryId === currentCountry.id) {
       // Correct guess
       setScore((prev) => prev + 1);
+      setTimeLeft((prev) => (prev += 10));
       setCountryStates((prev) => ({ ...prev, [countryId]: "correct" }));
       setSolvedCountries((prev) => new Set([...prev, countryId]));
 
       triggerConfetti();
-      toast.success(`Correct! That's ${currentCountry.name}!`);
+      toast.success(`Correct! You earned 10 seconds!`);
 
       setIsWaitingForNext(true);
       setTimeout(() => {
