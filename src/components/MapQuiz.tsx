@@ -8,6 +8,9 @@ import { GameState, GameLevel, LeaderboardEntry } from "@/lib/utils";
 import { SinglePlayerView } from "./SinglePlayerView";
 import { MultiplayerView } from "./MultiplayerView";
 
+const TIME_REWARD = 10;
+const TIME_PENALTY = 5;
+
 export const MapQuiz = () => {
   // const WorldMap = isMobile() ? WorldMapMobile : WorldMapPC;
   const [score, setScore] = useState(0);
@@ -142,12 +145,12 @@ export const MapQuiz = () => {
     if (countryId === currentCountry.id) {
       // Correct guess
       setScore((prev) => prev + 1);
-      setTimeLeft((prev) => (prev += 10));
+      setTimeLeft((prev) => (prev += TIME_REWARD)); // Reward 10 seconds
       setCountryStates((prev) => ({ ...prev, [countryId]: "correct" }));
       setSolvedCountries((prev) => new Set([...prev, countryId]));
 
       triggerConfetti();
-      toast.success(`Correct! You earned 10 seconds!`);
+      toast.success(`Correct! You earned ${TIME_REWARD} seconds!`);
 
       setIsWaitingForNext(true);
       setTimeout(() => {
@@ -159,8 +162,9 @@ export const MapQuiz = () => {
       }
     } else {
       // Wrong guess
+      setTimeLeft((prev) => (prev -= TIME_PENALTY));
       setCountryStates((prev) => ({ ...prev, [countryId]: "wrong" }));
-      toast.error("Wrong country! Try again.");
+      toast.error(`Wrong country! You lost ${TIME_PENALTY} seconds!`);
 
       // Reset wrong state after a short time
       setTimeout(() => {
