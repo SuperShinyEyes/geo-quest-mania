@@ -14,6 +14,7 @@ const GREEN = "#22c55e",
   YELLOW = "#fbbf24",
   GREY = "#9ca3af",
   OCEAN_BLUE = "#b3ecff";
+const PROGRAMMATIC_ZOOM_SPEED_IN_MS = 1500;
 
 const disableUserInteractionZoom = (svg) => {
   svg.on(".zoom", null);
@@ -35,6 +36,10 @@ const animateTo = (
     .duration(ms)
     .ease(ease)
     .call(zoomBehavior.transform, transform);
+};
+
+const zoomReset = (svg, zoomBehavior, ms) => {
+  animateTo(svg, zoomBehavior, d3.zoomIdentity, ms);
 };
 
 const zoomToBounds = (
@@ -250,9 +255,16 @@ export const WorldMap = ({
   useEffect(() => {
     if (!currentCountry) return;
     if (!svgRef.current || !zoomBehaviorRef.current || !pathRef.current) return;
-    if (gameState !== "ending") {
+    if (gameState === "learning") {
+      zoomReset(
+        svgRef.current,
+        zoomBehaviorRef.current,
+        PROGRAMMATIC_ZOOM_SPEED_IN_MS
+      );
       // Enable user interaction zoom/pan during normal game play
       enableUserInteractionZoom(svgRef.current, zoomBehaviorRef.current);
+      return;
+    } else if (gameState !== "ending") {
       return;
     }
 
@@ -274,7 +286,13 @@ export const WorldMap = ({
       [number, number]
     ];
 
-    zoomToBounds(svgRef.current, zoomBehaviorRef.current, bounds, 40, 1500);
+    zoomToBounds(
+      svgRef.current,
+      zoomBehaviorRef.current,
+      bounds,
+      40,
+      PROGRAMMATIC_ZOOM_SPEED_IN_MS
+    );
   }, [gameState]);
 
   return (
