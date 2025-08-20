@@ -4,14 +4,20 @@ import confetti from "canvas-confetti";
 import { toast } from "sonner";
 import { COUNTRIES, Country } from "@/lib/countryData";
 import { supabase } from "@/integrations/supabase/client";
-import { GameState, GameLevel, LeaderboardEntry } from "@/lib/utils";
+import {
+  GameState,
+  GameLevel,
+  LeaderboardEntry,
+  SINGLEPLAYER_ACTIVE_STATES,
+  SingleplayerActiveState,
+} from "@/lib/utils";
 import { SinglePlayerView } from "./SinglePlayerView";
 import { MultiplayerView } from "./MultiplayerView";
 
 const TIME_REWARD = 10;
 const TIME_PENALTY = 5;
-const LEARN_DURATION = 5;
-const PLAY_DURATION = 100;
+const LEARN_DURATION = 2;
+const PLAY_DURATION = 2;
 const END_DURATION = 4;
 
 export const MapQuiz = () => {
@@ -264,7 +270,10 @@ export const MapQuiz = () => {
         syncClickAndHoverBehavior={true}
       />
     );
-  } else if (gameLevel === "singleplayer" && gameState === "playing") {
+  } else if (
+    gameLevel === "singleplayer" &&
+    SINGLEPLAYER_ACTIVE_STATES.includes(gameState as SingleplayerActiveState)
+  ) {
     return (
       <SinglePlayerView
         score={score}

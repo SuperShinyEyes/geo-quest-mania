@@ -8,6 +8,17 @@ export type GameState =
   | "ending"
   | "nameInput"
   | "leaderboard";
+
+export const SINGLEPLAYER_ACTIVE_STATES = [
+  "playing",
+  "ending",
+  "nameInput",
+  "leaderboard",
+] as const;
+
+export type SingleplayerActiveState =
+  (typeof SINGLEPLAYER_ACTIVE_STATES)[number];
+
 export type GameLevel = "welcome" | "singleplayer" | "multiplayer";
 
 export interface LeaderboardEntry {
