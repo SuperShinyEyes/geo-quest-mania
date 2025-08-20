@@ -141,7 +141,7 @@ export const WorldMap = ({
       .on("click", (_e, d: any) => {
         onCountryClickRef.current(d.properties.code);
       });
-  }, [syncClickAndHoverBehavior, onCountryClick]);
+  }, [syncClickAndHoverBehavior]);
 
   // Init effect
   useEffect(() => {
@@ -210,6 +210,9 @@ export const WorldMap = ({
         .attr("stroke-width", 1.5)
         .on("mouseover", (_e, d: any) => {
           setHoveredCountryCode(d.properties.code);
+          if (syncClickAndHoverBehavior) {
+            onCountryClickRef.current(d.properties.code);
+          }
         })
         .on("mouseout", () => {
           setHoveredCountryCode(null);
