@@ -15,6 +15,14 @@ const GREEN = "#22c55e",
   GREY = "#9ca3af",
   OCEAN_BLUE = "#b3ecff";
 
+const disableUserInteractionZoom = (svg) => {
+  svg.on(".zoom", null);
+};
+
+const enableUserInteractionZoom = (svg, zoomBehavior) => {
+  svg.call(zoomBehavior);
+};
+
 const animateTo = (
   svg,
   zoomBehavior,
@@ -240,9 +248,15 @@ export const WorldMap = ({
 
   // Ending effect: show answer for the last question
   useEffect(() => {
-    if (gameState !== "ending") return;
     if (!currentCountry) return;
     if (!svgRef.current || !zoomBehaviorRef.current || !pathRef.current) return;
+    if (gameState !== "ending") {
+      // Enable user interaction zoom/pan during normal game play
+      enableUserInteractionZoom(svgRef.current, zoomBehaviorRef.current);
+      return;
+    }
+
+    disableUserInteractionZoom(svgRef.current);
 
     countriesGroup.current
       .selectAll<SVGPathElement, any>("path")
