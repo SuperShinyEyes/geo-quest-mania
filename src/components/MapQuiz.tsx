@@ -13,12 +13,13 @@ import {
 } from "@/lib/utils";
 import { SinglePlayerView } from "./SinglePlayerView";
 import { MultiplayerView } from "./MultiplayerView";
-
-const TIME_REWARD = 10;
-const TIME_PENALTY = 5;
-const LEARN_DURATION = 2;
-const PLAY_DURATION = 2;
-const END_DURATION = 4;
+import {
+  TIME_REWARD,
+  TIME_PENALTY,
+  LEARN_DURATION,
+  PLAY_DURATION,
+  END_DURATION,
+} from "@/lib/timerConfigs";
 
 export const MapQuiz = () => {
   // const WorldMap = isMobile() ? WorldMapMobile : WorldMapPC;
