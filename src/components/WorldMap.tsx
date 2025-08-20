@@ -15,6 +15,33 @@ const GREEN = "#22c55e",
   GREY = "#9ca3af",
   OCEAN_BLUE = "#b3ecff";
 const PROGRAMMATIC_ZOOM_SPEED_IN_MS = 1500;
+const OCEAN_PULSE_ANIMATION_SPEED_IN_MS = 1300;
+
+const startOceanPulse = (svg, gameStateRef) => {
+  console.log("startOceanPulse");
+  const tick = () => {
+    if (gameStateRef.current !== "learning") return;
+    console.log("tick");
+    svg
+      .transition("oceanPulse")
+      .duration(OCEAN_PULSE_ANIMATION_SPEED_IN_MS)
+      .ease(d3.easeCubicInOut)
+      .style("background-color", "#b3ffb3")
+      .transition("oceanPulse")
+      .duration(OCEAN_PULSE_ANIMATION_SPEED_IN_MS)
+      .ease(d3.easeCubicInOut)
+      .style("background-color", OCEAN_BLUE)
+      .on("end", () => {
+        if (gameStateRef.current === "learning") tick();
+      });
+  };
+
+  tick();
+};
+
+const stopOceanPulse = (svg) => {
+  svg.interrupt("oceanPulse").style("background-color", OCEAN_BLUE);
+};
 
 const disableUserInteractionZoom = (svg) => {
   svg.on(".zoom", null);
@@ -107,6 +134,8 @@ export const WorldMap = ({
   const featureByCodeRef = useRef<Map<string, any>>(new Map());
 
   const onCountryClickRef = useRef(onCountryClick);
+
+  const gameStateRef = useRef<GameState>(gameState);
   const [hoveredCountryCode, setHoveredCountryCode] = useState<string | null>(
     null
   );
@@ -135,9 +164,6 @@ export const WorldMap = ({
   };
 
   useEffect(() => {
-    console.log(
-      `Update syncClickAndHoverBehavior ${syncClickAndHoverBehavior}`
-    );
     if (!countriesGroup.current) return;
 
     countriesGroup.current
@@ -237,8 +263,10 @@ export const WorldMap = ({
       // labels as before…
     })();
 
+    startOceanPulse(svgRef.current, gameStateRef);
     // clean up on unmount only
     return () => {
+      stopOceanPulse(svgRef.current);
       d3.select(mapRef.current).selectAll("*").remove();
     };
   }, []); // ← run exactly once
@@ -253,20 +281,26 @@ export const WorldMap = ({
 
   // Ending effect: show answer for the last question
   useEffect(() => {
+    gameStateRef.current = gameState;
+
     if (!currentCountry) return;
     if (!svgRef.current || !zoomBehaviorRef.current || !pathRef.current) return;
     if (gameState === "learning") {
+      // Reset view & enable interaction zoom/pan during normal game play
       zoomReset(
         svgRef.current,
         zoomBehaviorRef.current,
         PROGRAMMATIC_ZOOM_SPEED_IN_MS
       );
-      // Enable user interaction zoom/pan during normal game play
       enableUserInteractionZoom(svgRef.current, zoomBehaviorRef.current);
+
+      startOceanPulse(svgRef.current, gameStateRef);
       return;
-    } else if (gameState !== "ending") {
-      return;
+    } else {
+      stopOceanPulse(svgRef.current);
     }
+
+    if (gameState !== "ending") return;
 
     disableUserInteractionZoom(svgRef.current);
 

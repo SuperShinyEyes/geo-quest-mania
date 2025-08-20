@@ -14,11 +14,11 @@ import {
 import { SinglePlayerView } from "./SinglePlayerView";
 import { MultiplayerView } from "./MultiplayerView";
 import {
-  TIME_REWARD,
-  TIME_PENALTY,
-  LEARN_DURATION,
-  PLAY_DURATION,
-  END_DURATION,
+  TIME_REWARD_IN_S,
+  TIME_PENALTY_IN_S,
+  LEARN_DURATION_IN_S,
+  PLAY_DURATION_IN_S,
+  END_DURATION_IN_S,
 } from "@/lib/timerConfigs";
 
 export const MapQuiz = () => {
@@ -32,9 +32,9 @@ export const MapQuiz = () => {
   const [countryStates, setCountryStates] = useState<
     Record<string, "correct" | "wrong" | "default">
   >({});
-  const [playTimeLeft, setPlayTimeLeft] = useState(PLAY_DURATION);
-  const [endTimeLeft, setEndTimeLeft] = useState(END_DURATION);
-  const [learnTimeLeft, setLearnTimeLeft] = useState(LEARN_DURATION);
+  const [playTimeLeft, setPlayTimeLeft] = useState(PLAY_DURATION_IN_S);
+  const [endTimeLeft, setEndTimeLeft] = useState(END_DURATION_IN_S);
+  const [learnTimeLeft, setLearnTimeLeft] = useState(LEARN_DURATION_IN_S);
   const [gameState, setGameState] = useState<GameState>("learning");
   const [gameLevel, setGameLevel] = useState<GameLevel>("singleplayer");
   const [leaderboardData, setLeaderboardData] = useState<LeaderboardEntry[]>(
@@ -103,10 +103,12 @@ export const MapQuiz = () => {
 
   const resetGame = () => {
     setScore(0);
+    setLearnTimeLeft(LEARN_DURATION_IN_S);
+    setPlayTimeLeft(PLAY_DURATION_IN_S);
     setSolvedCountries(new Set());
     setCountryStates({});
-    setPlayTimeLeft(PLAY_DURATION);
-    setEndTimeLeft(END_DURATION);
+    setPlayTimeLeft(PLAY_DURATION_IN_S);
+    setEndTimeLeft(END_DURATION_IN_S);
     setGameState("learning");
     setIsWaitingForNext(false);
     selectRandomCountry();
@@ -155,7 +157,6 @@ export const MapQuiz = () => {
   const handleCountryHoverOnLearn = (countryId: string) => {
     const country = COUNTRIES.find((c) => c.id == countryId);
     setCurrentCountry(country);
-    console.log(country);
   };
 
   const handleCountryClickOnPlay = (countryId: string) => {
@@ -164,12 +165,12 @@ export const MapQuiz = () => {
     if (countryId === currentCountry.id) {
       // Correct guess
       setScore((prev) => prev + 1);
-      setPlayTimeLeft((prev) => (prev += TIME_REWARD)); // Reward 10 seconds
+      setPlayTimeLeft((prev) => (prev += TIME_REWARD_IN_S)); // Reward 10 seconds
       setCountryStates((prev) => ({ ...prev, [countryId]: "correct" }));
       setSolvedCountries((prev) => new Set([...prev, countryId]));
 
       triggerConfetti();
-      toast.success(`Correct! You earned ${TIME_REWARD} seconds!`);
+      toast.success(`Correct! You earned ${TIME_REWARD_IN_S} seconds!`);
 
       setIsWaitingForNext(true);
       setTimeout(() => {
@@ -181,9 +182,9 @@ export const MapQuiz = () => {
       }
     } else {
       // Wrong guess
-      setPlayTimeLeft((prev) => (prev -= TIME_PENALTY));
+      setPlayTimeLeft((prev) => (prev -= TIME_PENALTY_IN_S));
       setCountryStates((prev) => ({ ...prev, [countryId]: "wrong" }));
-      toast.error(`Wrong country! You lost ${TIME_PENALTY} seconds!`);
+      toast.error(`Wrong country! You lost ${TIME_PENALTY_IN_S} seconds!`);
 
       // Reset wrong state after a short time
       setTimeout(() => {
@@ -208,6 +209,10 @@ export const MapQuiz = () => {
           return prev - 1;
         });
       }, 1000);
+
+      toast.info("Learn countries before the game! ⚡️", {
+        duration: LEARN_DURATION_IN_S * 1000,
+      });
 
       return () => clearInterval(learnTimer);
     }
