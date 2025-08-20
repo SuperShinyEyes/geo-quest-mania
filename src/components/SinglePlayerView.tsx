@@ -18,6 +18,7 @@ export interface SinglePlayerViewProps {
   leaderboardData: LeaderboardEntry[];
   currentPlayerRank: number;
   resetGame: () => void;
+  syncClickAndHoverBehavior: boolean;
 }
 
 export const SinglePlayerView = ({
@@ -31,6 +32,7 @@ export const SinglePlayerView = ({
   leaderboardData,
   currentPlayerRank,
   resetGame,
+  syncClickAndHoverBehavior,
 }: SinglePlayerViewProps) => {
   return (
     <div className="fixed inset-0 bg-map-ocean">
@@ -64,6 +66,7 @@ export const SinglePlayerView = ({
         countryStates={countryStates}
         currentCountry={currentCountry}
         gameState={gameState}
+        syncClickAndHoverBehavior={syncClickAndHoverBehavior}
       />
 
       <VisitorStats />

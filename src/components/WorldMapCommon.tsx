@@ -6,5 +6,6 @@ export interface WorldMapProps {
   countryStates: Record<string, "correct" | "wrong" | "default">;
   currentCountry: Country | null;
   gameState: GameState;
+  syncClickAndHoverBehavior: boolean;
   oceanColor: string;
 }

@@ -66,6 +66,7 @@ export const WorldMap = ({
   countryStates,
   currentCountry,
   gameState,
+  syncClickAndHoverBehavior = false,
   oceanColor = OCEAN_BLUE,
 }: WorldMapProps) => {
   const mapRef = useRef<HTMLDivElement>(null);
@@ -119,6 +120,28 @@ export const WorldMap = ({
     if (hoveredCountryCode === id) return YELLOW; // yellow for hover
     return GREY;
   };
+
+  useEffect(() => {
+    console.log(
+      `Update syncClickAndHoverBehavior ${syncClickAndHoverBehavior}`
+    );
+    if (!countriesGroup.current) return;
+
+    countriesGroup.current
+      .selectAll<SVGPathElement, any>("path")
+      .on("mouseover", (_e, d: any) => {
+        setHoveredCountryCode(d.properties.code);
+        if (syncClickAndHoverBehavior) {
+          onCountryClickRef.current(d.properties.code);
+        }
+      })
+      .on("mouseout", () => {
+        setHoveredCountryCode(null);
+      })
+      .on("click", (_e, d: any) => {
+        onCountryClickRef.current(d.properties.code);
+      });
+  }, [syncClickAndHoverBehavior, onCountryClick]);
 
   // Init effect
   useEffect(() => {

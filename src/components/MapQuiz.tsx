@@ -10,7 +10,8 @@ import { MultiplayerView } from "./MultiplayerView";
 
 const TIME_REWARD = 10;
 const TIME_PENALTY = 5;
-const PLAY_DURATION = 19;
+const LEARN_DURATION = 5;
+const PLAY_DURATION = 100;
 const END_DURATION = 4;
 
 export const MapQuiz = () => {
@@ -26,7 +27,8 @@ export const MapQuiz = () => {
   >({});
   const [playTimeLeft, setPlayTimeLeft] = useState(PLAY_DURATION);
   const [endTimeLeft, setEndTimeLeft] = useState(END_DURATION);
-  const [gameState, setGameState] = useState<GameState>("playing");
+  const [learnTimeLeft, setLearnTimeLeft] = useState(LEARN_DURATION);
+  const [gameState, setGameState] = useState<GameState>("learning");
   const [gameLevel, setGameLevel] = useState<GameLevel>("singleplayer");
   const [leaderboardData, setLeaderboardData] = useState<LeaderboardEntry[]>(
     []
@@ -98,7 +100,7 @@ export const MapQuiz = () => {
     setCountryStates({});
     setPlayTimeLeft(PLAY_DURATION);
     setEndTimeLeft(END_DURATION);
-    setGameState("playing");
+    setGameState("learning");
     setIsWaitingForNext(false);
     selectRandomCountry();
   };
@@ -143,7 +145,13 @@ export const MapQuiz = () => {
     }
   };
 
-  const handleCountryClick = (countryId: string) => {
+  const handleCountryHoverOnLearn = (countryId: string) => {
+    const country = COUNTRIES.find((c) => c.id == countryId);
+    setCurrentCountry(country);
+    console.log(country);
+  };
+
+  const handleCountryClickOnPlay = (countryId: string) => {
     if (isWaitingForNext || !currentCountry || gameState !== "playing") return;
 
     if (countryId === currentCountry.id) {
@@ -183,6 +191,19 @@ export const MapQuiz = () => {
 
   // Timer effect
   useEffect(() => {
+    if (gameState === "learning") {
+      const learnTimer = setInterval(() => {
+        setLearnTimeLeft((prev) => {
+          if (prev <= 1) {
+            setGameState("playing");
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+
+      return () => clearInterval(learnTimer);
+    }
     if (gameState === "playing") {
       // Kick off a 1-second interval for game play
       const playTimer = setInterval(() => {
@@ -227,19 +248,36 @@ export const MapQuiz = () => {
 
   if (gameLevel === "welcome") {
     return <WelcomeMenu setGameLevel={setGameLevel} />;
-  } else if (gameLevel === "singleplayer") {
+  } else if (gameLevel === "singleplayer" && gameState === "learning") {
     return (
       <SinglePlayerView
         score={score}
         currentCountry={currentCountry}
-        playTimeLeft={playTimeLeft}
-        onCountryClick={handleCountryClick}
+        playTimeLeft={learnTimeLeft}
+        onCountryClick={handleCountryHoverOnLearn}
         countryStates={countryStates}
         gameState={gameState}
         submitScore={submitScore}
         leaderboardData={leaderboardData}
         currentPlayerRank={currentPlayerRank}
         resetGame={resetGame}
+        syncClickAndHoverBehavior={true}
+      />
+    );
+  } else if (gameLevel === "singleplayer" && gameState === "playing") {
+    return (
+      <SinglePlayerView
+        score={score}
+        currentCountry={currentCountry}
+        playTimeLeft={playTimeLeft}
+        onCountryClick={handleCountryClickOnPlay}
+        countryStates={countryStates}
+        gameState={gameState}
+        submitScore={submitScore}
+        leaderboardData={leaderboardData}
+        currentPlayerRank={currentPlayerRank}
+        resetGame={resetGame}
+        syncClickAndHoverBehavior={false}
       />
     );
   } else if (gameLevel === "multiplayer") {
@@ -248,7 +286,7 @@ export const MapQuiz = () => {
         score={score}
         currentCountry={currentCountry}
         timeLeft={playTimeLeft}
-        onCountryClick={handleCountryClick}
+        onCountryClick={handleCountryClickOnPlay}
         countryStates={countryStates}
         gameState={gameState}
         submitScore={submitScore}
