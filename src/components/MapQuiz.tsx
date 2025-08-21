@@ -28,6 +28,7 @@ export const MapQuiz = () => {
   const [solvedCountries, setSolvedCountries] = useState<Set<string>>(
     new Set()
   );
+  // Prevent excessive clicks on countries
   const [isWaitingForNext, setIsWaitingForNext] = useState(false);
   const [countryStates, setCountryStates] = useState<
     Record<string, "correct" | "wrong" | "default">
@@ -204,6 +205,8 @@ export const MapQuiz = () => {
         setLearnTimeLeft((prev) => {
           if (prev <= 1) {
             setGameState("playing");
+            // Select the first random country in the game
+            selectRandomCountry();
             return 0;
           }
           return prev - 1;
