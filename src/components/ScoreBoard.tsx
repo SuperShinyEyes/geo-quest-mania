@@ -8,7 +8,7 @@ export const ScoreBoard = ({ score }: ScoreBoardProps) => {
       <div className="flex items-center gap-2">
         <div className="text-2xl">🏆</div>
         <div>
-          <div className="text-sm font-medium text-gray-600">Score</div>
+          {/* <div className="text-sm font-medium text-gray-600">Score</div> */}
           <div className="text-2xl font-bold text-primary">{score}</div>
         </div>
       </div>
