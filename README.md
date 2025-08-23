@@ -34,6 +34,12 @@
   - Malaysia
   - Japan
   - Antarctica
+- [UN: Standard country or area codes for statistical use (M49)](https://unstats.un.org/unsd/methodology/m49/)
+- [ISO: ISO 3166 Country codes](https://www.iso.org/iso-3166-country-codes.html)
+- Fujitsu docs: [Country Codes and Continent Codes](https://doc.cloud.global.fujitsu.com/lib/iaas/en/api-reference/v1/ap/concept/C_msg_cdn_countrycode_0302021200.html)
+- [Wikipedia: UN geoscheme](https://en.wikipedia.org/wiki/United_Nations_geoscheme)
+- [Wikipedia: List of ISO 3166 country codes](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes)
+- [World Population Review](https://worldpopulationreview.com/country-rankings/countries-in-the-un)
 
 ## Drawing world map
 
