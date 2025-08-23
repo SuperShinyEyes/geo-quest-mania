@@ -20,7 +20,8 @@
                     "properties": {
                         "name": "Afghanistan",
                         "code": "AF",
-                        "flag": "🇦🇫"
+                        "flag": "🇦🇫",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -38,7 +39,8 @@
                     "properties": {
                         "name": "Albania",
                         "code": "AL",
-                        "flag": "🇦🇱"
+                        "flag": "🇦🇱",
+                        "continent_code": "EU"
                     }
                 },
                 {
@@ -59,7 +61,8 @@
                     "properties": {
                         "name": "Algeria",
                         "code": "DZ",
-                        "flag": "🇩🇿"
+                        "flag": "🇩🇿",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -85,7 +88,8 @@
                     "properties": {
                         "name": "Angola",
                         "code": "AO",
-                        "flag": "🇦🇴"
+                        "flag": "🇦🇴",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -136,7 +140,8 @@
                     "properties": {
                         "name": "Antarctica",
                         "code": "AQ",
-                        "flag": "🇦🇶"
+                        "flag": "🇦🇶",
+                        "continent_code": "AQ"
                     }
                 },
                 {
@@ -163,7 +168,8 @@
                     "properties": {
                         "name": "Argentina",
                         "code": "AR",
-                        "flag": "🇦🇷"
+                        "flag": "🇦🇷",
+                        "continent_code": "SA"
                     }
                 },
                 {
@@ -181,7 +187,8 @@
                     "properties": {
                         "name": "Armenia",
                         "code": "AM",
-                        "flag": "🇦🇲"
+                        "flag": "🇦🇲",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -202,7 +209,8 @@
                     "properties": {
                         "name": "Australia",
                         "code": "AU",
-                        "flag": "🇦🇺"
+                        "flag": "🇦🇺",
+                        "continent_code": "OC"
                     }
                 },
                 {
@@ -222,7 +230,8 @@
                     "properties": {
                         "name": "Austria",
                         "code": "AT",
-                        "flag": "🇦🇹"
+                        "flag": "🇦🇹",
+                        "continent_code": "EU"
                     }
                 },
                 {
@@ -248,7 +257,8 @@
                     "properties": {
                         "name": "Azerbaijan",
                         "code": "AZ",
-                        "flag": "🇦🇿"
+                        "flag": "🇦🇿",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -274,7 +284,8 @@
                     "properties": {
                         "name": "Bahamas",
                         "code": "BS",
-                        "flag": "🇧🇸"
+                        "flag": "🇧🇸",
+                        "continent_code": "NA"
                     }
                 },
                 {
@@ -290,7 +301,8 @@
                     "properties": {
                         "name": "Bangladesh",
                         "code": "BD",
-                        "flag": "🇧🇩"
+                        "flag": "🇧🇩",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -308,7 +320,8 @@
                     "properties": {
                         "name": "Belarus",
                         "code": "BY",
-                        "flag": "🇧🇾"
+                        "flag": "🇧🇾",
+                        "continent_code": "EU"
                     }
                 },
                 {
@@ -326,7 +339,8 @@
                     "properties": {
                         "name": "Belgium",
                         "code": "BE",
-                        "flag": "🇧🇪"
+                        "flag": "🇧🇪",
+                        "continent_code": "EU"
                     }
                 },
                 {
@@ -342,7 +356,8 @@
                     "properties": {
                         "name": "Belize",
                         "code": "BZ",
-                        "flag": "🇧🇿"
+                        "flag": "🇧🇿",
+                        "continent_code": "NA"
                     }
                 },
                 {
@@ -360,7 +375,8 @@
                     "properties": {
                         "name": "Benin",
                         "code": "BJ",
-                        "flag": "🇧🇯"
+                        "flag": "🇧🇯",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -375,7 +391,8 @@
                     "properties": {
                         "name": "Bhutan",
                         "code": "BT",
-                        "flag": "🇧🇹"
+                        "flag": "🇧🇹",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -393,7 +410,8 @@
                     "properties": {
                         "name": "Bolivia",
                         "code": "BO",
-                        "flag": "🇧🇴"
+                        "flag": "🇧🇴",
+                        "continent_code": "SA"
                     }
                 },
                 {
@@ -409,7 +427,8 @@
                     "properties": {
                         "name": "Bosnia and Herz.",
                         "code": "BA",
-                        "flag": "🇧🇦"
+                        "flag": "🇧🇦",
+                        "continent_code": "EU"
                     }
                 },
                 {
@@ -426,7 +445,8 @@
                     "properties": {
                         "name": "Botswana",
                         "code": "BW",
-                        "flag": "🇧🇼"
+                        "flag": "🇧🇼",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -450,7 +470,8 @@
                     "properties": {
                         "name": "Brazil",
                         "code": "BR",
-                        "flag": "🇧🇷"
+                        "flag": "🇧🇷",
+                        "continent_code": "SA"
                     }
                 },
                 {
@@ -465,7 +486,8 @@
                     "properties": {
                         "name": "Brunei",
                         "code": "BN",
-                        "flag": "🇧🇳"
+                        "flag": "🇧🇳",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -484,7 +506,8 @@
                     "properties": {
                         "name": "Bulgaria",
                         "code": "BG",
-                        "flag": "🇧🇬"
+                        "flag": "🇧🇬",
+                        "continent_code": "EU"
                     }
                 },
                 {
@@ -503,7 +526,8 @@
                     "properties": {
                         "name": "Burkina Faso",
                         "code": "BF",
-                        "flag": "🇧🇫"
+                        "flag": "🇧🇫",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -519,7 +543,8 @@
                     "properties": {
                         "name": "Burundi",
                         "code": "BI",
-                        "flag": "🇧🇮"
+                        "flag": "🇧🇮",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -536,7 +561,8 @@
                     "properties": {
                         "name": "Cambodia",
                         "code": "KH",
-                        "flag": "🇰🇭"
+                        "flag": "🇰🇭",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -557,7 +583,8 @@
                     "properties": {
                         "name": "Cameroon",
                         "code": "CM",
-                        "flag": "🇨🇲"
+                        "flag": "🇨🇲",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -721,7 +748,8 @@
                     "properties": {
                         "name": "Canada",
                         "code": "CA",
-                        "flag": "🇨🇦"
+                        "flag": "🇨🇦",
+                        "continent_code": "NA"
                     }
                 },
                 {
@@ -740,7 +768,8 @@
                     "properties": {
                         "name": "Central African Rep.",
                         "code": "CF",
-                        "flag": "🇨🇫"
+                        "flag": "🇨🇫",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -758,7 +787,8 @@
                     "properties": {
                         "name": "Chad",
                         "code": "TD",
-                        "flag": "🇹🇩"
+                        "flag": "🇹🇩",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -783,7 +813,8 @@
                     "properties": {
                         "name": "Chile",
                         "code": "CL",
-                        "flag": "🇨🇱"
+                        "flag": "🇨🇱",
+                        "continent_code": "SA"
                     }
                 },
                 {
@@ -821,7 +852,8 @@
                     "properties": {
                         "name": "China",
                         "code": "CN",
-                        "flag": "🇨🇳"
+                        "flag": "🇨🇳",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -841,7 +873,8 @@
                     "properties": {
                         "name": "Colombia",
                         "code": "CO",
-                        "flag": "🇨🇴"
+                        "flag": "🇨🇴",
+                        "continent_code": "SA"
                     }
                 },
                 {
@@ -860,7 +893,8 @@
                     "properties": {
                         "name": "Congo",
                         "code": "CG",
-                        "flag": "🇨🇬"
+                        "flag": "🇨🇬",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -877,7 +911,8 @@
                     "properties": {
                         "name": "Costa Rica",
                         "code": "CR",
-                        "flag": "🇨🇷"
+                        "flag": "🇨🇷",
+                        "continent_code": "NA"
                     }
                 },
                 {
@@ -896,7 +931,8 @@
                     "properties": {
                         "name": "Croatia",
                         "code": "HR",
-                        "flag": "🇭🇷"
+                        "flag": "🇭🇷",
+                        "continent_code": "EU"
                     }
                 },
                 {
@@ -910,7 +946,8 @@
                     "properties": {
                         "name": "Cuba",
                         "code": "CU",
-                        "flag": "🇨🇺"
+                        "flag": "🇨🇺",
+                        "continent_code": "NA"
                     }
                 },
                 {
@@ -925,7 +962,8 @@
                     "properties": {
                         "name": "Cyprus",
                         "code": "CY",
-                        "flag": "🇨🇾"
+                        "flag": "🇨🇾",
+                        "continent_code": "EU"
                     }
                 },
                 {
@@ -942,7 +980,8 @@
                     "properties": {
                         "name": "Czechia",
                         "code": "CZ",
-                        "flag": "🇨🇿"
+                        "flag": "🇨🇿",
+                        "continent_code": "EU"
                     }
                 },
                 {
@@ -961,7 +1000,8 @@
                     "properties": {
                         "name": "Côte d'Ivoire",
                         "code": "CI",
-                        "flag": "🇨🇮"
+                        "flag": "🇨🇮",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -985,7 +1025,8 @@
                     "properties": {
                         "name": "Dem. Rep. Congo",
                         "code": "CD",
-                        "flag": "🇨🇩"
+                        "flag": "🇨🇩",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -1007,7 +1048,8 @@
                     "properties": {
                         "name": "Denmark",
                         "code": "DK",
-                        "flag": "🇩🇰"
+                        "flag": "🇩🇰",
+                        "continent_code": "EU"
                     }
                 },
                 {
@@ -1024,7 +1066,8 @@
                     "properties": {
                         "name": "Djibouti",
                         "code": "DJ",
-                        "flag": "🇩🇯"
+                        "flag": "🇩🇯",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -1039,7 +1082,8 @@
                     "properties": {
                         "name": "Dominican Rep.",
                         "code": "DO",
-                        "flag": "🇩🇴"
+                        "flag": "🇩🇴",
+                        "continent_code": "NA"
                     }
                 },
                 {
@@ -1055,7 +1099,8 @@
                     "properties": {
                         "name": "Ecuador",
                         "code": "EC",
-                        "flag": "🇪🇨"
+                        "flag": "🇪🇨",
+                        "continent_code": "SA"
                     }
                 },
                 {
@@ -1073,7 +1118,8 @@
                     "properties": {
                         "name": "Egypt",
                         "code": "EG",
-                        "flag": "🇪🇬"
+                        "flag": "🇪🇬",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -1089,7 +1135,8 @@
                     "properties": {
                         "name": "El Salvador",
                         "code": "SV",
-                        "flag": "🇸🇻"
+                        "flag": "🇸🇻",
+                        "continent_code": "NA"
                     }
                 },
                 {
@@ -1105,7 +1152,8 @@
                     "properties": {
                         "name": "Eq. Guinea",
                         "code": "GQ",
-                        "flag": "🇬🇶"
+                        "flag": "🇬🇶",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -1122,7 +1170,8 @@
                     "properties": {
                         "name": "Eritrea",
                         "code": "ER",
-                        "flag": "🇪🇷"
+                        "flag": "🇪🇷",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -1138,7 +1187,8 @@
                     "properties": {
                         "name": "Estonia",
                         "code": "EE",
-                        "flag": "🇪🇪"
+                        "flag": "🇪🇪",
+                        "continent_code": "EU"
                     }
                 },
                 {
@@ -1158,7 +1208,8 @@
                     "properties": {
                         "name": "Ethiopia",
                         "code": "ET",
-                        "flag": "🇪🇹"
+                        "flag": "🇪🇹",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -1172,7 +1223,8 @@
                     "properties": {
                         "name": "Falkland Is.",
                         "code": "FK",
-                        "flag": "🇫🇰"
+                        "flag": "🇫🇰",
+                        "continent_code": "SA"
                     }
                 },
                 {
@@ -1193,7 +1245,8 @@
                     "properties": {
                         "name": "Fiji",
                         "code": "FJ",
-                        "flag": "🇫🇯"
+                        "flag": "🇫🇯",
+                        "continent_code": "OC"
                     }
                 },
                 {
@@ -1210,7 +1263,8 @@
                     "properties": {
                         "name": "Finland",
                         "code": "FI",
-                        "flag": "🇫🇮"
+                        "flag": "🇫🇮",
+                        "continent_code": "EU"
                     }
                 },
                 {
@@ -1224,7 +1278,8 @@
                     "properties": {
                         "name": "Fr. S. Antarctic Lands",
                         "code": "TF",
-                        "flag": "🇹🇫"
+                        "flag": "🇹🇫",
+                        "continent_code": "OT"
                     }
                 },
                 {
@@ -1259,7 +1314,8 @@
                     "properties": {
                         "name": "France",
                         "code": "FR",
-                        "flag": "🇫🇷"
+                        "flag": "🇫🇷",
+                        "continent_code": "EU"
                     }
                 },
                 {
@@ -1276,7 +1332,8 @@
                     "properties": {
                         "name": "Gabon",
                         "code": "GA",
-                        "flag": "🇬🇦"
+                        "flag": "🇬🇦",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -1291,7 +1348,8 @@
                     "properties": {
                         "name": "Gambia",
                         "code": "GM",
-                        "flag": "🇬🇲"
+                        "flag": "🇬🇲",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -1309,7 +1367,8 @@
                     "properties": {
                         "name": "Georgia",
                         "code": "GE",
-                        "flag": "🇬🇪"
+                        "flag": "🇬🇪",
+                        "continent_code": "EU"
                     }
                 },
                 {
@@ -1333,7 +1392,8 @@
                     "properties": {
                         "name": "Germany",
                         "code": "DE",
-                        "flag": "🇩🇪"
+                        "flag": "🇩🇪",
+                        "continent_code": "EU"
                     }
                 },
                 {
@@ -1350,7 +1410,8 @@
                     "properties": {
                         "name": "Ghana",
                         "code": "GH",
-                        "flag": "🇬🇭"
+                        "flag": "🇬🇭",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -1375,7 +1436,8 @@
                     "properties": {
                         "name": "Greece",
                         "code": "GR",
-                        "flag": "🇬🇷"
+                        "flag": "🇬🇷",
+                        "continent_code": "EU"
                     }
                 },
                 {
@@ -1389,7 +1451,8 @@
                     "properties": {
                         "name": "Greenland",
                         "code": "GL",
-                        "flag": "🇬🇱"
+                        "flag": "🇬🇱",
+                        "continent_code": "NA"
                     }
                 },
                 {
@@ -1408,7 +1471,8 @@
                     "properties": {
                         "name": "Guatemala",
                         "code": "GT",
-                        "flag": "🇬🇹"
+                        "flag": "🇬🇹",
+                        "continent_code": "NA"
                     }
                 },
                 {
@@ -1428,7 +1492,8 @@
                     "properties": {
                         "name": "Guinea",
                         "code": "GN",
-                        "flag": "🇬🇳"
+                        "flag": "🇬🇳",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -1444,7 +1509,8 @@
                     "properties": {
                         "name": "Guinea-Bissau",
                         "code": "GW",
-                        "flag": "🇬🇼"
+                        "flag": "🇬🇼",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -1461,7 +1527,8 @@
                     "properties": {
                         "name": "Guyana",
                         "code": "GY",
-                        "flag": "🇬🇾"
+                        "flag": "🇬🇾",
+                        "continent_code": "SA"
                     }
                 },
                 {
@@ -1476,7 +1543,8 @@
                     "properties": {
                         "name": "Haiti",
                         "code": "HT",
-                        "flag": "🇭🇹"
+                        "flag": "🇭🇹",
+                        "continent_code": "NA"
                     }
                 },
                 {
@@ -1494,7 +1562,8 @@
                     "properties": {
                         "name": "Honduras",
                         "code": "HN",
-                        "flag": "🇭🇳"
+                        "flag": "🇭🇳",
+                        "continent_code": "NA"
                     }
                 },
                 {
@@ -1514,7 +1583,8 @@
                     "properties": {
                         "name": "Hungary",
                         "code": "HU",
-                        "flag": "🇭🇺"
+                        "flag": "🇭🇺",
+                        "continent_code": "EU"
                     }
                 },
                 {
@@ -1528,7 +1598,8 @@
                     "properties": {
                         "name": "Iceland",
                         "code": "IS",
-                        "flag": "🇮🇸"
+                        "flag": "🇮🇸",
+                        "continent_code": "EU"
                     }
                 },
                 {
@@ -1550,7 +1621,8 @@
                     "properties": {
                         "name": "India",
                         "code": "IN",
-                        "flag": "🇮🇳"
+                        "flag": "🇮🇳",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -1629,7 +1701,8 @@
                     "properties": {
                         "name": "Indonesia",
                         "code": "ID",
-                        "flag": "🇮🇩"
+                        "flag": "🇮🇩",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -1652,7 +1725,8 @@
                     "properties": {
                         "name": "Iran",
                         "code": "IR",
-                        "flag": "🇮🇷"
+                        "flag": "🇮🇷",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -1672,7 +1746,8 @@
                     "properties": {
                         "name": "Iraq",
                         "code": "IQ",
-                        "flag": "🇮🇶"
+                        "flag": "🇮🇶",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -1687,7 +1762,8 @@
                     "properties": {
                         "name": "Ireland",
                         "code": "IE",
-                        "flag": "🇮🇪"
+                        "flag": "🇮🇪",
+                        "continent_code": "EU"
                     }
                 },
                 {
@@ -1707,7 +1783,8 @@
                     "properties": {
                         "name": "Israel",
                         "code": "IL",
-                        "flag": "🇮🇱"
+                        "flag": "🇮🇱",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -1737,7 +1814,8 @@
                     "properties": {
                         "name": "Italy",
                         "code": "IT",
-                        "flag": "🇮🇹"
+                        "flag": "🇮🇹",
+                        "continent_code": "EU"
                     }
                 },
                 {
@@ -1751,7 +1829,8 @@
                     "properties": {
                         "name": "Jamaica",
                         "code": "JM",
-                        "flag": "🇯🇲"
+                        "flag": "🇯🇲",
+                        "continent_code": "NA"
                     }
                 },
                 {
@@ -1777,7 +1856,8 @@
                     "properties": {
                         "name": "Japan",
                         "code": "JP",
-                        "flag": "🇯🇵"
+                        "flag": "🇯🇵",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -1797,7 +1877,8 @@
                     "properties": {
                         "name": "Jordan",
                         "code": "JO",
-                        "flag": "🇯🇴"
+                        "flag": "🇯🇴",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -1816,7 +1897,8 @@
                     "properties": {
                         "name": "Kazakhstan",
                         "code": "KZ",
-                        "flag": "🇰🇿"
+                        "flag": "🇰🇿",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -1835,7 +1917,8 @@
                     "properties": {
                         "name": "Kenya",
                         "code": "KE",
-                        "flag": "🇰🇪"
+                        "flag": "🇰🇪",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -1865,7 +1948,8 @@
                     "properties": {
                         "name": "Kuwait",
                         "code": "KW",
-                        "flag": "🇰🇼"
+                        "flag": "🇰🇼",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -1882,7 +1966,8 @@
                     "properties": {
                         "name": "Kyrgyzstan",
                         "code": "KG",
-                        "flag": "🇰🇬"
+                        "flag": "🇰🇬",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -1900,7 +1985,8 @@
                     "properties": {
                         "name": "Laos",
                         "code": "LA",
-                        "flag": "🇱🇦"
+                        "flag": "🇱🇦",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -1918,7 +2004,8 @@
                     "properties": {
                         "name": "Latvia",
                         "code": "LV",
-                        "flag": "🇱🇻"
+                        "flag": "🇱🇻",
+                        "continent_code": "EU"
                     }
                 },
                 {
@@ -1934,7 +2021,8 @@
                     "properties": {
                         "name": "Lebanon",
                         "code": "LB",
-                        "flag": "🇱🇧"
+                        "flag": "🇱🇧",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -1948,7 +2036,8 @@
                     "properties": {
                         "name": "Lesotho",
                         "code": "LS",
-                        "flag": "🇱🇸"
+                        "flag": "🇱🇸",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -1965,7 +2054,8 @@
                     "properties": {
                         "name": "Liberia",
                         "code": "LR",
-                        "flag": "🇱🇷"
+                        "flag": "🇱🇷",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -1985,7 +2075,8 @@
                     "properties": {
                         "name": "Libya",
                         "code": "LY",
-                        "flag": "🇱🇾"
+                        "flag": "🇱🇾",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -2003,7 +2094,8 @@
                     "properties": {
                         "name": "Lithuania",
                         "code": "LT",
-                        "flag": "🇱🇹"
+                        "flag": "🇱🇹",
+                        "continent_code": "EU"
                     }
                 },
                 {
@@ -2019,7 +2111,8 @@
                     "properties": {
                         "name": "Luxembourg",
                         "code": "LU",
-                        "flag": "🇱🇺"
+                        "flag": "🇱🇺",
+                        "continent_code": "EU"
                     }
                 },
                 {
@@ -2037,7 +2130,8 @@
                     "properties": {
                         "name": "Macedonia",
                         "code": "MK",
-                        "flag": "🇲🇰"
+                        "flag": "🇲🇰",
+                        "continent_code": "EU"
                     }
                 },
                 {
@@ -2051,7 +2145,8 @@
                     "properties": {
                         "name": "Madagascar",
                         "code": "MG",
-                        "flag": "🇲🇬"
+                        "flag": "🇲🇬",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -2067,7 +2162,8 @@
                     "properties": {
                         "name": "Malawi",
                         "code": "MW",
-                        "flag": "🇲🇼"
+                        "flag": "🇲🇼",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -2092,7 +2188,8 @@
                     "properties": {
                         "name": "Malaysia",
                         "code": "MY",
-                        "flag": "🇲🇾"
+                        "flag": "🇲🇾",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -2112,7 +2209,8 @@
                     "properties": {
                         "name": "Mali",
                         "code": "ML",
-                        "flag": "🇲🇱"
+                        "flag": "🇲🇱",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -2130,7 +2228,8 @@
                     "properties": {
                         "name": "Mauritania",
                         "code": "MR",
-                        "flag": "🇲🇷"
+                        "flag": "🇲🇷",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -2148,7 +2247,8 @@
                     "properties": {
                         "name": "Mexico",
                         "code": "MX",
-                        "flag": "🇲🇽"
+                        "flag": "🇲🇽",
+                        "continent_code": "NA"
                     }
                 },
                 {
@@ -2163,7 +2263,8 @@
                     "properties": {
                         "name": "Moldova",
                         "code": "MD",
-                        "flag": "🇲🇩"
+                        "flag": "🇲🇩",
+                        "continent_code": "EU"
                     }
                 },
                 {
@@ -2178,7 +2279,8 @@
                     "properties": {
                         "name": "Mongolia",
                         "code": "MN",
-                        "flag": "🇲🇳"
+                        "flag": "🇲🇳",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -2197,7 +2299,8 @@
                     "properties": {
                         "name": "Montenegro",
                         "code": "ME",
-                        "flag": "🇲🇪"
+                        "flag": "🇲🇪",
+                        "continent_code": "EU"
                     }
                 },
                 {
@@ -2213,7 +2316,8 @@
                     "properties": {
                         "name": "Morocco",
                         "code": "MA",
-                        "flag": "🇲🇦"
+                        "flag": "🇲🇦",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -2234,7 +2338,8 @@
                     "properties": {
                         "name": "Mozambique",
                         "code": "MZ",
-                        "flag": "🇲🇿"
+                        "flag": "🇲🇿",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -2253,7 +2358,8 @@
                     "properties": {
                         "name": "Myanmar",
                         "code": "MM",
-                        "flag": "🇲🇲"
+                        "flag": "🇲🇲",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -2283,7 +2389,8 @@
                     "properties": {
                         "name": "Namibia",
                         "code": "NA",
-                        "flag": "🇳🇦"
+                        "flag": "🇳🇦",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -2298,7 +2405,8 @@
                     "properties": {
                         "name": "Nepal",
                         "code": "NP",
-                        "flag": "🇳🇵"
+                        "flag": "🇳🇵",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -2314,7 +2422,8 @@
                     "properties": {
                         "name": "Netherlands",
                         "code": "NL",
-                        "flag": "🇳🇱"
+                        "flag": "🇳🇱",
+                        "continent_code": "EU"
                     }
                 },
                 {
@@ -2328,7 +2437,8 @@
                     "properties": {
                         "name": "New Caledonia",
                         "code": "NC",
-                        "flag": "🇳🇨"
+                        "flag": "🇳🇨",
+                        "continent_code": "OC"
                     }
                 },
                 {
@@ -2349,7 +2459,8 @@
                     "properties": {
                         "name": "New Zealand",
                         "code": "NZ",
-                        "flag": "🇳🇿"
+                        "flag": "🇳🇿",
+                        "continent_code": "OC"
                     }
                 },
                 {
@@ -2366,7 +2477,8 @@
                     "properties": {
                         "name": "Nicaragua",
                         "code": "NI",
-                        "flag": "🇳🇮"
+                        "flag": "🇳🇮",
+                        "continent_code": "NA"
                     }
                 },
                 {
@@ -2387,7 +2499,8 @@
                     "properties": {
                         "name": "Niger",
                         "code": "NE",
-                        "flag": "🇳🇪"
+                        "flag": "🇳🇪",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -2404,7 +2517,8 @@
                     "properties": {
                         "name": "Nigeria",
                         "code": "NG",
-                        "flag": "🇳🇬"
+                        "flag": "🇳🇬",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -2431,7 +2545,8 @@
                     "properties": {
                         "name": "North Korea",
                         "code": "KP",
-                        "flag": "🇰🇵"
+                        "flag": "🇰🇵",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -2465,7 +2580,8 @@
                     "properties": {
                         "name": "Norway",
                         "code": "NO",
-                        "flag": "🇳🇴"
+                        "flag": "🇳🇴",
+                        "continent_code": "EU"
                     }
                 },
                 {
@@ -2490,7 +2606,8 @@
                     "properties": {
                         "name": "Oman",
                         "code": "OM",
-                        "flag": "🇴🇲"
+                        "flag": "🇴🇲",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -2508,7 +2625,8 @@
                     "properties": {
                         "name": "Pakistan",
                         "code": "PK",
-                        "flag": "🇵🇰"
+                        "flag": "🇵🇰",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -2523,7 +2641,8 @@
                     "properties": {
                         "name": "Palestine",
                         "code": "PS",
-                        "flag": "🇵🇸"
+                        "flag": "🇵🇸",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -2540,7 +2659,8 @@
                     "properties": {
                         "name": "Panama",
                         "code": "PA",
-                        "flag": "🇵🇦"
+                        "flag": "🇵🇦",
+                        "continent_code": "NA"
                     }
                 },
                 {
@@ -2572,7 +2692,8 @@
                     "properties": {
                         "name": "Papua New Guinea",
                         "code": "PG",
-                        "flag": "🇵🇬"
+                        "flag": "🇵🇬",
+                        "continent_code": "OC"
                     }
                 },
                 {
@@ -2588,7 +2709,8 @@
                     "properties": {
                         "name": "Paraguay",
                         "code": "PY",
-                        "flag": "🇵🇾"
+                        "flag": "🇵🇾",
+                        "continent_code": "SA"
                     }
                 },
                 {
@@ -2607,7 +2729,8 @@
                     "properties": {
                         "name": "Peru",
                         "code": "PE",
-                        "flag": "🇵🇪"
+                        "flag": "🇵🇪",
+                        "continent_code": "SA"
                     }
                 },
                 {
@@ -2653,7 +2776,8 @@
                     "properties": {
                         "name": "Philippines",
                         "code": "PH",
-                        "flag": "🇵🇭"
+                        "flag": "🇵🇭",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -2674,7 +2798,8 @@
                     "properties": {
                         "name": "Poland",
                         "code": "PL",
-                        "flag": "🇵🇱"
+                        "flag": "🇵🇱",
+                        "continent_code": "EU"
                     }
                 },
                 {
@@ -2689,7 +2814,8 @@
                     "properties": {
                         "name": "Portugal",
                         "code": "PT",
-                        "flag": "🇵🇹"
+                        "flag": "🇵🇹",
+                        "continent_code": "EU"
                     }
                 },
                 {
@@ -2703,7 +2829,8 @@
                     "properties": {
                         "name": "Puerto Rico",
                         "code": "PR",
-                        "flag": "🇵🇷"
+                        "flag": "🇵🇷",
+                        "continent_code": "NA"
                     }
                 },
                 {
@@ -2718,7 +2845,8 @@
                     "properties": {
                         "name": "Qatar",
                         "code": "QA",
-                        "flag": "🇶🇦"
+                        "flag": "🇶🇦",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -2738,7 +2866,8 @@
                     "properties": {
                         "name": "Romania",
                         "code": "RO",
-                        "flag": "🇷🇴"
+                        "flag": "🇷🇴",
+                        "continent_code": "EU"
                     }
                 },
                 {
@@ -2828,7 +2957,8 @@
                     "properties": {
                         "name": "Russia",
                         "code": "RU",
-                        "flag": "🇷🇺"
+                        "flag": "🇷🇺",
+                        "continent_code": "EU"
                     }
                 },
                 {
@@ -2845,7 +2975,8 @@
                     "properties": {
                         "name": "Rwanda",
                         "code": "RW",
-                        "flag": "🇷🇼"
+                        "flag": "🇷🇼",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -2864,7 +2995,8 @@
                     "properties": {
                         "name": "S. Sudan",
                         "code": "SS",
-                        "flag": "🇸🇸"
+                        "flag": "🇸🇸",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -2887,7 +3019,8 @@
                     "properties": {
                         "name": "Saudi Arabia",
                         "code": "SA",
-                        "flag": "🇸🇦"
+                        "flag": "🇸🇦",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -2907,7 +3040,8 @@
                     "properties": {
                         "name": "Senegal",
                         "code": "SN",
-                        "flag": "🇸🇳"
+                        "flag": "🇸🇳",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -2928,7 +3062,8 @@
                     "properties": {
                         "name": "Serbia",
                         "code": "RS",
-                        "flag": "🇷🇸"
+                        "flag": "🇷🇸",
+                        "continent_code": "EU"
                     }
                 },
                 {
@@ -2944,7 +3079,8 @@
                     "properties": {
                         "name": "Sierra Leone",
                         "code": "SL",
-                        "flag": "🇸🇱"
+                        "flag": "🇸🇱",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -2962,7 +3098,8 @@
                     "properties": {
                         "name": "Slovakia",
                         "code": "SK",
-                        "flag": "🇸🇰"
+                        "flag": "🇸🇰",
+                        "continent_code": "EU"
                     }
                 },
                 {
@@ -2980,7 +3117,8 @@
                     "properties": {
                         "name": "Slovenia",
                         "code": "SI",
-                        "flag": "🇸🇮"
+                        "flag": "🇸🇮",
+                        "continent_code": "EU"
                     }
                 },
                 {
@@ -3016,7 +3154,8 @@
                     "properties": {
                         "name": "Solomon Is.",
                         "code": "SB",
-                        "flag": "🇸🇧"
+                        "flag": "🇸🇧",
+                        "continent_code": "OC"
                     }
                 },
                 {
@@ -3033,7 +3172,8 @@
                     "properties": {
                         "name": "Somalia",
                         "code": "SO",
-                        "flag": "🇸🇴"
+                        "flag": "🇸🇴",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -3070,7 +3210,8 @@
                     "properties": {
                         "name": "South Africa",
                         "code": "ZA",
-                        "flag": "🇿🇦"
+                        "flag": "🇿🇦",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -3085,7 +3226,8 @@
                     "properties": {
                         "name": "South Korea",
                         "code": "KR",
-                        "flag": "🇰🇷"
+                        "flag": "🇰🇷",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -3102,7 +3244,8 @@
                     "properties": {
                         "name": "Spain",
                         "code": "ES",
-                        "flag": "🇪🇸"
+                        "flag": "🇪🇸",
+                        "continent_code": "EU"
                     }
                 },
                 {
@@ -3116,7 +3259,8 @@
                     "properties": {
                         "name": "Sri Lanka",
                         "code": "LK",
-                        "flag": "🇱🇰"
+                        "flag": "🇱🇰",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -3137,7 +3281,8 @@
                     "properties": {
                         "name": "Sudan",
                         "code": "SD",
-                        "flag": "🇸🇩"
+                        "flag": "🇸🇩",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -3154,7 +3299,8 @@
                     "properties": {
                         "name": "Suriname",
                         "code": "SR",
-                        "flag": "🇸🇷"
+                        "flag": "🇸🇷",
+                        "continent_code": "SA"
                     }
                 },
                 {
@@ -3170,7 +3316,8 @@
                     "properties": {
                         "name": "Sweden",
                         "code": "SE",
-                        "flag": "🇸🇪"
+                        "flag": "🇸🇪",
+                        "continent_code": "EU"
                     }
                 },
                 {
@@ -3187,7 +3334,8 @@
                     "properties": {
                         "name": "Switzerland",
                         "code": "CH",
-                        "flag": "🇨🇭"
+                        "flag": "🇨🇭",
+                        "continent_code": "EU"
                     }
                 },
                 {
@@ -3206,7 +3354,8 @@
                     "properties": {
                         "name": "Syria",
                         "code": "SY",
-                        "flag": "🇸🇾"
+                        "flag": "🇸🇾",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -3220,7 +3369,8 @@
                     "properties": {
                         "name": "Taiwan",
                         "code": "TW",
-                        "flag": "🇹🇼"
+                        "flag": "🇹🇼",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -3237,7 +3387,8 @@
                     "properties": {
                         "name": "Tajikistan",
                         "code": "TJ",
-                        "flag": "🇹🇯"
+                        "flag": "🇹🇯",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -3259,7 +3410,8 @@
                     "properties": {
                         "name": "Tanzania",
                         "code": "TZ",
-                        "flag": "🇹🇿"
+                        "flag": "🇹🇿",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -3278,7 +3430,8 @@
                     "properties": {
                         "name": "Thailand",
                         "code": "TH",
-                        "flag": "🇹🇭"
+                        "flag": "🇹🇭",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -3293,7 +3446,8 @@
                     "properties": {
                         "name": "Timor-Leste",
                         "code": "TL",
-                        "flag": "🇹🇱"
+                        "flag": "🇹🇱",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -3310,7 +3464,8 @@
                     "properties": {
                         "name": "Togo",
                         "code": "TG",
-                        "flag": "🇹🇬"
+                        "flag": "🇹🇬",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -3324,7 +3479,8 @@
                     "properties": {
                         "name": "Trinidad and Tobago",
                         "code": "TT",
-                        "flag": "🇹🇹"
+                        "flag": "🇹🇹",
+                        "continent_code": "NA"
                     }
                 },
                 {
@@ -3340,7 +3496,8 @@
                     "properties": {
                         "name": "Tunisia",
                         "code": "TN",
-                        "flag": "🇹🇳"
+                        "flag": "🇹🇳",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -3368,7 +3525,8 @@
                     "properties": {
                         "name": "Turkey",
                         "code": "TR",
-                        "flag": "🇹🇷"
+                        "flag": "🇹🇷",
+                        "continent_code": "EU"
                     }
                 },
                 {
@@ -3386,7 +3544,8 @@
                     "properties": {
                         "name": "Turkmenistan",
                         "code": "TM",
-                        "flag": "🇹🇲"
+                        "flag": "🇹🇲",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -3404,7 +3563,8 @@
                     "properties": {
                         "name": "Uganda",
                         "code": "UG",
-                        "flag": "🇺🇬"
+                        "flag": "🇺🇬",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -3428,7 +3588,8 @@
                     "properties": {
                         "name": "Ukraine",
                         "code": "UA",
-                        "flag": "🇺🇦"
+                        "flag": "🇺🇦",
+                        "continent_code": "EU"
                     }
                 },
                 {
@@ -3446,7 +3607,8 @@
                     "properties": {
                         "name": "United Arab Emirates",
                         "code": "AE",
-                        "flag": "🇦🇪"
+                        "flag": "🇦🇪",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -3468,7 +3630,8 @@
                     "properties": {
                         "name": "United Kingdom",
                         "code": "GB",
-                        "flag": "🇬🇧"
+                        "flag": "🇬🇧",
+                        "continent_code": "EU"
                     }
                 },
                 {
@@ -3533,7 +3696,8 @@
                     "properties": {
                         "name": "United States of America",
                         "code": "US",
-                        "flag": "🇺🇸"
+                        "flag": "🇺🇸",
+                        "continent_code": "NA"
                     }
                 },
                 {
@@ -3549,7 +3713,8 @@
                     "properties": {
                         "name": "Uruguay",
                         "code": "UY",
-                        "flag": "🇺🇾"
+                        "flag": "🇺🇾",
+                        "continent_code": "SA"
                     }
                 },
                 {
@@ -3567,7 +3732,8 @@
                     "properties": {
                         "name": "Uzbekistan",
                         "code": "UZ",
-                        "flag": "🇺🇿"
+                        "flag": "🇺🇿",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -3588,7 +3754,8 @@
                     "properties": {
                         "name": "Vanuatu",
                         "code": "VU",
-                        "flag": "🇻🇺"
+                        "flag": "🇻🇺",
+                        "continent_code": "OC"
                     }
                 },
                 {
@@ -3605,7 +3772,8 @@
                     "properties": {
                         "name": "Venezuela",
                         "code": "VE",
-                        "flag": "🇻🇪"
+                        "flag": "🇻🇪",
+                        "continent_code": "SA"
                     }
                 },
                 {
@@ -3622,7 +3790,8 @@
                     "properties": {
                         "name": "Vietnam",
                         "code": "VN",
-                        "flag": "🇻🇳"
+                        "flag": "🇻🇳",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -3639,7 +3808,8 @@
                     "properties": {
                         "name": "W. Sahara",
                         "code": "EH",
-                        "flag": "🇪🇭"
+                        "flag": "🇪🇭",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -3655,7 +3825,8 @@
                     "properties": {
                         "name": "Yemen",
                         "code": "YE",
-                        "flag": "🇾🇪"
+                        "flag": "🇾🇪",
+                        "continent_code": "AS"
                     }
                 },
                 {
@@ -3676,7 +3847,8 @@
                     "properties": {
                         "name": "Zambia",
                         "code": "ZM",
-                        "flag": "🇿🇲"
+                        "flag": "🇿🇲",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -3693,7 +3865,8 @@
                     "properties": {
                         "name": "Zimbabwe",
                         "code": "ZW",
-                        "flag": "🇿🇼"
+                        "flag": "🇿🇼",
+                        "continent_code": "AF"
                     }
                 },
                 {
@@ -3708,7 +3881,8 @@
                     "properties": {
                         "name": "eSwatini",
                         "code": "SZ",
-                        "flag": "🇸🇿"
+                        "flag": "🇸🇿",
+                        "continent_code": "AF"
                     }
                 }
             ]
