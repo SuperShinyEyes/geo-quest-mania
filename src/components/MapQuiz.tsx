@@ -8,6 +8,7 @@ import {
   GameState,
   GameLevel,
   LeaderboardEntry,
+  Region,
   SINGLEPLAYER_ACTIVE_STATES,
   SingleplayerActiveState,
 } from "@/lib/utils";
@@ -23,7 +24,10 @@ import {
 
 export const MapQuiz = () => {
   // const WorldMap = isMobile() ? WorldMapMobile : WorldMapPC;
-  const [score, setScore] = useState(0);
+  const [score, setScore] = useState<number>(0);
+  const [region, setRegion] = useState<Region | null>(null);
+  const [countriesFilteredByRegion, setCountriesFilteredByRegion] =
+    useState<Country[]>(COUNTRIES);
   const [currentCountry, setCurrentCountry] = useState<Country | null>(null);
   const [solvedCountries, setSolvedCountries] = useState<Set<string>>(
     new Set()
@@ -36,7 +40,7 @@ export const MapQuiz = () => {
   const [playTimeLeft, setPlayTimeLeft] = useState(PLAY_DURATION_IN_S);
   const [endTimeLeft, setEndTimeLeft] = useState(END_DURATION_IN_S);
   const [learnTimeLeft, setLearnTimeLeft] = useState(LEARN_DURATION_IN_S);
-  const [gameState, setGameState] = useState<GameState>("learning");
+  const [gameState, setGameState] = useState<GameState>("welcome");
   const [gameLevel, setGameLevel] = useState<GameLevel>("singleplayer");
   const [leaderboardData, setLeaderboardData] = useState<LeaderboardEntry[]>(
     []
@@ -44,7 +48,7 @@ export const MapQuiz = () => {
   const [currentPlayerRank, setCurrentPlayerRank] = useState<number>();
 
   const selectRandomCountry = useCallback(() => {
-    const availableCountries = COUNTRIES.filter(
+    const availableCountries = countriesFilteredByRegion.filter(
       (country) => !solvedCountries.has(country.id)
     );
     if (availableCountries.length === 0) {
@@ -58,7 +62,7 @@ export const MapQuiz = () => {
       setCurrentCountry(randomCountry);
     }
     // setCountryStates({});
-  }, [solvedCountries]);
+  }, [solvedCountries, countriesFilteredByRegion]);
 
   const triggerConfetti = () => {
     const count = 200;
@@ -110,7 +114,7 @@ export const MapQuiz = () => {
     setCountryStates({});
     setPlayTimeLeft(PLAY_DURATION_IN_S);
     setEndTimeLeft(END_DURATION_IN_S);
-    setGameState("learning");
+    setGameState("welcome");
     setIsWaitingForNext(false);
   };
 
@@ -197,9 +201,44 @@ export const MapQuiz = () => {
     resetGame();
   }, [gameLevel]);
 
+  const startLearn = (_region: Region) => {
+    console.log(`startLearn ${_region}`);
+    setRegion(_region);
+    let filtered = null;
+    switch (_region) {
+      case "africa":
+        filtered = COUNTRIES.filter((c) => c.continent_code === "AF");
+        break;
+      case "america":
+        filtered = COUNTRIES.filter((c) =>
+          ["NA", "SA"].includes(c.continent_code)
+        );
+        break;
+      case "asia":
+        filtered = COUNTRIES.filter((c) => c.continent_code === "AS");
+        break;
+      case "europe":
+        filtered = COUNTRIES.filter((c) => c.continent_code === "EU");
+        break;
+      case "oceania":
+        filtered = COUNTRIES.filter((c) => c.continent_code === "OC");
+        break;
+      case "world":
+        filtered = COUNTRIES;
+        break;
+      default: {
+        return;
+      }
+    }
+    setCountriesFilteredByRegion(filtered);
+    setGameState("learning");
+  };
+
   // Timer effect
   useEffect(() => {
-    if (gameState === "learning") {
+    if (gameState === "welcome") {
+      return;
+    } else if (gameState === "learning") {
       const learnTimer = setInterval(() => {
         setLearnTimeLeft((prev) => {
           if (prev <= 1) {
@@ -253,8 +292,8 @@ export const MapQuiz = () => {
     // Kick off a 1-second interval for showing last country on the map
   }, [gameState]);
 
-  if (gameLevel === "welcome") {
-    return <WelcomeMenu setGameLevel={setGameLevel} />;
+  if (gameState === "welcome") {
+    return <WelcomeMenu startLearn={startLearn} />;
   } else if (gameLevel === "singleplayer" && gameState === "learning") {
     return (
       <SinglePlayerView
@@ -264,6 +303,7 @@ export const MapQuiz = () => {
         onCountryClick={handleCountryHoverOnLearn}
         countryStates={countryStates}
         gameState={gameState}
+        region={region}
         submitScore={submitScore}
         leaderboardData={leaderboardData}
         currentPlayerRank={currentPlayerRank}
@@ -283,6 +323,7 @@ export const MapQuiz = () => {
         onCountryClick={handleCountryClickOnPlay}
         countryStates={countryStates}
         gameState={gameState}
+        region={region}
         submitScore={submitScore}
         leaderboardData={leaderboardData}
         currentPlayerRank={currentPlayerRank}

@@ -13,6 +13,7 @@ const GREEN = "#22c55e",
   RED = "#ef4444",
   YELLOW = "#fbbf24",
   GREY = "#9ca3af",
+  DARK_GREY = "#5b5f66",
   OCEAN_BLUE = "#b3ecff";
 const PROGRAMMATIC_ZOOM_SPEED_IN_MS = 1500;
 const OCEAN_PULSE_ANIMATION_SPEED_IN_MS = 1300;
@@ -104,6 +105,7 @@ export const WorldMap = ({
   countryStates,
   currentCountry,
   gameState,
+  region,
   syncClickAndHoverBehavior = false,
   oceanColor = OCEAN_BLUE,
 }: WorldMapProps) => {
@@ -143,7 +145,7 @@ export const WorldMap = ({
     onCountryClickRef.current = onCountryClick;
   }, [onCountryClick]);
 
-  const getCountryFill = (id: string) => {
+  const getCountryFill = (id: string, continent_code: string) => {
     // Highlight the answer when the game ends
     if (gameState === "ending") {
       if (currentCountry.id === id) {
@@ -157,7 +159,20 @@ export const WorldMap = ({
     // ... same as before ...
     if (state === "correct") return GREEN;
     if (state === "wrong") return RED;
+    if (region === "africa" && continent_code !== "AF") {
+      return DARK_GREY;
+    } else if (region === "america" && !["SA", "NA"].includes(continent_code)) {
+      return DARK_GREY;
+    } else if (region === "asia" && continent_code !== "AS") {
+      return DARK_GREY;
+    } else if (region === "europe" && continent_code !== "EU") {
+      return DARK_GREY;
+    } else if (region === "oceania" && continent_code !== "OC") {
+      return DARK_GREY;
+    }
+
     if (hoveredCountryCode === id) return YELLOW; // yellow for hover
+
     return GREY;
   };
 
@@ -242,7 +257,9 @@ export const WorldMap = ({
         .attr("d", path as any)
         .attr("class", "country")
         .attr("id", (d: any) => `country${d.properties.code}`)
-        .attr("fill", (d: any) => getCountryFill(d.properties.code))
+        .attr("fill", (d: any) =>
+          getCountryFill(d.properties.code, d.properties.continent_code)
+        )
         .attr("stroke", "#ffffff")
         .attr("stroke-width", 1.5)
         .on("mouseover", (_e, d: any) => {
@@ -275,7 +292,9 @@ export const WorldMap = ({
     if (!countriesGroup.current) return;
     countriesGroup.current
       .selectAll<SVGPathElement, any>("path")
-      .attr("fill", (d: any) => getCountryFill(d.properties.code));
+      .attr("fill", (d: any) =>
+        getCountryFill(d.properties.code, d.properties.continent_code)
+      );
   }, [countryStates, hoveredCountryCode]);
 
   // Ending effect: show answer for the last question
@@ -305,7 +324,9 @@ export const WorldMap = ({
 
     countriesGroup.current
       .selectAll<SVGPathElement, any>("path")
-      .attr("fill", (d: any) => getCountryFill(d.properties.code))
+      .attr("fill", (d: any) =>
+        getCountryFill(d.properties.code, d.properties.continent_code)
+      )
       .attr("stroke-width", (d: any) =>
         d.properties.code === currentCountry.id ? 3 : 1.5
       );

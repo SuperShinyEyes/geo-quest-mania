@@ -5,7 +5,7 @@ import { Leaderboard } from "./Leaderboard";
 import { WorldMap } from "./WorldMap";
 import { VisitorStats } from "./VisitorStats";
 import { Country, getFlagByCountryCode } from "@/lib/countryData";
-import { GameState, LeaderboardEntry } from "@/lib/utils";
+import { GameState, Region, LeaderboardEntry } from "@/lib/utils";
 import { QuizHeader } from "./QuizHeader";
 
 export interface SinglePlayerViewProps {
@@ -15,6 +15,7 @@ export interface SinglePlayerViewProps {
   onCountryClick: (countryId: string) => void;
   countryStates: Record<string, "correct" | "wrong" | "default">;
   gameState: GameState;
+  region: Region;
   submitScore: (playerName: string) => void;
   leaderboardData: LeaderboardEntry[];
   currentPlayerRank: number;
@@ -29,12 +30,14 @@ export const SinglePlayerView = ({
   onCountryClick,
   countryStates,
   gameState,
+  region,
   submitScore,
   leaderboardData,
   currentPlayerRank,
   resetGame,
   syncClickAndHoverBehavior,
 }: SinglePlayerViewProps) => {
+  console.log(`SinglePlayerView: ${region}`);
   return (
     <div className="fixed inset-0 bg-map-ocean">
       {/* UI Elements positioned over the map */}
@@ -54,6 +57,7 @@ export const SinglePlayerView = ({
         countryStates={countryStates}
         currentCountry={currentCountry}
         gameState={gameState}
+        region={region}
         syncClickAndHoverBehavior={syncClickAndHoverBehavior}
       />
 

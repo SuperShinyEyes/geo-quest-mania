@@ -21,6 +21,14 @@ export type SingleplayerActiveState =
 
 export type GameLevel = "welcome" | "singleplayer" | "multiplayer";
 
+export type Region =
+  | "africa"
+  | "america"
+  | "asia"
+  | "europe"
+  | "oceania"
+  | "world";
+
 export interface LeaderboardEntry {
   id: string;
   player_name: string;

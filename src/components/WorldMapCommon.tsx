@@ -1,5 +1,5 @@
 import { Country } from "@/lib/countryData";
-import { GameState } from "@/lib/utils";
+import { GameState, Region } from "@/lib/utils";
 
 export interface WorldMapProps {
   onCountryClick: (countryId: string) => void;
@@ -7,5 +7,6 @@ export interface WorldMapProps {
   currentCountry: Country | null;
   gameState: GameState;
   syncClickAndHoverBehavior: boolean;
+  region: Region;
   oceanColor: string;
 }
