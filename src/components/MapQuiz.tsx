@@ -112,7 +112,6 @@ export const MapQuiz = () => {
     setEndTimeLeft(END_DURATION_IN_S);
     setGameState("learning");
     setIsWaitingForNext(false);
-    selectRandomCountry();
   };
 
   const submitScore = async (playerName: string) => {
@@ -253,13 +252,6 @@ export const MapQuiz = () => {
     }
     // Kick off a 1-second interval for showing last country on the map
   }, [gameState]);
-
-  // Select a random country on start
-  // Because of the absence of a dependency,
-  // this effect is run only once during the mount
-  useEffect(() => {
-    selectRandomCountry();
-  }, []);
 
   if (gameLevel === "welcome") {
     return <WelcomeMenu setGameLevel={setGameLevel} />;

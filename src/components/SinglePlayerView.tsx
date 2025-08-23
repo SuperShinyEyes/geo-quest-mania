@@ -6,6 +6,7 @@ import { WorldMap } from "./WorldMap";
 import { VisitorStats } from "./VisitorStats";
 import { Country, getFlagByCountryCode } from "@/lib/countryData";
 import { GameState, LeaderboardEntry } from "@/lib/utils";
+import { QuizHeader } from "./QuizHeader";
 
 export interface SinglePlayerViewProps {
   score: number;
@@ -41,20 +42,7 @@ export const SinglePlayerView = ({
         <ScoreBoard score={score} />
       </div>
 
-      {/* QuizHeader. It used to be in QuizHeader.tsx but Lovable decided to ignore that */}
-      <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-20">
-        <div className="bg-white/90 backdrop-blur-sm px-6 py-4 rounded-xl shadow-lg">
-          <div className="text-center">
-            <div className="text-sm font-medium text-gray-600 mb-1">
-              Where is
-            </div>
-            <div className="text-3xl font-bold text-primary">
-              {getFlagByCountryCode(currentCountry?.id)}{" "}
-              {currentCountry?.name || "Loading..."}?
-            </div>
-          </div>
-        </div>
-      </div>
+      <QuizHeader currentCountry={currentCountry} gameState={gameState} />
 
       <div className="absolute top-4 right-4 z-20">
         <GameTimer timeLeft={playTimeLeft} />

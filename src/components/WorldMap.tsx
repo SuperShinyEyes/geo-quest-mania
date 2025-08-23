@@ -18,10 +18,8 @@ const PROGRAMMATIC_ZOOM_SPEED_IN_MS = 1500;
 const OCEAN_PULSE_ANIMATION_SPEED_IN_MS = 1300;
 
 const startOceanPulse = (svg, gameStateRef) => {
-  console.log("startOceanPulse");
   const tick = () => {
     if (gameStateRef.current !== "learning") return;
-    console.log("tick");
     svg
       .transition("oceanPulse")
       .duration(OCEAN_PULSE_ANIMATION_SPEED_IN_MS)
@@ -255,6 +253,7 @@ export const WorldMap = ({
         })
         .on("mouseout", () => {
           setHoveredCountryCode(null);
+          onCountryClickRef.current(null);
         })
         .on("click", (_e, d: any) => {
           onCountryClickRef.current(d.properties.code);
