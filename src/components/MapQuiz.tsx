@@ -47,22 +47,21 @@ export const MapQuiz = () => {
   );
   const [currentPlayerRank, setCurrentPlayerRank] = useState<number>();
 
-  const selectRandomCountry = useCallback(() => {
-    const availableCountries = countriesFilteredByRegion.filter(
-      (country) => !solvedCountries.has(country.id)
-    );
-    if (availableCountries.length === 0) {
-      // You beat the game!
+  const pickRandomCountry = (all: Country[], solved: Set<string>) => {
+    const available = all.filter((c) => !solved.has(c.id));
+    if (available.length === 0) return null;
+    return available[Math.floor(Math.random() * available.length)];
+  };
+
+  const selectRandomCountry = (nextSolved?: Set<string>) => {
+    const solved = nextSolved ?? solvedCountries;
+    const next = pickRandomCountry(countriesFilteredByRegion, solved);
+    if (!next) {
       setGameState("nameInput");
     } else {
-      const randomCountry =
-        availableCountries[
-          Math.floor(Math.random() * availableCountries.length)
-        ];
-      setCurrentCountry(randomCountry);
+      setCurrentCountry(next);
     }
-    // setCountryStates({});
-  }, [solvedCountries, countriesFilteredByRegion]);
+  };
 
   const triggerConfetti = () => {
     const count = 200;
@@ -171,19 +170,20 @@ export const MapQuiz = () => {
       setScore((prev) => prev + 1);
       setPlayTimeLeft((prev) => (prev += TIME_REWARD_IN_S)); // Reward 10 seconds
       setCountryStates((prev) => ({ ...prev, [countryId]: "correct" }));
-      setSolvedCountries((prev) => new Set([...prev, countryId]));
 
+      setSolvedCountries((prev) => {
+        const nextSolved = new Set([...prev, countryId]);
+
+        setIsWaitingForNext(true);
+        setTimeout(() => {
+          setIsWaitingForNext(false);
+          selectRandomCountry(nextSolved);
+        }, 400);
+
+        return nextSolved;
+      });
       triggerConfetti();
       toast.success(`Correct! You earned ${TIME_REWARD_IN_S} seconds!`);
-
-      setIsWaitingForNext(true);
-      setTimeout(() => {
-        setIsWaitingForNext(false);
-        selectRandomCountry();
-      }, 400);
-      {
-        /* Wait for 800ms before the next round */
-      }
     } else {
       // Wrong guess
       setPlayTimeLeft((prev) => (prev -= TIME_PENALTY_IN_S));
