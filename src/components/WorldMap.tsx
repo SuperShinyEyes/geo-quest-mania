@@ -18,6 +18,28 @@ const GREEN = "#22c55e",
 const PROGRAMMATIC_ZOOM_SPEED_IN_MS = 1500;
 const OCEAN_PULSE_ANIMATION_SPEED_IN_MS = 1300;
 
+const setMouseEventHandler = (
+  countriesGroup,
+  onCountryClick,
+  setHoveredCountryCode,
+  syncClickAndHoverBehavior
+) => {
+  countriesGroup
+    .selectAll<SVGPathElement, any>("path")
+    .on("mouseover", (_e, d: any) => {
+      setHoveredCountryCode(d.properties.code);
+      if (syncClickAndHoverBehavior) {
+        onCountryClick(d.properties.code);
+      }
+    })
+    .on("mouseout", () => {
+      setHoveredCountryCode(null);
+    })
+    .on("click", (_e, d: any) => {
+      onCountryClick(d.properties.code);
+    });
+};
+
 const startOceanPulse = (svg, gameStateRef) => {
   const tick = () => {
     if (gameStateRef.current !== "learning") return;
@@ -106,7 +128,6 @@ export const WorldMap = ({
   currentCountry,
   gameState,
   region,
-  syncClickAndHoverBehavior = false,
   oceanColor = OCEAN_BLUE,
 }: WorldMapProps) => {
   const mapRef = useRef<HTMLDivElement>(null);
@@ -176,25 +197,6 @@ export const WorldMap = ({
     return GREY;
   };
 
-  useEffect(() => {
-    if (!countriesGroup.current) return;
-
-    countriesGroup.current
-      .selectAll<SVGPathElement, any>("path")
-      .on("mouseover", (_e, d: any) => {
-        setHoveredCountryCode(d.properties.code);
-        if (syncClickAndHoverBehavior) {
-          onCountryClickRef.current(d.properties.code);
-        }
-      })
-      .on("mouseout", () => {
-        setHoveredCountryCode(null);
-      })
-      .on("click", (_e, d: any) => {
-        onCountryClickRef.current(d.properties.code);
-      });
-  }, [syncClickAndHoverBehavior]);
-
   // Init effect
   useEffect(() => {
     if (!mapRef.current) return;
@@ -261,22 +263,7 @@ export const WorldMap = ({
           getCountryFill(d.properties.code, d.properties.continent_code)
         )
         .attr("stroke", "#ffffff")
-        .attr("stroke-width", 1.5)
-        .on("mouseover", (_e, d: any) => {
-          setHoveredCountryCode(d.properties.code);
-          if (syncClickAndHoverBehavior) {
-            onCountryClickRef.current(d.properties.code);
-          }
-        })
-        .on("mouseout", () => {
-          setHoveredCountryCode(null);
-          onCountryClickRef.current(null);
-        })
-        .on("click", (_e, d: any) => {
-          onCountryClickRef.current(d.properties.code);
-        });
-
-      // labels as before…
+        .attr("stroke-width", 1.5);
     })();
 
     startOceanPulse(svgRef.current, gameStateRef);
@@ -287,7 +274,7 @@ export const WorldMap = ({
     };
   }, []); // ← run exactly once
 
-  // watch countryStates / hover to update fills
+  // Watch countryStates / hover to update fills
   useEffect(() => {
     if (!countriesGroup.current) return;
     countriesGroup.current
@@ -297,11 +284,10 @@ export const WorldMap = ({
       );
   }, [countryStates, hoveredCountryCode]);
 
-  // Ending effect: show answer for the last question
+  // Watch gameState
   useEffect(() => {
     gameStateRef.current = gameState;
 
-    if (!currentCountry) return;
     if (!svgRef.current || !zoomBehaviorRef.current || !pathRef.current) return;
     if (gameState === "learning") {
       // Reset view & enable interaction zoom/pan during normal game play
@@ -313,9 +299,26 @@ export const WorldMap = ({
       enableUserInteractionZoom(svgRef.current, zoomBehaviorRef.current);
 
       startOceanPulse(svgRef.current, gameStateRef);
+
+      setMouseEventHandler(
+        countriesGroup.current,
+        onCountryClickRef.current,
+        setHoveredCountryCode,
+        true
+      );
+
       return;
     } else {
       stopOceanPulse(svgRef.current);
+    }
+
+    if (gameState === "playing") {
+      setMouseEventHandler(
+        countriesGroup.current,
+        onCountryClickRef.current,
+        setHoveredCountryCode,
+        false
+      );
     }
 
     if (gameState !== "ending") return;

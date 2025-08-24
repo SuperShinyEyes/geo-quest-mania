@@ -17,7 +17,6 @@ export const WelcomeMenu = ({ startLearn }: WelcomeMenuProps) => {
         countryStates={{}}
         currentCountry={null}
         gameState={"welcome"}
-        syncClickAndHoverBehavior={false}
       />
 
       {/* Menu Overlay */}

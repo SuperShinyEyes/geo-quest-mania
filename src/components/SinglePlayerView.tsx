@@ -20,7 +20,6 @@ export interface SinglePlayerViewProps {
   leaderboardData: LeaderboardEntry[];
   currentPlayerRank: number;
   resetGame: () => void;
-  syncClickAndHoverBehavior: boolean;
 }
 
 export const SinglePlayerView = ({
@@ -35,9 +34,7 @@ export const SinglePlayerView = ({
   leaderboardData,
   currentPlayerRank,
   resetGame,
-  syncClickAndHoverBehavior,
 }: SinglePlayerViewProps) => {
-  console.log(`SinglePlayerView: ${region}`);
   return (
     <div className="fixed inset-0 bg-map-ocean">
       {/* UI Elements positioned over the map */}
@@ -58,7 +55,6 @@ export const SinglePlayerView = ({
         currentCountry={currentCountry}
         gameState={gameState}
         region={region}
-        syncClickAndHoverBehavior={syncClickAndHoverBehavior}
       />
 
       <VisitorStats />

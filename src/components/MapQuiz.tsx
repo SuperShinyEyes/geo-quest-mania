@@ -202,7 +202,6 @@ export const MapQuiz = () => {
   }, [gameLevel]);
 
   const startLearn = (_region: Region) => {
-    console.log(`startLearn ${_region}`);
     setRegion(_region);
     let filtered = null;
     switch (_region) {
@@ -308,7 +307,6 @@ export const MapQuiz = () => {
         leaderboardData={leaderboardData}
         currentPlayerRank={currentPlayerRank}
         resetGame={resetGame}
-        syncClickAndHoverBehavior={true}
       />
     );
   } else if (
@@ -328,7 +326,6 @@ export const MapQuiz = () => {
         leaderboardData={leaderboardData}
         currentPlayerRank={currentPlayerRank}
         resetGame={resetGame}
-        syncClickAndHoverBehavior={false}
       />
     );
   } else if (gameLevel === "multiplayer") {
