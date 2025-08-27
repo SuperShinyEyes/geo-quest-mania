@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { feature } from "topojson-client";
+import { feature as topoToGeo } from "topojson-client";
 import { WorldMapProps } from "./WorldMapCommon";
 import * as d3 from "d3";
 import { COUNTRY_PATHS } from "../lib/worldMapData";
@@ -7,77 +7,45 @@ import { GameState } from "@/lib/utils";
 import geoData from "../lib/countries-110m-with-country-code.json";
 import type { FeatureCollection } from "geojson";
 
-const WIDTH = 3000,
-  HEIGHT = 1250;
-const GREEN = "#22c55e",
-  RED = "#ef4444",
-  YELLOW = "#fbbf24",
-  GREY = "#9ca3af",
-  DARK_GREY = "#5b5f66",
-  OCEAN_BLUE = "#b3ecff";
-const PROGRAMMATIC_ZOOM_SPEED_IN_MS = 1500;
-const OCEAN_PULSE_ANIMATION_SPEED_IN_MS = 1300;
+// ==== Constants & Theme ====
+const WIDTH = 3000 as const;
+const HEIGHT = 1250 as const;
+const GREEN = "#22c55e" as const;
+const RED = "#ef4444" as const;
+const YELLOW = "#fbbf24" as const;
+const GREY = "#9ca3af" as const;
+const DARK_GREY = "#5b5f66" as const;
+const OCEAN_BLUE = "#b3ecff" as const;
+const PROGRAMMATIC_ZOOM_SPEED_IN_MS = 1500 as const;
+const OCEAN_PULSE_ANIMATION_SPEED_IN_MS = 1300 as const;
+const MAX_ZOOM_LEVEL = 10 as const; // 1000% seems enough for most countries.
 
-const setMouseEventHandler = (
-  countriesGroup,
-  onCountryClick,
-  setHoveredCountryCode,
-  syncClickAndHoverBehavior
-) => {
-  countriesGroup
-    .selectAll<SVGPathElement, any>("path")
-    .on("mouseover", (_e, d: any) => {
-      setHoveredCountryCode(d.properties.code);
-      if (syncClickAndHoverBehavior) {
-        onCountryClick(d.properties.code);
-      }
-    })
-    .on("mouseout", () => {
-      setHoveredCountryCode(null);
-    })
-    .on("click", (_e, d: any) => {
-      onCountryClick(d.properties.code);
-    });
-};
+// ==== Types ====
+interface CountryProps {
+  code: string; // ISO Alpha-2 in dataset
+  continent_code: "AF" | "NA" | "SA" | "AS" | "EU" | "OC" | string; // You don’t want the compiler to break if something unexpected shows up in the data (e.g., \"AN\" for Antarctica).
+}
 
-const startOceanPulse = (svg, gameStateRef) => {
-  const tick = () => {
-    if (gameStateRef.current !== "learning") return;
-    svg
-      .transition("oceanPulse")
-      .duration(OCEAN_PULSE_ANIMATION_SPEED_IN_MS)
-      .ease(d3.easeCubicInOut)
-      .style("background-color", "#b3ffb3")
-      .transition("oceanPulse")
-      .duration(OCEAN_PULSE_ANIMATION_SPEED_IN_MS)
-      .ease(d3.easeCubicInOut)
-      .style("background-color", OCEAN_BLUE)
-      .on("end", () => {
-        if (gameStateRef.current === "learning") tick();
-      });
-  };
+type CountryFeature = Feature<Geometry, CountryProps>;
 
-  tick();
-};
+type D3SvgSel = d3.Selection<SVGSVGElement, unknown, null, undefined>;
+type D3GSel = d3.Selection<SVGSVGElement, unknown, null, undefined>;
 
-const stopOceanPulse = (svg) => {
-  svg.interrupt("oceanPulse").style("background-color", OCEAN_BLUE);
-};
+// ==== Utilities ====
 
-const disableUserInteractionZoom = (svg) => {
-  svg.on(".zoom", null);
-};
+const disableUserZoom = (svg: D3SvgSel) => svg.on(".zoom", null);
 
-const enableUserInteractionZoom = (svg, zoomBehavior) => {
-  svg.call(zoomBehavior);
-};
+const enableUserZoom = (
+  svg: D3SvgSel,
+  zoomBehavior: d3.ZoomBehavior<SVGSVGElement, unknown>
+) => svg.call(zoomBehavior);
 
 const animateTo = (
-  svg,
-  zoomBehavior,
-  transform,
-  ms = 1500,
-  ease = d3.easeCubic
+  svg: D3SvgSel,
+  zoomBehavior: d3.ZoomBehavior<SVGSVGElement, unknown>,
+  transform: d3.ZoomTransfrom,
+  ms = PROGRAMMATIC_ZOOM_SPEED_IN_MS,
+  ease: (normalizedTime: number) => number = d3.easeCubic
 ) => {
   svg
     .transition()
@@ -86,22 +54,25 @@ const animateTo = (
     .call(zoomBehavior.transform, transform);
 };
 
-const zoomReset = (svg, zoomBehavior, ms) => {
+const zoomReset = (
+  svg: D3GSel,
+  zoomBehavior: d3.ZoomBehavior<SVGSVGElement, unknown>,
+  ms
+) => {
   animateTo(svg, zoomBehavior, d3.zoomIdentity, ms);
 };
 
 const zoomToBounds = (
-  svg,
-  zoomBehavior,
-  [[x0, y0], [x1, y1]],
+  svg: D3SvgSel,
+  zoomBehavior: d3.ZoomBehavior<SVGSVGElement, unknown>,
+  bounds: [[number, number], [number, number]],
   padding = 40,
-  ms = 1000
+  ms = PROGRAMMATIC_ZOOM_SPEED_IN_MS
 ) => {
   // TODO: Handle edge cases
   // 1. Zoom level 10 is still small for micro countries, e.g. Solomon Isolands.
   // 2. Some countries where lands are distributed over great distance aren't well visible. Like Fiji and France.
-
-  const MAX_ZOOM_LEVEL = 10; // 1000% seems enough for most countries.
+  const [[x0, y0], [x1, y1]] = bounds;
   const dx = Math.max(1, x1 - x0);
   const dy = Math.max(1, y1 - y0);
   const cx = (x0 + x1) / 2;
@@ -114,12 +85,105 @@ const zoomToBounds = (
       0.9 * Math.min((WIDTH - 2 * padding) / dx, (HEIGHT - 2 * padding) / dy)
     )
   );
+
   const transform = d3.zoomIdentity
     .translate(WIDTH / 2, HEIGHT / 2)
     .scale(k)
     .translate(-cx, -cy);
 
   animateTo(svg, zoomBehavior, transform, ms);
+};
+
+const startOceanPulse = (svg: D3SvgSel, getGameState: () => string) => {
+  const tick = () => {
+    if (getGameState() !== "learning") return;
+    svg
+      .transition("oceanPulse")
+      .duration(OCEAN_PULSE_ANIMATION_SPEED_IN_MS)
+      .ease(d3.easeCubicInOut)
+      .style("background-color", "#b3ffb3")
+      .transition("oceanPulse")
+      .duration(OCEAN_PULSE_ANIMATION_SPEED_IN_MS)
+      .ease(d3.easeCubicInOut)
+      .style("background-color", OCEAN_BLUE)
+      .on("end", () => {
+        if (getGameState() === "learning") tick();
+      });
+  };
+
+  tick();
+};
+
+const stopOceanPulse = (svg: D3SvgSel) => {
+  svg.interrupt("oceanPulse").style("background-color", OCEAN_BLUE);
+};
+
+const getCountryFill = (
+  d: CountryFeature,
+  params: {
+    gameState: WorldMapProps["gameState"];
+    currentCountry: WorldMapProps["currentCountry"];
+    countryStates: WorldMapProps["countryStates"];
+    region: WorldMapProps["region"];
+  }
+) => {
+  const { code, continent_code } = d.properties;
+  const { gameState, currentCountry, countryStates, region } = params;
+
+  // Highlight the answer when the game ends
+  if (gameState === "ending") {
+    return currentCountry && currentCountry.id === code ? GREEN : GREY;
+  }
+
+  const state = countryStates[code] || "default";
+  if (state === "correct") return GREEN;
+  if (state === "wrong") return RED;
+
+  // Color dark grey outside region
+  if (region === "africa" && continent_code !== "AF") return DARK_GREY;
+  if (region === "america" && !["SA", "NA"].includes(continent_code))
+    return DARK_GREY;
+  if (region === "asia" && continent_code !== "AS") return DARK_GREY;
+  if (region === "europe" && continent_code !== "EU") return DARK_GREY;
+  if (region === "oceania" && continent_code !== "OC") return DARK_GREY;
+
+  return GREY;
+};
+
+const setMouseEventHandler = (
+  countriesGroup: D3GSel,
+  onCountryClick: (code: string) => void,
+  getParams: () => {
+    gameState: WorldMapProps["gameState"];
+    currentCountry: WorldMapProps["currentCountry"];
+    countryStates: WorldMapProps["countryStates"];
+    region: WorldMapProps["region"];
+  },
+  syncClickAndHoverBehavior: boolean
+) => {
+  const paths = countriesGroup.selectAll<SVGPathElement, CountryFeature>(
+    "path"
+  );
+
+  paths
+    .on("mouseover", (event, d) => {
+      if (syncClickAndHoverBehavior) onCountryClick(d.properties.code);
+      // target is the actual <path> being hovered
+      const target = event.currentTarget as SVGPathElement;
+
+      d3.select<SVGPathElement, CountryFeature>(target)
+        .attr("data-hover", "1")
+        .style("fill", YELLOW); // style wins over presentation attr
+    })
+    .on("mouseout", (event, d) => {
+      // target is the actual <path> being hovered
+      const target = event.currentTarget as SVGPathElement;
+      d3.select(target)
+        .attr("data-hover", null)
+        .style("fill", null)
+        .attr("fill", getCountryFill(d, getParams()));
+    })
+    .on("click", (_e, d) => onCountryClick(d.properties.code));
 };
 
 export const WorldMap = ({
@@ -130,21 +194,12 @@ export const WorldMap = ({
   region,
   oceanColor = OCEAN_BLUE,
 }: WorldMapProps) => {
-  const mapRef = useRef<HTMLDivElement>(null);
-  const countriesGroup = useRef<d3.Selection<
-    SVGGElement,
-    any,
-    null,
-    undefined
-  > | null>(null);
+  // ==== Refs ====
+  const containerRef = useRef<HTMLDivElement>(null);
   const zoomLabelRef = useRef<HTMLDivElement>(null);
 
-  const svgRef = useRef<d3.Selection<
-    SVGSVGElement,
-    unknown,
-    null,
-    undefined
-  > | null>(null);
+  const svgRef = useRef<D3SvgSel | null>(null);
+  const countriesGroupRef = useRef<D3GSel | null>(null);
   const zoomBehaviorRef = useRef<d3.ZoomBehavior<
     SVGSVGElement,
     unknown
@@ -154,58 +209,37 @@ export const WorldMap = ({
   );
   const featureByCodeRef = useRef<Map<string, any>>(new Map());
 
+  // Keep the latest callback/props accessible to effects/listeners without re-binding
   const onCountryClickRef = useRef(onCountryClick);
+  onCountryClickRef.current = onCountryClick;
 
-  const gameStateRef = useRef<GameState>(gameState);
-  const [hoveredCountryCode, setHoveredCountryCode] = useState<string | null>(
-    null
-  );
-
-  // keep the ref up-to-date but don't retrigger the init effect
-  useEffect(() => {
-    onCountryClickRef.current = onCountryClick;
-  }, [onCountryClick]);
-
-  const getCountryFill = (id: string, continent_code: string) => {
-    // Highlight the answer when the game ends
-    if (gameState === "ending") {
-      if (currentCountry.id === id) {
-        return GREEN;
-      } else {
-        return GREY;
-      }
-    }
-
-    const state = countryStates[id] || "default";
-    // ... same as before ...
-    if (state === "correct") return GREEN;
-    if (state === "wrong") return RED;
-    if (region === "africa" && continent_code !== "AF") {
-      return DARK_GREY;
-    } else if (region === "america" && !["SA", "NA"].includes(continent_code)) {
-      return DARK_GREY;
-    } else if (region === "asia" && continent_code !== "AS") {
-      return DARK_GREY;
-    } else if (region === "europe" && continent_code !== "EU") {
-      return DARK_GREY;
-    } else if (region === "oceania" && continent_code !== "OC") {
-      return DARK_GREY;
-    }
-
-    if (hoveredCountryCode === id) return YELLOW; // yellow for hover
-
-    return GREY;
+  const latestParamsRef = useRef({
+    gameState,
+    currentCountry,
+    countryStates,
+    region,
+  });
+  latestParamsRef.current = {
+    gameState,
+    currentCountry,
+    countryStates,
+    region,
   };
 
-  // Init effect
+  const getGameState = () => latestParamsRef.current.gameState;
+  const getParams = () => latestParamsRef.current;
+
+  // ==== Init (run once) ====
   useEffect(() => {
-    if (!mapRef.current) return;
+    const container = containerRef.current;
+    if (!container) return;
 
     const projection = d3
       .geoEquirectangular()
       .center([0, 15])
       .scale(WIDTH / (2 * Math.PI))
       .translate([WIDTH / 2, HEIGHT / 2]);
+
     const path = d3.geoPath().projection(projection);
     pathRef.current = path;
 
@@ -213,8 +247,12 @@ export const WorldMap = ({
     const zoomBehavior = d3
       .zoom<SVGSVGElement, unknown>()
       .on("zoom", (event) => {
-        countriesGroup.current!.attr("transform", event.transform.toString());
-        // update the zoom label directly, without React state
+        if (countriesGroupRef.current) {
+          countriesGroupRef.current.attr(
+            "transform",
+            event.transform.toString()
+          );
+        }
         if (zoomLabelRef.current) {
           zoomLabelRef.current.textContent = `Zoom: ${(
             event.transform.k * 100
@@ -225,132 +263,126 @@ export const WorldMap = ({
 
     // create the SVG once
     const svg = d3
-      .select(mapRef.current)
+      .select(container)
       .append("svg")
       .attr("width", "100%")
       .attr("height", "100%")
       .attr("viewBox", `0 0 ${WIDTH} ${HEIGHT}`)
       .style("background-color", oceanColor)
       .call(zoomBehavior);
+
     svgRef.current = svg;
 
     // container for countries
-    countriesGroup.current = svg.append("g").attr("id", "map");
+    countriesGroupRef.current = svg.append("g").attr("id", "map");
 
-    // load & draw once
-    (() => {
-      // convert the Topology to a GeoJSON FeatureCollection
-      // const topology: any = geoData;
-      const geo = feature(
-        geoData,
-        geoData.objects.countries
-      ) as FeatureCollection<any>;
+    // Draw once from TopoJSON
+    const geo = topoToGeo(
+      geoData,
+      geoData.objects.countries
+    ) as FeatureCollection<Geometry, CountryProps>;
 
-      featureByCodeRef.current = new Map(
-        geo.features.map((f: any) => [String(f.properties.code), f])
-      );
+    featureByCodeRef.current = new Map(
+      geo.features.map((f: any) => [
+        String(f.properties.code),
+        f as CountryFeature,
+      ])
+    );
 
-      // now draw exactly as before, but using geo.features
-      countriesGroup
-        .current!.selectAll("path")
-        .data(geo.features)
-        .enter()
-        .append("path")
-        .attr("d", path as any)
-        .attr("class", "country")
-        .attr("id", (d: any) => `country${d.properties.code}`)
-        .attr("fill", (d: any) =>
-          getCountryFill(d.properties.code, d.properties.continent_code)
-        )
-        .attr("stroke", "#ffffff")
-        .attr("stroke-width", 1.5);
-    })();
+    // now draw exactly as before, but using geo.features
+    countriesGroupRef
+      .current!.selectAll("path")
+      .data(geo.features as CountryFeature[])
+      .enter()
+      .append("path")
+      .attr("d", path as any)
+      .attr("class", "country")
+      .attr("id", (d: any) => `country${d.properties.code}`)
+      .attr("fill", (d: any) => getCountryFill(d, getParams()))
+      .attr("stroke", "#ffffff")
+      .attr("stroke-width", 1.5);
 
-    startOceanPulse(svgRef.current, gameStateRef);
+    if (getGameState() === "learning") startOceanPulse(svg, getGameState);
     // clean up on unmount only
     return () => {
-      stopOceanPulse(svgRef.current);
-      d3.select(mapRef.current).selectAll("*").remove();
+      stopOceanPulse(svg);
+      d3.select(container).selectAll("*").remove();
     };
   }, []); // ← run exactly once
 
   // Watch countryStates / hover to update fills
   useEffect(() => {
-    if (!countriesGroup.current) return;
-    countriesGroup.current
+    const svg = svgRef.current;
+    const zoomBehavior = zoomBehaviorRef.current;
+    const countriesGroup = countriesGroupRef.current;
+    const path = pathRef.current;
+    if (!svg || !zoomBehavior || !countriesGroup || !path) return;
+
+    countriesGroup
       .selectAll<SVGPathElement, any>("path")
-      .attr("fill", (d: any) =>
-        getCountryFill(d.properties.code, d.properties.continent_code)
+      .attr("fill", (d: any) => getCountryFill(d, getParams()))
+      .attr("stroke-width", (d: any) =>
+        gameState === "ending" &&
+        latestParamsRef.current.currentCountry &&
+        d.properties.code === latestParamsRef.current.currentCountry.id
+          ? 3
+          : 1.5
       );
-  }, [countryStates, hoveredCountryCode]);
-
-  // Watch gameState
-  useEffect(() => {
-    gameStateRef.current = gameState;
-
-    if (!svgRef.current || !zoomBehaviorRef.current || !pathRef.current) return;
     if (gameState === "learning") {
+      console.log('gameState === "learning"');
       // Reset view & enable interaction zoom/pan during normal game play
-      zoomReset(
-        svgRef.current,
-        zoomBehaviorRef.current,
-        PROGRAMMATIC_ZOOM_SPEED_IN_MS
-      );
-      enableUserInteractionZoom(svgRef.current, zoomBehaviorRef.current);
-
-      startOceanPulse(svgRef.current, gameStateRef);
-
+      zoomReset(svg, zoomBehavior, PROGRAMMATIC_ZOOM_SPEED_IN_MS);
+      enableUserZoom(svg, zoomBehavior);
+      startOceanPulse(svgRef.current, getGameState);
       setMouseEventHandler(
-        countriesGroup.current,
-        onCountryClickRef.current,
-        setHoveredCountryCode,
+        countriesGroup,
+        (code) => onCountryClickRef.current(code),
+        getParams,
         true
       );
-
       return;
     } else {
-      stopOceanPulse(svgRef.current);
+      stopOceanPulse(svg);
     }
 
     if (gameState === "playing") {
+      enableUserZoom(svg, zoomBehavior);
       setMouseEventHandler(
-        countriesGroup.current,
-        onCountryClickRef.current,
-        setHoveredCountryCode,
+        countriesGroup,
+        (code) => onCountryClickRef.current(code),
+        getParams,
         false
       );
+      return;
     }
 
-    if (gameState !== "ending") return;
+    if (gameState === "ending") {
+      disableUserZoom(svg);
 
-    disableUserInteractionZoom(svgRef.current);
+      // Highlight & focus selected country
+      const feature = latestParamsRef.current.currentCountry
+        ? featureByCodeRef.current.get(
+            String(latestParamsRef.current.currentCountry.id)
+          )
+        : undefined;
 
-    countriesGroup.current
-      .selectAll<SVGPathElement, any>("path")
-      .attr("fill", (d: any) =>
-        getCountryFill(d.properties.code, d.properties.continent_code)
-      )
-      .attr("stroke-width", (d: any) =>
-        d.properties.code === currentCountry.id ? 3 : 1.5
+      if (!feature) return;
+
+      // Compute bounds in SVG coordinates from GeoJSON
+      const bounds = path.bounds(feature) as [
+        [number, number],
+        [number, number]
+      ];
+
+      zoomToBounds(
+        svg,
+        zoomBehavior,
+        bounds,
+        40,
+        PROGRAMMATIC_ZOOM_SPEED_IN_MS
       );
-
-    const feature = featureByCodeRef.current.get(String(currentCountry.id));
-    if (!feature) return;
-
-    // Compute bounds in SVG coordinates from GeoJSON
-    const bounds = pathRef.current.bounds(feature) as [
-      [number, number],
-      [number, number]
-    ];
-
-    zoomToBounds(
-      svgRef.current,
-      zoomBehaviorRef.current,
-      bounds,
-      40,
-      PROGRAMMATIC_ZOOM_SPEED_IN_MS
-    );
-  }, [gameState]);
+    }
+  }, [gameState, currentCountry, countryStates, region]);
 
   return (
     <div className="fixed inset-0 bg-map-ocean">
@@ -361,7 +393,7 @@ export const WorldMap = ({
         Zoom: 100%
       </div>
       {/* controls and map container as before */}
-      <div ref={mapRef} className="w-full h-full cursor-grab" />
+      <div ref={containerRef} className="w-full h-full cursor-grab" />
     </div>
   );
 };
